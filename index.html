@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>私人影音资源站</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- 开机动画 -->
+<div class="loader" id="loader">
+  <div class="loader-text">🎵 995680202.xyz</div>
+</div>
+
+<!-- 封面 -->
+<div class="banner">
+  <div class="banner-content">
+    <h1>私人影音资源站</h1>
+    <p>995680202.xyz</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="player-box">
+    <h3>🎵 当前播放</h3>
+    <audio id="main-player" controls>
+  </div>
+
+  <div class="card">
+    <h2>音乐列表</h2>
+    <div class="list" id="music-list"></div>
+  </div>
+
+  <div class="card">
+    <h2>视频列表</h2>
+    <div class="list" id="video-list"></div>
+  </div>
+</div>
+
+<!-- 后台 -->
+<div class="admin-btn" onclick="toggleAdmin()">后台管理</div>
+<div class="admin-panel" id="adminPanel">
+  <h3>后台管理 · 密码：admin</h3>
+  <input type="password" id="adminPwd" placeholder="输入密码">
+  <button onclick="checkAdmin()">解锁</button>
+  <div id="adminContent" style="display:none;margin-top:10px;">
+    <h4>音乐链接（一行一条）</h4>
+    <textarea id="musicData" rows="6"></textarea>
+    <h4>视频链接（一行一条）</h4>
+    <textarea id="videoData" rows="6"></textarea>
+    <button onclick="saveData()">保存并刷新</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
