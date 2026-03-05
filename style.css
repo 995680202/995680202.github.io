@@ -18,71 +18,16 @@ body {
   opacity: 0.9;
 }
 
-/* 开机动画（缩短至800ms，科技感进度条） */
-.loader {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: #00001a;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-  opacity: 1;
-  transition: opacity 0.5s ease;
-}
-.loader.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-.loader-logo {
-  font-size: 48px;
-  margin-bottom: 20px;
-  animation: logoPulse 0.8s ease infinite alternate;
-}
-@keyframes logoPulse {
-  0% { transform: scale(1); }
-  100% { transform: scale(1.1); }
-}
-.loader-text {
-  font-size: 24px;
-  color: #00f0ff;
-  letter-spacing: 3px;
-  margin-bottom: 15px;
-  text-shadow: 0 0 20px #00f0ff, 0 0 40px #0066ff;
-}
-.loader-progress {
-  width: 220px;
-  height: 4px;
-  background: rgba(0, 66, 133, 0.5);
-  border-radius: 2px;
-  overflow: hidden;
-}
-.loader-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #00f0ff, #0066ff);
-  box-shadow: 0 0 10px #00f0ff;
-  width: 100%;
-  animation: progressMove 0.8s linear forwards;
-}
-@keyframes progressMove {
-  0% { width: 0; }
-  100% { width: 100%; }
-}
-
-/* 首页头部（极致科技感） */
+/* 首页头部（更紧凑） */
 .header {
   width: 100%;
-  height: 240px;
+  height: 180px;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   overflow: hidden;
 }
 .header-glow {
@@ -104,94 +49,98 @@ body {
   padding: 0 20px;
 }
 .header-title {
-  font-size: 42px;
+  font-size: 32px;
   font-weight: 300;
   color: #00f0ff;
-  letter-spacing: 4px;
-  margin-bottom: 12px;
-  text-shadow: 0 0 25px #00f0ff, 0 0 50px #0066ff;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  text-shadow: 0 0 20px #00f0ff, 0 0 40px #0066ff;
   animation: titleFloat 3s ease infinite alternate;
 }
 @keyframes titleFloat {
   0% { transform: translateY(0); }
-  100% { transform: translateY(-8px); }
+  100% { transform: translateY(-6px); }
 }
 .header-subtitle {
-  font-size: 16px;
+  font-size: 14px;
   color: #00b8ff;
-  letter-spacing: 2px;
-  text-shadow: 0 0 15px #0066ff;
+  letter-spacing: 1px;
+  text-shadow: 0 0 12px #0066ff;
 }
 .header-divider {
-  width: 180px;
+  width: 140px;
   height: 2px;
   background: linear-gradient(90deg, transparent, #00f0ff, transparent);
-  margin: 15px auto 0;
+  margin: 10px auto 0;
   animation: dividerPulse 2s ease infinite alternate;
 }
 @keyframes dividerPulse {
-  0% { width: 180px; }
-  100% { width: 220px; }
+  0% { width: 140px; }
+  100% { width: 180px; }
 }
 
-/* 容器 */
+/* 容器（更宽，更居中） */
 .container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px 100px;
+  padding: 0 20px 80px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
-/* 卡片通用样式（玻璃拟态+科技边框） */
+/* 卡片（更紧凑，间距更小） */
 .card {
   background: rgba(0, 17, 51, 0.75);
   backdrop-filter: blur(20px);
   border: 1px solid #0066ff;
-  border-radius: 20px;
-  padding: 25px;
-  margin-bottom: 30px;
-  box-shadow: 0 0 30px rgba(0, 102, 255, 0.2);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 0;
+  box-shadow: 0 0 25px rgba(0, 102, 255, 0.2);
   transition: all 0.3s ease;
 }
 .card:hover {
   border-color: #00f0ff;
-  box-shadow: 0 0 40px rgba(0, 240, 255, 0.35);
-  transform: translateY(-5px);
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.35);
+  transform: translateY(-4px);
 }
 .player-card {
+  grid-column: 1 / -1; /* 播放器横跨两列 */
   border-color: #00f0ff;
-  box-shadow: 0 0 35px rgba(0, 240, 255, 0.3);
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
 }
 .card h2 {
-  font-size: 24px;
-  color: #00f0ff;
-  font-weight: 500;
-  letter-spacing: 2px;
-  margin-bottom: 20px;
-  text-shadow: 0 0 18px #00f0ff, 0 0 36px #0066ff;
-}
-.card h3 {
   font-size: 20px;
   color: #00f0ff;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 1.5px;
-  margin-bottom: 18px;
-  text-shadow: 0 0 15px #00f0ff;
+  margin-bottom: 16px;
+  text-shadow: 0 0 15px #00f0ff, 0 0 30px #0066ff;
+}
+.card h3 {
+  font-size: 18px;
+  color: #00f0ff;
+  font-weight: 400;
+  letter-spacing: 1px;
+  margin-bottom: 14px;
+  text-shadow: 0 0 12px #00f0ff;
 }
 
-/* 分类标签 */
+/* 分类标签（更小，更紧凑） */
 .category-tabs {
   display: flex;
-  gap: 12px;
-  margin-bottom: 22px;
+  gap: 8px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
 }
 .category-tab, .video-tab {
-  padding: 9px 18px;
+  padding: 7px 14px;
   border: 1px solid #0066ff;
-  border-radius: 10px;
+  border-radius: 8px;
   background: rgba(0, 17, 51, 0.6);
   color: #00b8ff;
-  font-size: 14px;
+  font-size: 13px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -200,7 +149,7 @@ body {
   border-color: #00f0ff;
   color: #00001a;
   font-weight: 600;
-  box-shadow: 0 0 15px #00f0ff;
+  box-shadow: 0 0 12px #00f0ff;
 }
 .category-tab:hover, .video-tab:hover {
   border-color: #00f0ff;
@@ -208,27 +157,28 @@ body {
   transform: translateY(-2px);
 }
 
-/* 列表样式（含文件库） */
+/* 列表项（更小，更紧凑） */
 .list {
   display: grid;
-  gap: 14px;
+  gap: 10px;
 }
 .list .item {
-  padding: 16px 22px;
+  padding: 12px 16px;
   background: rgba(0, 66, 133, 0.35);
   border: 1px solid #0066ff;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
   color: #00b8ff;
   letter-spacing: 0.5px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+  font-size: 14px;
 }
 .list .item::before {
   content: "🎵";
-  font-size: 18px;
+  font-size: 16px;
 }
 .list .item.video-item::before { content: "🎬"; }
 .list .item.live-item::before { content: "📺"; }
@@ -236,69 +186,69 @@ body {
 .list .item:hover {
   background: rgba(0, 240, 255, 0.25);
   border-color: #00f0ff;
-  box-shadow: 0 0 18px #00f0ff;
-  transform: translateY(-4px);
+  box-shadow: 0 0 15px #00f0ff;
+  transform: translateY(-3px);
   color: #00f0ff;
 }
 
-/* 播放器样式 */
+/* 播放器（更紧凑） */
 .player-controls {
   display: flex;
-  gap: 14px;
-  margin-bottom: 18px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 .player-controls button {
   flex: 1;
-  padding: 13px 0;
+  padding: 10px 0;
   border: 1px solid #00f0ff;
-  border-radius: 12px;
+  border-radius: 10px;
   background: rgba(0, 66, 133, 0.6);
   color: #00f0ff;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s ease;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 .player-controls button:hover {
   background: rgba(0, 240, 255, 0.3);
-  box-shadow: 0 0 18px #00f0ff;
-  transform: translateY(-3px);
+  box-shadow: 0 0 15px #00f0ff;
+  transform: translateY(-2px);
 }
 .audio-style {
   width: 100%;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   outline: none;
   background: rgba(0, 17, 51, 0.7);
   border: 1px solid #0066ff;
-  border-radius: 10px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 6px;
   color: #00f0ff;
 }
 .audio-style::-webkit-media-controls-panel {
   background: rgba(0, 17, 51, 0.9) !important;
   border: 1px solid #0066ff !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
 }
 .now-playing {
-  font-size: 14px;
+  font-size: 13px;
   color: #00b8ff;
   text-align: center;
   letter-spacing: 0.5px;
-  text-shadow: 0 0 10px #0066ff;
+  text-shadow: 0 0 8px #0066ff;
 }
 
-/* 文件库提示 */
+/* 文件库提示（更紧凑） */
 .file-tip {
   color: #0099ff;
-  font-size: 13px;
-  margin-bottom: 18px;
-  padding: 8px 12px;
+  font-size: 12px;
+  margin-bottom: 14px;
+  padding: 6px 10px;
   background: rgba(0, 66, 133, 0.2);
-  border-radius: 8px;
+  border-radius: 6px;
   border-left: 2px solid #00f0ff;
 }
 
-/* 后台管理 */
+/* 后台管理（位置不变，样式不变） */
 .admin-btn {
   position: fixed;
   right: 25px;
@@ -307,55 +257,55 @@ body {
   backdrop-filter: blur(15px);
   border: 1px solid #00f0ff;
   color: #00f0ff;
-  padding: 14px 22px;
-  border-radius: 12px;
+  padding: 12px 18px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 16px;
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+  font-size: 14px;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
   z-index: 999;
   transition: all 0.3s ease;
 }
 .admin-btn:hover {
   background: rgba(0, 240, 255, 0.3);
-  box-shadow: 0 0 35px #00f0ff;
-  transform: translateY(-4px);
+  box-shadow: 0 0 30px #00f0ff;
+  transform: translateY(-3px);
 }
 .admin-panel {
   position: fixed;
   right: 25px;
-  bottom: 90px;
+  bottom: 80px;
   background: rgba(0, 17, 51, 0.95);
   backdrop-filter: blur(25px);
   border: 1px solid #00f0ff;
-  border-radius: 20px;
-  padding: 25px;
-  width: 400px;
+  border-radius: 16px;
+  padding: 20px;
+  width: 360px;
   display: none;
   z-index: 999;
-  box-shadow: 0 0 40px rgba(0, 240, 255, 0.5);
+  box-shadow: 0 0 35px rgba(0, 240, 255, 0.5);
 }
 .admin-panel h3 {
-  font-size: 19px;
+  font-size: 17px;
   color: #00f0ff;
-  margin-bottom: 18px;
-  text-shadow: 0 0 12px #00f0ff;
+  margin-bottom: 14px;
+  text-shadow: 0 0 10px #00f0ff;
   letter-spacing: 1px;
 }
 .admin-panel h4 {
-  font-size: 14px;
+  font-size: 13px;
   color: #00b8ff;
-  margin: 14px 0 10px;
+  margin: 12px 0 8px;
   letter-spacing: 0.5px;
 }
 .admin-panel input, .admin-panel textarea {
   width: 100%;
-  padding: 11px;
-  border-radius: 10px;
+  padding: 9px;
+  border-radius: 8px;
   border: 1px solid #0066ff;
   background: rgba(0, 17, 51, 0.85);
   color: #00f0ff;
   outline: none;
-  font-size: 14px;
+  font-size: 13px;
   letter-spacing: 0.5px;
   resize: none;
 }
@@ -365,28 +315,31 @@ body {
 }
 .admin-panel button {
   width: 100%;
-  padding: 12px 0;
+  padding: 10px 0;
   border: none;
-  border-radius: 10px;
+  border-radius: 8px;
   background: linear-gradient(90deg, #0066ff, #00f0ff);
   color: #00001a;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
-  margin-top: 12px;
+  margin-top: 10px;
   transition: all 0.3s ease;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 .admin-panel button:hover {
-  box-shadow: 0 0 25px #00f0ff;
-  transform: translateY(-3px);
+  box-shadow: 0 0 20px #00f0ff;
+  transform: translateY(-2px);
 }
 
-/* 手机自适应 */
+/* 手机自适应（单列布局） */
 @media (max-width: 768px) {
-  .header-title { font-size: 32px; }
+  .container {
+    grid-template-columns: 1fr;
+  }
+  .header-title { font-size: 26px; }
   .admin-panel { width: calc(100% - 50px); right: 25px; }
   .player-controls button { font-size: 13px; }
-  .card { padding: 20px; }
+  .card { padding: 16px; }
 }
 

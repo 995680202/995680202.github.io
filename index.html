@@ -3,105 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>清南流·科技影音文件站</title>
+  <title>尐念 · 科技影音站</title>
   <link rel="stylesheet" href="style.css">
-  <!-- 粒子背景（异步加载，不阻塞页面） -->
-  <script src="https://cdn.jsdelivr.net/gh/hustcc/canvas-nest.js@1.0.1/canvas-nest.min.js" type="text/javascript" defer></script>
+  <script src="https://cdn.jsdelivr.net/gh/hustcc/canvas-nest.js@1.0.1/canvas-nest.min.js" defer></script>
 </head>
 <body>
-  <!-- 粒子背景容器 -->
-  <canvas id="canvas-nest" style="position:fixed;top:0;left:0;z-index:-1;"></canvas>
 
-  <!-- 开机动画（缩短至800ms） -->
-  <div class="loader" id="loader">
-    <div class="loader-logo">📡</div>
-    <div class="loader-text">清南流 · 科技影音文件站</div>
-    <div class="loader-progress">
-      <div class="loader-progress-bar"></div>
+<canvas id="canvas-nest" style="position:fixed;top:0;left:0;z-index:-1;"></canvas>
+
+<!-- 头部 -->
+<header class="header">
+  <div class="header-glow"></div>
+  <div class="header-content">
+    <h1 class="header-title">尐念 · 科技影音站</h1>
+    <p class="header-subtitle">995680202.xyz</p>
+    <div class="header-divider"></div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- 音乐播放器 -->
+  <div class="card player-card">
+    <h3>🎵 音乐播放台</h3>
+    <div class="player-controls">
+      <button id="prevBtn">⏮ 上一首</button>
+      <button id="playBtn">⏯ 播放/暂停</button>
+      <button id="nextBtn">⏭ 下一首</button>
     </div>
+    <audio id="main-player" controls class="audio-style">
+    <div id="now-playing" class="now-playing">未播放音乐</div>
   </div>
 
-  <!-- 首页头部（升级科技感） -->
-  <header class="header">
-    <div class="header-glow"></div>
-    <div class="header-content">
-      <h1 class="header-title">清南流·科技影音文件站</h1>
-      <p class="header-subtitle">995680202.xyz | 音乐·视频·直播·文件管理</p>
-      <div class="header-divider"></div>
+  <!-- 音乐库 -->
+  <div class="card">
+    <h2>🎶 音乐库</h2>
+    <div class="category-tabs">
+      <button class="category-tab active" data-category="all">全部</button>
+      <button class="category-tab" data-category="chinese">华语</button>
+      <button class="category-tab" data-category="classic">经典</button>
+      <button class="category-tab" data-category="instrumental">纯音乐</button>
+      <button class="category-tab" data-category="english">英文</button>
     </div>
-  </header>
-
-  <div class="container">
-    <!-- 音乐播放器（保留核心功能） -->
-    <div class="card player-card">
-      <h3>🎵 音乐播放台</h3>
-      <div class="player-controls">
-        <button id="prevBtn">⏮ 上一首</button>
-        <button id="playBtn">⏯ 播放/暂停</button>
-        <button id="nextBtn">⏭ 下一首</button>
-      </div>
-      <audio id="main-player" controls class="audio-style">
-      <div id="now-playing" class="now-playing">未播放音乐</div>
-    </div>
-
-    <!-- 1. 音乐列表（扩充至15首） -->
-    <div class="card">
-      <h2>🎶 音乐库（15首）</h2>
-      <div class="category-tabs">
-        <button class="category-tab active" data-category="all">全部</button>
-        <button class="category-tab" data-category="chinese">华语</button>
-        <button class="category-tab" data-category="classic">经典</button>
-        <button class="category-tab" data-category="instrumental">纯音乐</button>
-        <button class="category-tab" data-category="english">英文</button>
-      </div>
-      <div class="list" id="music-list"></div>
-    </div>
-
-    <!-- 2. 视频列表（扩充至8个） -->
-    <div class="card">
-      <h2>🎬 视频库（8个）</h2>
-      <div class="category-tabs video-tabs">
-        <button class="video-tab active" data-video-category="all">全部</button>
-        <button class="video-tab" data-video-category="short">短视频</button>
-        <button class="video-tab" data-video-category="movie">电影片段</button>
-      </div>
-      <div class="list" id="video-list"></div>
-    </div>
-
-    <!-- 3. 直播/流媒体（修复为5个稳定源） -->
-    <div class="card">
-      <h2>📺 直播/流媒体</h2>
-      <div class="list" id="live-list"></div>
-    </div>
-
-    <!-- 4. 文件库（核心功能：浏览+下载） -->
-    <div class="card">
-      <h2>📁 文档文件库（支持浏览/下载）</h2>
-      <p class="file-tip">提示：将文件上传到 GitHub 仓库根目录，即可在此显示并下载</p>
-      <div class="list" id="file-list"></div>
-    </div>
+    <div class="list" id="music-list"></div>
   </div>
 
-  <!-- 后台管理（密码改为qingnanliu） -->
-  <div class="admin-btn" onclick="toggleAdmin()">⚙️ 后台管理</div>
-  <div class="admin-panel" id="adminPanel">
-    <h3>后台管理 | 密码：qingnanliu</h3>
-    <input type="password" id="adminPwd" placeholder="输入管理密码">
-    <button onclick="checkAdmin()">解锁管理</button>
-    <div id="adminContent" style="display:none;margin-top:15px;">
-      <h4>🎶 音乐（歌名-歌手|直链）</h4>
-      <textarea id="musicData" rows="3" placeholder="例：晴天-周杰伦|https://xxx.mp3"></textarea>
-      <h4>🎬 视频（视频名|直链）</h4>
-      <textarea id="videoData" rows="3" placeholder="例：风景短片|https://xxx.mp4"></textarea>
-      <h4>📺 直播（直播名|链接）</h4>
-      <textarea id="liveData" rows="3" placeholder="例：影视直播|https://xxx.tv"></textarea>
-      <h4>📁 自定义文件（文件名|下载链接）</h4>
-      <textarea id="fileData" rows="3" placeholder="例：我的简历|https://xxx.pdf"></textarea>
-      <button onclick="saveAllData()">保存并刷新</button>
+  <!-- 视频库 -->
+  <div class="card">
+    <h2>🎬 视频库</h2>
+    <div class="category-tabs video-tabs">
+      <button class="video-tab active" data-video-category="all">全部</button>
+      <button class="video-tab" data-video-category="short">短视频</button>
+      <button class="video-tab" data-video-category="movie">电影片段</button>
     </div>
+    <div class="list" id="video-list"></div>
   </div>
 
-  <script src="script.js"></script>
+  <!-- 直播 -->
+  <div class="card">
+    <h2>📺 直播/流媒体</h2>
+    <div class="list" id="live-list"></div>
+  </div>
+
+  <!-- 文件库 -->
+  <div class="card">
+    <h2>📁 文档文件库</h2>
+    <p class="file-tip">上传文件到GitHub根目录，复制Raw链接即可在此访问</p>
+    <div class="list" id="file-list"></div>
+  </div>
+
+</div>
+
+<!-- 后台 -->
+<div class="admin-btn" onclick="toggleAdmin()">⚙️ 后台管理</div>
+<div class="admin-panel" id="adminPanel">
+  <h3>后台管理</h3>
+  <input type="password" id="adminPwd" placeholder="输入管理密码">
+  <button onclick="checkAdmin()">解锁管理</button>
+  <div id="adminContent" style="display:none;margin-top:15px;">
+    <h4>🎶 音乐（歌名|链接）</h4>
+    <textarea id="musicData" rows="3"></textarea>
+    <h4>🎬 视频（视频名|链接）</h4>
+    <textarea id="videoData" rows="3"></textarea>
+    <h4>📺 直播（名称|链接）</h4>
+    <textarea id="liveData" rows="3"></textarea>
+    <h4>📁 文件（名称|链接）</h4>
+    <textarea id="fileData" rows="3"></textarea>
+    <button onclick="saveAllData()">保存并刷新</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
 
