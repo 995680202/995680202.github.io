@@ -1,222 +1,195 @@
 ﻿const player = document.getElementById('main-player');
+const bgMusic = document.getElementById('bg-music');
 const nowPlaying = document.getElementById('now-playing');
 const progressBar = document.getElementById('progress');
-const prevBtn = document.getElementById('prevBtn');
 const playBtn = document.getElementById('playBtn');
 const musicCategory = document.getElementById('music-category');
 const folderSelect = document.getElementById('folder-select');
-const fileList = document.getElementById('file-list');
-const workUpload = document.getElementById('work-upload');
 
-let currentIndex = 0;
-let musicList = [];
-let liveList = [];
-let workFiles = [];
-let privateFiles = [];
+const ADMIN_PASSWORD = 'qingnanliu';
+const PRIVATE_PASSWORD = 'qingnanliu';
 
-const ADMIN_PASSWORD = "qingnanliu";
-const PRIVATE_PASSWORD = "qingnanliu";
-
-// 音乐库（民谣有2首，默认播第一首）
-musicList = [
-  { name: "华语歌曲01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", category: "chinese" },
-  { name: "华语歌曲02", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", category: "chinese" },
-  { name: "古典音乐01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", category: "classic" },
-  { name: "古典音乐02", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3", category: "classic" },
-  { name: "流行歌曲01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", category: "pop" },
-  { name: "流行歌曲02", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", category: "pop" },
+// 音乐列表
+const musicList = [
   { name: "民谣歌曲01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", category: "folk" },
   { name: "民谣歌曲02", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3", category: "folk" },
+  { name: "华语歌曲01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", category: "chinese" },
+  { name: "古典音乐01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", category: "classic" },
+  { name: "流行歌曲01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", category: "pop" },
 ];
 
-// 直播/流媒体
-liveList = [
+// 直播
+const liveList = [
   { name: "B站直播大厅", url: "https://live.bilibili.com/" },
   { name: "在线音乐电台", url: "https://music.163.com/" },
 ];
 
-// 文件夹
-workFiles = [
-  { name: "工作文件1", url: "https://www.baidu.com" },
-  { name: "工作文件2", url: "https://www.baidu.com" },
-];
-
-privateFiles = [
-  { name: "私人文件1", url: "https://www.baidu.com" },
-  { name: "私人文件2", url: "https://www.baidu.com" },
-];
-
-// 全局暂停
-function pauseAllMedia() {
-  player.pause();
-  playBtn.textContent = "▶ 播放";
+// ========================= 本地存储 =========================
+function getStorage(key) {
+  const d = localStorage.getItem(key);
+  return d ? JSON.parse(d) : [];
+}
+function setStorage(key, data) {
+  localStorage.setItem(key, JSON.stringify(data));
 }
 
-// 播放音乐
+let workFiles = getStorage('workFiles');
+let privateFiles = getStorage('privateFiles');
+
+// ========================= 双击打开后台 =========================
+document.getElementById('admin-btn').ondblclick = () => {
+  document.getElementById('admin-panel').style.display = 'block';
+};
+
+function closeAdmin() {
+  document.getElementById('admin-panel').style.display = 'none';
+}
+
+function adminLogin() {
+  const pwd = document.getElementById('admin-pwd').value;
+  if (pwd === ADMIN_PASSWORD) {
+    document.getElementById('admin-login').style.display = 'none';
+    document.getElementById('admin-menu').style.display = 'block';
+    renderAdminList();
+  } else {
+    alert('密码错误');
+  }
+}
+
+// ========================= 上传 & 删除 =========================
+function uploadWork() {
+  const files = document.getElementById('work-upload').files;
+  for (let f of files) {
+    workFiles.push({ name: f.name, url: URL.createObjectURL(f) });
+  }
+  setStorage('workFiles', workFiles);
+  renderAdminList();
+  alert('上传成功');
+}
+
+function uploadPrivate() {
+  const files = document.getElementById('private-upload').files;
+  for (let f of files) {
+    privateFiles.push({ name: f.name, url: URL.createObjectURL(f) });
+  }
+  setStorage('privateFiles', privateFiles);
+  renderAdminList();
+  alert('上传成功');
+}
+
+function delWork(i) {
+  workFiles.splice(i, 1);
+  setStorage('workFiles', workFiles);
+  renderAdminList();
+}
+
+function delPrivate(i) {
+  privateFiles.splice(i, 1);
+  setStorage('privateFiles', privateFiles);
+  renderAdminList();
+}
+
+// 背景音乐
+function setBgMusic() {
+  const f = document.getElementById('bg-music-upload').files[0];
+  if (!f) return;
+  localStorage.setItem('bgMusicUrl', URL.createObjectURL(f));
+  alert('设置成功，刷新生效');
+}
+
+function delBgMusic() {
+  localStorage.removeItem('bgMusicUrl');
+  bgMusic.pause();
+  alert('已删除背景音乐');
+}
+
+// 后台列表
+function renderAdminList() {
+  const wl = document.getElementById('work-list');
+  const pl = document.getElementById('private-list');
+  wl.innerHTML = workFiles.map((o,i)=>`<div>${o.name} <button onclick="delWork(${i})">删</button></div>`).join('');
+  pl.innerHTML = privateFiles.map((o,i)=>`<div>${o.name} <button onclick="delPrivate(${i})">删</button></div>`).join('');
+}
+
+// ========================= 播放 =========================
+function pauseAll() {
+  player.pause();
+}
+
 function playSong(song) {
-  pauseAllMedia();
+  pauseAll();
   player.src = song.url;
   player.play();
   nowPlaying.textContent = `正在播放：${song.name}`;
   playBtn.textContent = "⏸ 暂停";
 }
 
-// 进度条
-player.ontimeupdate = () => {
-  if (!player.duration) return;
-  progressBar.value = (player.currentTime / player.duration)*100;
-};
-
-progressBar.oninput = () => {
-  if (!player.duration) return;
-  player.currentTime = (progressBar.value / 100) * player.duration;
-};
-
-// 播放/暂停
-playBtn.onclick = () => {
-  if (player.paused) {
-    player.play();
-    playBtn.textContent = "⏸ 暂停";
-  } else {
-    player.pause();
-    playBtn.textContent = "▶ 播放";
-  }
-};
-
-// 上/下一首
-function playNext() {
-  const currentCat = musicCategory.value;
-  let filtered = currentCat === "all" ? musicList : musicList.filter(m => m.category === currentCat);
-  let idx = filtered.findIndex(s => s.url === player.src);
-  idx = (idx + 1) % filtered.length;
-  playSong(filtered[idx]);
-}
-
-function playPrev() {
-  const currentCat = musicCategory.value;
-  let filtered = currentCat === "all" ? musicList : musicList.filter(m => m.category === currentCat);
-  let idx = filtered.findIndex(s => s.url === player.src);
-  idx = (idx - 1 + filtered.length) % filtered.length;
-  playSong(filtered[idx]);
-}
-
-prevBtn.onclick = playPrev;
-nextBtn.onclick = playNext;
-player.onended = playNext;
-
-// 音乐分类下拉
+// ========================= 音乐分类 =========================
 function renderMusic() {
   const cat = musicCategory.value;
-  const listEl = document.getElementById("music-list");
-  listEl.innerHTML = "";
-
-  const filtered = cat === "all" 
-    ? musicList 
-    : musicList.filter(m => m.category === cat);
-
-  filtered.forEach(song => {
-    const div = document.createElement("div");
-    div.className = "item music-item";
-    div.innerText = song.name;
-    div.onclick = () => playSong(song);
-    listEl.appendChild(div);
-  });
-
-  // 页面加载默认播放民谣第一首
-  if (cat === "folk" && player.src === "") {
-    playSong(filtered[0]);
-  }
-}
-
-musicCategory.onchange = renderMusic;
-
-// 直播
-function renderLive() {
-  const listEl = document.getElementById("live-list");
-  listEl.innerHTML = "";
-  liveList.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "item live-item";
-    div.innerText = item.name;
-    div.onclick = () => {
-      pauseAllMedia();
-      window.open(item.url, "_blank");
-    };
-    listEl.appendChild(div);
+  const el = document.getElementById('music-list');
+  el.innerHTML = '';
+  const list = cat === 'all' ? musicList : musicList.filter(m=>m.category===cat);
+  list.forEach(s => {
+    const d = document.createElement('div');
+    d.className = 'item music-item';
+    d.innerText = s.name;
+    d.onclick = () => playSong(s);
+    el.appendChild(d);
   });
 }
 
-// 文件夹（默认工作+上传入口）
+// ========================= 文件夹 =========================
 folderSelect.onchange = () => {
   const val = folderSelect.value;
-  fileList.innerHTML = "";
-  workUpload.style.display = "none";
-
-  if (val === "work") {
-    workUpload.style.display = "block";
-    workFiles.forEach(f => {
-      const div = document.createElement("div");
-      div.className = "item file-item";
-      div.innerText = f.name;
-      div.onclick = () => window.open(f.url, "_blank");
-      fileList.appendChild(div);
+  const el = document.getElementById('file-list');
+  el.innerHTML = '';
+  if(val === 'work') {
+    workFiles.forEach(f=>{
+      const d=document.createElement('div');
+      d.className='item file-item';
+      d.innerText=f.name;
+      d.onclick=()=>window.open(f.url,'_blank');
+      el.appendChild(d);
     });
-  } else if (val === "private") {
-    const pwd = prompt("请输入私人文件夹密码：");
-    if (pwd === PRIVATE_PASSWORD) {
-      privateFiles.forEach(f => {
-        const div = document.createElement("div");
-        div.className = "item file-item";
-        div.innerText = f.name;
-        div.onclick = () => window.open(f.url, "_blank");
-        fileList.appendChild(div);
-      });
-    } else {
-      alert("密码错误！");
-      folderSelect.value = "";
+  } else if(val === 'private') {
+    if(prompt('密码：')!==PRIVATE_PASSWORD) {
+      folderSelect.value='';return;
     }
+    privateFiles.forEach(f=>{
+      const d=document.createElement('div');
+      d.className='item file-item';
+      d.innerText=f.name;
+      d.onclick=()=>window.open(f.url,'_blank');
+      el.appendChild(d);
+    });
   }
 };
 
-// 工作文件夹上传
-function uploadToWork() {
-  const files = document.getElementById("file-upload").files;
-  if (files.length === 0) {
-    alert("请选择文件");
-    return;
-  }
-  for (let i = 0; i < files.length; i++) {
-    const file = files[i];
-    // 模拟上传：实际项目需后端接口
-    workFiles.push({ name: file.name, url: URL.createObjectURL(file) });
-  }
-  alert(`成功上传${files.length}个文件`);
-  folderSelect.onchange(); // 刷新列表
+// ========================= 直播 =========================
+function renderLive() {
+  const el = document.getElementById('live-list');
+  liveList.forEach(i=>{
+    const d=document.createElement('div');
+    d.className='item live-item';
+    d.innerText=i.name;
+    d.onclick=()=>window.open(i.url,'_blank');
+    el.appendChild(d);
+  });
 }
 
-// 后台
-function toggleAdmin() {
-  const panel = document.getElementById("adminPanel");
-  panel.style.display = panel.style.display === "block" ? "none" : "block";
-}
-
-function checkAdmin() {
-  if (document.getElementById("adminPwd").value === ADMIN_PASSWORD) {
-    document.getElementById("adminContent").style.display = "block";
-  } else {
-    alert("密码错误");
-  }
-}
-
-function saveAllData() {
-  alert("保存成功！页面即将刷新");
-  location.reload();
-}
-
-// 初始化
+// ========================= 启动 =========================
 window.onload = () => {
   renderMusic();
   renderLive();
-  folderSelect.onchange(); // 触发工作文件夹默认显示
+  folderSelect.onchange();
+
+  // 自动背景音乐
+  const bgUrl = localStorage.getItem('bgMusicUrl');
+  if (bgUrl) {
+    bgMusic.src = bgUrl;
+    bgMusic.volume = 0.4;
+    bgMusic.play().catch(()=>{});
+  }
 };
 
