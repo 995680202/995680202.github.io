@@ -5,6 +5,8 @@ const prevBtn = document.getElementById('prevBtn');
 const playBtn = document.getElementById('playBtn');
 const musicCategory = document.getElementById('music-category');
 const folderSelect = document.getElementById('folder-select');
+const fileList = document.getElementById('file-list');
+const workUpload = document.getElementById('work-upload');
 
 let currentIndex = 0;
 let musicList = [];
@@ -15,7 +17,7 @@ let privateFiles = [];
 const ADMIN_PASSWORD = "qingnanliu";
 const PRIVATE_PASSWORD = "qingnanliu";
 
-// ====================== 音乐（5分类，点歌可播放）======================
+// 音乐库（民谣有2首，默认播第一首）
 musicList = [
   { name: "华语歌曲01", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", category: "chinese" },
   { name: "华语歌曲02", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", category: "chinese" },
@@ -27,13 +29,13 @@ musicList = [
   { name: "民谣歌曲02", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3", category: "folk" },
 ];
 
-// ====================== 直播/流媒体（可打开）======================
+// 直播/流媒体
 liveList = [
   { name: "B站直播大厅", url: "https://live.bilibili.com/" },
   { name: "在线音乐电台", url: "https://music.163.com/" },
 ];
 
-// ====================== 文件夹（可打开）======================
+// 文件夹
 workFiles = [
   { name: "工作文件1", url: "https://www.baidu.com" },
   { name: "工作文件2", url: "https://www.baidu.com" },
@@ -44,13 +46,13 @@ privateFiles = [
   { name: "私人文件2", url: "https://www.baidu.com" },
 ];
 
-// ====================== 全局暂停 ======================
+// 全局暂停
 function pauseAllMedia() {
   player.pause();
   playBtn.textContent = "▶ 播放";
 }
 
-// ====================== 播放音乐 ======================
+// 播放音乐
 function playSong(song) {
   pauseAllMedia();
   player.src = song.url;
@@ -59,10 +61,10 @@ function playSong(song) {
   playBtn.textContent = "⏸ 暂停";
 }
 
-// ====================== 进度条 ======================
+// 进度条
 player.ontimeupdate = () => {
   if (!player.duration) return;
-  progressBar.value = (player.currentTime / player.duration) * 100;
+  progressBar.value = (player.currentTime / player.duration)*100;
 };
 
 progressBar.oninput = () => {
@@ -70,7 +72,7 @@ progressBar.oninput = () => {
   player.currentTime = (progressBar.value / 100) * player.duration;
 };
 
-// ====================== 播放/暂停 ======================
+// 播放/暂停
 playBtn.onclick = () => {
   if (player.paused) {
     player.play();
@@ -81,7 +83,7 @@ playBtn.onclick = () => {
   }
 };
 
-// ====================== 上/下一首 ======================
+// 上/下一首
 function playNext() {
   const currentCat = musicCategory.value;
   let filtered = currentCat === "all" ? musicList : musicList.filter(m => m.category === currentCat);
@@ -102,7 +104,7 @@ prevBtn.onclick = playPrev;
 nextBtn.onclick = playNext;
 player.onended = playNext;
 
-// ====================== 音乐分类下拉 ======================
+// 音乐分类下拉
 function renderMusic() {
   const cat = musicCategory.value;
   const listEl = document.getElementById("music-list");
@@ -119,11 +121,16 @@ function renderMusic() {
     div.onclick = () => playSong(song);
     listEl.appendChild(div);
   });
+
+  // 页面加载默认播放民谣第一首
+  if (cat === "folk" && player.src === "") {
+    playSong(filtered[0]);
+  }
 }
 
 musicCategory.onchange = renderMusic;
 
-// ====================== 直播（可打开）======================
+// 直播
 function renderLive() {
   const listEl = document.getElementById("live-list");
   listEl.innerHTML = "";
@@ -139,19 +146,20 @@ function renderLive() {
   });
 }
 
-// ====================== 文件夹（可打开）======================
+// 文件夹（默认工作+上传入口）
 folderSelect.onchange = () => {
   const val = folderSelect.value;
-  const listEl = document.getElementById("file-list");
-  listEl.innerHTML = "";
+  fileList.innerHTML = "";
+  workUpload.style.display = "none";
 
   if (val === "work") {
+    workUpload.style.display = "block";
     workFiles.forEach(f => {
       const div = document.createElement("div");
       div.className = "item file-item";
       div.innerText = f.name;
       div.onclick = () => window.open(f.url, "_blank");
-      listEl.appendChild(div);
+      fileList.appendChild(div);
     });
   } else if (val === "private") {
     const pwd = prompt("请输入私人文件夹密码：");
@@ -161,7 +169,7 @@ folderSelect.onchange = () => {
         div.className = "item file-item";
         div.innerText = f.name;
         div.onclick = () => window.open(f.url, "_blank");
-        listEl.appendChild(div);
+        fileList.appendChild(div);
       });
     } else {
       alert("密码错误！");
@@ -170,7 +178,23 @@ folderSelect.onchange = () => {
   }
 };
 
-// ====================== 后台 ======================
+// 工作文件夹上传
+function uploadToWork() {
+  const files = document.getElementById("file-upload").files;
+  if (files.length === 0) {
+    alert("请选择文件");
+    return;
+  }
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    // 模拟上传：实际项目需后端接口
+    workFiles.push({ name: file.name, url: URL.createObjectURL(file) });
+  }
+  alert(`成功上传${files.length}个文件`);
+  folderSelect.onchange(); // 刷新列表
+}
+
+// 后台
 function toggleAdmin() {
   const panel = document.getElementById("adminPanel");
   panel.style.display = panel.style.display === "block" ? "none" : "block";
@@ -189,9 +213,10 @@ function saveAllData() {
   location.reload();
 }
 
-// ====================== 初始化 ======================
+// 初始化
 window.onload = () => {
   renderMusic();
   renderLive();
+  folderSelect.onchange(); // 触发工作文件夹默认显示
 };
 

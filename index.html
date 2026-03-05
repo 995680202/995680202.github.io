@@ -36,7 +36,7 @@
     <audio id="main-player">
   </div>
 
-  <!-- 音乐库（下拉 + 可点歌） -->
+  <!-- 音乐库（默认民谣） -->
   <div class="card">
     <h2>🎶 音乐库</h2>
     <select id="music-category" class="select-box">
@@ -44,26 +44,31 @@
       <option value="chinese">华语</option>
       <option value="classic">古典</option>
       <option value="pop">流行</option>
-      <option value="folk">民谣</option>
+      <option value="folk" selected>民谣</option>
     </select>
     <div class="list" id="music-list" style="margin-top:12px;"></div>
   </div>
 
-  <!-- 直播/流媒体（可打开） -->
+  <!-- 直播/流媒体 -->
   <div class="card">
     <h2>📺 直播/流媒体</h2>
     <div class="list" id="live-list"></div>
   </div>
 
-  <!-- 文件夹（可打开） -->
+  <!-- 文件夹（默认工作+上传入口） -->
   <div class="card">
     <h2>📁 文件夹</h2>
     <select id="folder-select" class="select-box">
       <option value="">请选择文件夹</option>
-      <option value="work">工作</option>
+      <option value="work" selected>工作</option>
       <option value="private">私人（需密码）</option>
     </select>
     <div class="list" id="file-list" style="margin-top:12px;"></div>
+    <!-- 工作文件夹上传 -->
+    <div id="work-upload" style="margin-top:12px;display:none;">
+      <input type="file" id="file-upload" multiple>
+      <button onclick="uploadToWork()">上传到工作文件夹</button>
+    </div>
   </div>
 
 </div>
