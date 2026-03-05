@@ -10,38 +10,59 @@
 
 <!-- 开机动画 -->
 <div class="loader" id="loader">
-  <div class="loader-text">🎵 995680202.xyz</div>
+  <div class="loader-text">🎵 私人影音</div>
 </div>
 
-<!-- 封面 -->
+<!-- 极简封面 -->
 <div class="banner">
   <div class="banner-content">
     <h1>私人影音资源站</h1>
-    <p>995680202.xyz</p>
   </div>
 </div>
 
 <div class="container">
+
+  <!-- 播放器区域 + 上一首/下一首 -->
   <div class="player-box">
     <h3>🎵 当前播放</h3>
+    <div class="player-controls">
+      <button id="prevBtn">⏮ 上一首</button>
+      <button id="playBtn">⏯ 播放/暂停</button>
+      <button id="nextBtn">⏭ 下一首</button>
+    </div>
     <audio id="main-player" controls>
+    <div id="now-playing" class="now-playing">未播放</div>
   </div>
 
+  <!-- 音乐列表（带分类） -->
   <div class="card">
     <h2>音乐列表</h2>
+    <div class="category-tabs">
+      <button class="category-tab active" data-category="all">全部</button>
+      <button class="category-tab" data-category="chinese">华语流行</button>
+      <button class="category-tab" data-category="classic">经典老歌</button>
+      <button class="category-tab" data-category="instrumental">纯音乐</button>
+      <button class="category-tab" data-category="english">英文热门</button>
+    </div>
     <div class="list" id="music-list"></div>
   </div>
 
+  <!-- 视频列表（带分类） -->
   <div class="card">
     <h2>视频列表</h2>
+    <div class="category-tabs video-tabs">
+      <button class="video-tab active" data-video-category="all">全部</button>
+      <button class="video-tab" data-video-category="test">测试视频</button>
+      <button class="video-tab" data-video-category="movie">电影片段</button>
+    </div>
     <div class="list" id="video-list"></div>
   </div>
 </div>
 
-<!-- 后台 -->
+<!-- 后台管理 -->
 <div class="admin-btn" onclick="toggleAdmin()">后台管理</div>
 <div class="admin-panel" id="adminPanel">
-  <h3>后台管理 · 密码：admin</h3>
+  <h3>后台管理</h3>
   <input type="password" id="adminPwd" placeholder="输入密码">
   <button onclick="checkAdmin()">解锁</button>
   <div id="adminContent" style="display:none;margin-top:10px;">
@@ -56,3 +77,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
