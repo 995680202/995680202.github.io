@@ -14,6 +14,7 @@
 <!-- 头部 -->
 <header class="header">
   <div class="header-glow"></div>
+  <div class="header-light"></div>
   <div class="header-content">
     <h1 class="header-title">尐念 · 科技影音站</h1>
     <p class="header-subtitle">995680202.xyz</p>
@@ -25,10 +26,10 @@
 
   <!-- 音乐播放器 -->
   <div class="card player-card">
-    <h3>🎵 音乐播放台</h3>
+    <h3>🎵 音乐播放器</h3>
     <div class="player-controls">
       <button id="prevBtn">⏮ 上一首</button>
-      <button id="playBtn">⏯ 播放/暂停</button>
+      <button id="playBtn">⏯ 播放</button>
       <button id="nextBtn">⏭ 下一首</button>
     </div>
     <audio id="main-player" controls class="audio-style">
@@ -42,8 +43,6 @@
       <button class="category-tab active" data-category="all">全部</button>
       <button class="category-tab" data-category="chinese">华语</button>
       <button class="category-tab" data-category="classic">经典</button>
-      <button class="category-tab" data-category="instrumental">纯音乐</button>
-      <button class="category-tab" data-category="english">英文</button>
     </div>
     <div class="list" id="music-list"></div>
   </div>
@@ -74,12 +73,24 @@
 
 </div>
 
+<!-- 视频弹窗 -->
+<div id="video-modal" class="video-modal">
+  <div class="modal-backdrop" onclick="closeVideo()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <span id="video-title">视频播放</span>
+      <button class="modal-close" onclick="closeVideo()">✕</button>
+    </div>
+    <video id="modal-video" controls autoplay></video>
+  </div>
+</div>
+
 <!-- 后台 -->
-<div class="admin-btn" onclick="toggleAdmin()">⚙️ 后台管理</div>
+<div class="admin-btn" onclick="toggleAdmin()">⚙️ 后台</div>
 <div class="admin-panel" id="adminPanel">
   <h3>后台管理</h3>
-  <input type="password" id="adminPwd" placeholder="输入管理密码">
-  <button onclick="checkAdmin()">解锁管理</button>
+  <input type="password" id="adminPwd" placeholder="密码">
+  <button onclick="checkAdmin()">解锁</button>
   <div id="adminContent" style="display:none;margin-top:15px;">
     <h4>🎶 音乐（歌名|链接）</h4>
     <textarea id="musicData" rows="3"></textarea>
