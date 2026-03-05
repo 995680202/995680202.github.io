@@ -36,7 +36,7 @@
     <audio id="main-player">
   </div>
 
-  <!-- 音乐库（默认民谣） -->
+  <!-- 音乐库 -->
   <div class="card">
     <h2>🎶 音乐库</h2>
     <select id="music-category" class="select-box">
@@ -49,13 +49,13 @@
     <div class="list" id="music-list" style="margin-top:12px;"></div>
   </div>
 
-  <!-- 直播/流媒体 -->
+  <!-- 直播 -->
   <div class="card">
     <h2>📺 直播/流媒体</h2>
     <div class="list" id="live-list"></div>
   </div>
 
-  <!-- 文件夹（默认工作） -->
+  <!-- 文件夹 -->
   <div class="card">
     <h2>📁 文件夹</h2>
     <select id="folder-select" class="select-box">
@@ -68,39 +68,41 @@
 
 </div>
 
-<!-- 自动背景音乐 -->
+<!-- 背景音乐 -->
 <audio id="bg-music" loop>
 
-<!-- 双击打开后台 -->
-<div id="admin-btn" style="position:fixed;right:24px;bottom:24px;z-index:999;">
-  <div style="padding:12px 20px;background:#003377;color:#00d8ff;border-radius:12px;cursor:pointer;">⚙️ 后台管理</div>
+<!-- 后台入口（双击这里） -->
+<div id="admin-btn" style="position:fixed;right:20px;bottom:20px;z-index:9999;">
+  <div style="padding:12px 18px;background:#004688;color:#fff;border-radius:12px;cursor:pointer;">
+    ⚙️ 双击打开后台
+  </div>
 </div>
 
 <!-- 后台面板 -->
-<div id="admin-panel" style="display:none;position:fixed;right:20px;bottom:80px;width:360px;background:#001a3a;border:1px solid #00d8ff;border-radius:16px;padding:20px;z-index:9999;color:#fff;">
-  <div id="admin-login" style="margin-bottom:10px;">
-    <input type="password" id="admin-pwd" placeholder="输入后台密码" style="width:100%;padding:8px;margin-bottom:8px;border-radius:8px;">
-    <button onclick="adminLogin()" style="width:100%;padding:8px;border-radius:8px;background:#00d8ff;color:#002;">登录</button>
+<div id="admin-panel" style="display:none;position:fixed;right:20px;bottom:80px;width:340px;background:#001a3a;border:1px solid #00d8ff;border-radius:16px;padding:20px;z-index:9999;color:#fff;">
+  <div id="login-area">
+    <input type="password" id="admin-pwd" placeholder="输入后台密码" style="width:100%;padding:8px;margin-bottom:10px;border-radius:8px;">
+    <button onclick="adminLogin()" style="width:100%;padding:8px;background:#00d8ff;color:#002;border-radius:8px;">登录</button>
   </div>
 
-  <div id="admin-menu" style="display:none;">
-    <div style="margin-bottom:10px;font-weight:bold;color:#00d8ff;">📁 工作文件夹</div>
-    <input type="file" id="work-upload" multiple>
-    <button onclick="uploadWork()" style="margin-top:5px;width:100%;padding:6px;">上传工作文件</button>
-    <div id="work-list" style="margin-top:8px;max-height:100px;overflow-y:auto;"></div>
+  <div id="admin-area" style="display:none;">
+    <div style="font-weight:bold;color:#00d8ff;margin-bottom:8px;">📁 工作文件夹</div>
+    <input type="file" id="work-files" multiple style="width:100%;">
+    <button onclick="uploadWorkFiles()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
+    <div id="work-admin-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
 
-    <div style="margin:12px 0;font-weight:bold;color:#00d8ff;">🔒 私人文件夹</div>
-    <input type="file" id="private-upload" multiple>
-    <button onclick="uploadPrivate()" style="margin-top:5px;width:100%;padding:6px;">上传私人文件</button>
-    <div id="private-list" style="margin-top:8px;max-height:100px;overflow-y:auto;"></div>
+    <div style="font-weight:bold;color:#00d8ff;margin:12px 0 8px;">🔒 私人文件夹</div>
+    <input type="file" id="private-files" multiple style="width:100%;">
+    <button onclick="uploadPrivateFiles()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
+    <div id="private-admin-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
 
-    <div style="margin:12px 0;font-weight:bold;color:#00d8ff;">🎵 背景音乐（自动播放）</div>
-    <input type="file" id="bg-music-upload" accept="audio/*">
-    <button onclick="setBgMusic()" style="margin-top:5px;width:100%;padding:6px;">设置背景音乐</button>
-    <button onclick="delBgMusic()" style="margin-top:5px;width:100%;padding:6px;background:#c22;">删除背景音乐</button>
+    <div style="font-weight:bold;color:#00d8ff;margin:12px 0 8px;">🎵 背景音乐</div>
+    <input type="file" id="bg-audio" accept="audio/*" style="width:100%;">
+    <button onclick="setBgMusic()" style="width:100%;padding:6px;margin-top:6px;">设置自动播放</button>
+    <button onclick="delBgMusic()" style="width:100%;padding:6px;margin-top:6px;background:#c22;">删除背景音乐</button>
 
-    <div style="text-align:center;margin-top:10px;">
-      <button onclick="closeAdmin()" style="padding:6px 12px;">关闭</button>
+    <div style="text-align:center;margin-top:12px;">
+      <button onclick="closeAdmin()">关闭后台</button>
     </div>
   </div>
 </div>
