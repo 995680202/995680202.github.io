@@ -11,13 +11,11 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
 }
-/* 粒子背景层级 */
 #canvas-nest {
   z-index: -1 !important;
   opacity: 0.8;
 }
 
-/* 开机动画（科技感加载） */
 .loader {
   position: fixed;
   top: 0;
@@ -65,7 +63,6 @@ body {
   100% { transform: translateX(200px); }
 }
 
-/* 封面（玻璃拟态+光效边框） */
 .banner {
   width: 100%;
   height: 200px;
@@ -94,14 +91,12 @@ body {
   text-shadow: 0 0 10px #0066ff;
 }
 
-/* 容器居中 */
 .container {
   max-width: 950px;
   margin: 0 auto;
   padding: 0 20px 80px;
 }
 
-/* 播放器（玻璃拟态+光效） */
 .player-box {
   background: rgba(0, 17, 51, 0.7);
   backdrop-filter: blur(15px);
@@ -150,7 +145,6 @@ body {
   padding: 5px;
   color: #00f0ff;
 }
-/* 音频控件样式适配 */
 .audio-style::-webkit-media-controls-panel {
   background: rgba(0, 17, 51, 0.8) !important;
   border: 1px solid #0066ff !important;
@@ -164,7 +158,6 @@ body {
   text-shadow: 0 0 8px #0066ff;
 }
 
-/* 分类标签（科技感） */
 .category-tabs {
   display: flex;
   gap: 10px;
@@ -193,7 +186,6 @@ body {
   color: #00f0ff;
 }
 
-/* 卡片（玻璃拟态+光效边框） */
 .card {
   background: rgba(0, 17, 51, 0.7);
   backdrop-filter: blur(15px);
@@ -217,7 +209,6 @@ body {
   text-shadow: 0 0 15px #00f0ff, 0 0 30px #0066ff;
 }
 
-/* 列表项（玻璃拟态+hover光效） */
 .list {
   display: grid;
   gap: 12px;
@@ -240,7 +231,6 @@ body {
   color: #00f0ff;
 }
 
-/* 后台按钮（悬浮光效） */
 .admin-btn {
   position: fixed;
   right: 20px;
@@ -263,7 +253,6 @@ body {
   transform: translateY(-3px);
 }
 
-/* 后台面板（玻璃拟态+光效） */
 .admin-panel {
   position: fixed;
   right: 20px;
@@ -326,7 +315,6 @@ body {
   transform: translateY(-2px);
 }
 
-/* 手机自适应 */
 @media (max-width: 768px) {
   .banner-content h1 {
     font-size: 28px;
