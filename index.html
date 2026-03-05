@@ -1,116 +1,96 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>尐念 · 科技影音站</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/gh/hustcc/canvas-nest.js@1.0.1/canvas-nest.min.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>尐念 · 音乐站</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-<canvas id="canvas-nest" style="position:fixed;top:0;left:0;z-index:-1;"></canvas>
+<canvas id="bg-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;"></canvas>
 
-<header class="header">
-  <div class="header-glow"></div>
-  <div class="header-light"></div>
-  <div class="header-content">
-    <h1 class="header-title">尐念 · 科技影音站</h1>
-    <p class="header-subtitle">995680202.xyz</p>
-    <div class="header-divider"></div>
-  </div>
-</header>
+<div class="container" style="max-width:1000px;margin:0 auto;padding:20px;">
 
-<div class="container">
-
-  <!-- 网易云播放器 + 时间显示 -->
-  <div class="card player-card">
-    <h3>🎵 音乐播放器</h3>
-    <div class="player-info" id="now-playing">未播放音乐</div>
+  <!-- ===================== 播放器 ===================== -->
+  <div class="card" style="padding:20px;border-radius:16px;background:#0a192f;">
+    <h3 style="margin:0 0 10px;color:#fff;">🎵 音乐播放器</h3>
+    <div id="playing-title" style="color:#a0d8ff;margin-bottom:8px;">未播放音乐</div>
     
-    <div style="display:flex;justify-content:space-between;font-size:12px;color:#a0d8ff;">
-      <span id="current-time">0:00</span>
-      <span id="duration-time">0:00</span>
+    <div style="display:flex;justify-content:space-between;color:#aaa;font-size:12px;">
+      <span id="time-current">0:00</span>
+      <span id="time-total">0:00</span>
     </div>
-    <input type="range" id="progress" class="progress-bar" value="0" min="0" max="100">
+    <input 
+      id="progress" 
+      type="range" 
+      min="0" max="100" value="0"
+      style="width:100%;margin:6px 0;"
+    >
     
-    <div class="player-controls">
-      <button id="prevBtn">⏮ 上一首</button>
-      <button id="playBtn">▶ 播放</button>
-      <button id="nextBtn">⏭ 下一首</button>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;">
+      <button id="prev" style="padding:8px 16px;">上一首</button>
+      <button id="play" style="padding:8px 16px;">播放</button>
+      <button id="next" style="padding:8px 16px;">下一首</button>
     </div>
-    <audio id="main-player">
+    <audio id="player">
   </div>
 
-  <!-- 音乐库 + 搜索 -->
-  <div class="card">
-    <h2>🎶 音乐库</h2>
-    <input type="text" id="search-input" placeholder="🔍 搜索网络歌曲" style="width:100%;padding:8px;margin-bottom:8px;border-radius:8px;">
-    <select id="music-category" class="select-box">
-      <option value="all">全部</option>
-      <option value="chinese">华语</option>
-      <option value="classic">古典</option>
-      <option value="pop">流行</option>
-      <option value="folk" selected>民谣</option>
-    </select>
-    <div class="list" id="music-list" style="margin-top:12px;"></div>
+  <!-- ===================== 音乐库 + 在线搜索 ===================== -->
+  <div class="card" style="margin-top:20px;padding:20px;border-radius:16px;background:#0a192f;">
+    <h3 style="margin:0 0 10px;color:#fff;">🎶 音乐库</h3>
+    <input 
+      id="search" 
+      type="text" 
+      placeholder="🔍 搜索在线音乐，回车播放"
+      style="width:100%;padding:10px;border-radius:8px;margin-bottom:10px;"
+    >
+    <div id="song-list"></div>
   </div>
 
-  <!-- 直播 -->
-  <div class="card">
-    <h2>📺 直播/流媒体</h2>
-    <div class="list" id="live-list"></div>
-  </div>
-
-  <!-- 文件夹 -->
-  <div class="card">
-    <h2>📁 文件夹</h2>
-    <select id="folder-select" class="select-box">
-      <option value="">请选择文件夹</option>
-      <option value="work" selected>工作</option>
-      <option value="private">私人（需密码）</option>
-    </select>
-    <div class="list" id="file-list" style="margin-top:12px;"></div>
+  <!-- ===================== 文件夹（平铺展示，无下拉） ===================== -->
+  <div class="card" style="margin-top:20px;padding:20px;border-radius:16px;background:#0a192f;">
+    <h3 style="margin:0 0 10px;color:#fff;">📁 文件夹</h3>
+    
+    <div style="margin-bottom:16px;">
+      <div style="color:#00d8ff;font-weight:bold;margin-bottom:6px;">工作文件</div>
+      <div id="work-files"></div>
+    </div>
+    
+    <div>
+      <div style="color:#00d8ff;font-weight:bold;margin-bottom:6px;">私人文件（需密码）</div>
+      <button id="show-private" style="padding:6px 12px;margin-bottom:8px;">查看私人文件</button>
+      <div id="private-files"></div>
+    </div>
   </div>
 
 </div>
 
-<!-- 背景音乐 -->
-<audio id="bg-music" loop>
-
-<!-- 🔥 后台入口（绝对能看到，单击就能打开） -->
-<div id="admin-open-btn" style="position:fixed;right:20px;bottom:20px;z-index:99999;">
-  <div style="padding:14px 22px;background:#0066cc;color:#fff;border-radius:14px;cursor:pointer;font-weight:bold;">
-    ⚙️ 点我打开后台
-  </div>
+<!-- ===================== 后台入口（固定显示，绝对看得见） ===================== -->
+<div 
+  id="admin-btn"
+  style="position:fixed;right:20px;bottom:20px;padding:14px 20px;background:#0066cc;color:#fff;border-radius:14px;cursor:pointer;z-index:9999;"
+>
+  ⚙️ 后台管理
 </div>
 
-<!-- 后台面板 -->
+<!-- ===================== 后台面板 ===================== -->
 <div id="admin-panel" style="display:none;position:fixed;right:20px;bottom:90px;width:340px;background:#001a3a;border:1px solid #00d8ff;border-radius:16px;padding:20px;z-index:9999;color:#fff;">
-  <div id="login-area">
-    <input type="password" id="admin-pwd" placeholder="输入后台密码" style="width:100%;padding:8px;margin-bottom:10px;border-radius:8px;">
-    <button onclick="adminLogin()" style="width:100%;padding:8px;background:#00d8ff;color:#002;border-radius:8px;">登录</button>
-  </div>
+  <input id="admin-pwd" type="password" placeholder="输入密码" style="width:100%;padding:8px;margin-bottom:10px;border-radius:8px;">
+  <button onclick="adminLogin()" style="width:100%;padding:8px;background:#00d8ff;color:#000;border-radius:8px;">登录</button>
 
-  <div id="admin-area" style="display:none;">
-    <div style="font-weight:bold;color:#00d8ff;margin-bottom:8px;">📁 工作文件夹</div>
-    <input type="file" id="work-files" multiple style="width:100%;">
-    <button onclick="uploadWorkFiles()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
-    <div id="work-admin-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
+  <div id="admin-body" style="display:none;margin-top:16px;">
+    <div style="font-weight:bold;color:#00d8ff;">工作文件</div>
+    <input type="file" id="work-upload" multiple style="width:100%;margin-top:6px;">
+    <button onclick="uploadWork()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
+    <div id="admin-work-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
 
-    <div style="font-weight:bold;color:#00d8ff;margin:12px 0 8px;">🔒 私人文件夹</div>
-    <input type="file" id="private-files" multiple style="width:100%;">
-    <button onclick="uploadPrivateFiles()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
-    <div id="private-admin-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
+    <div style="margin-top:16px;font-weight:bold;color:#00d8ff;">私人文件</div>
+    <input type="file" id="private-upload" multiple style="width:100%;margin-top:6px;">
+    <button onclick="uploadPrivate()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
+    <div id="admin-private-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
 
-    <div style="font-weight:bold;color:#00d8ff;margin:12px 0 8px;">🎵 背景音乐</div>
-    <input type="file" id="bg-audio" accept="audio/*" style="width:100%;">
-    <button onclick="setBgMusic()" style="width:100%;padding:6px;margin-top:6px;">设置自动播放</button>
-    <button onclick="delBgMusic()" style="width:100%;padding:6px;margin-top:6px;background:#c22;">删除背景音乐</button>
-
-    <div style="text-align:center;margin-top:12px;">
-      <button onclick="closeAdmin()">关闭后台</button>
-    </div>
+    <button onclick="closeAdmin()" style="width:100%;padding:8px;margin-top:16px;background:#555;">关闭</button>
   </div>
 </div>
 
