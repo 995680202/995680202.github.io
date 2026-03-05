@@ -5,288 +5,308 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>尐念 · 云端音乐空间</title>
   <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family: system-ui, -apple-system, sans-serif; }
-    body {
-      background: #020818;
-      color: #e0efff;
-      min-height: 100vh;
-      overflow-x: hidden;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
 
-    /* 动态粒子背景 */
+    body {
+      background: #01040d;
+      color: #e3f2ff;
+      min-height: 100vh;
+    }
+
+    /* 粒子背景 */
     #particle-bg {
       position: fixed;
-      top:0; left:0; width:100%; height:100%;
-      z-index: -2;
-      background: #020818;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -3;
+      background: #01040d;
     }
 
-    /* 霓虹流光扫过 */
-    .neon-light {
+    /* 霓虹扫光 */
+    .neon-sweep {
       position: fixed;
-      top:0; left:-100%; width:100%; height:100%;
-      background: linear-gradient(90deg, transparent, rgba(0, 119, 255, 0.08), transparent);
-      animation: neon 8s infinite linear;
-      z-index: -1;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(0, 119, 255, 0.07),
+        rgba(0, 187, 255, 0.12),
+        transparent
+      );
+      animation: neonSweep 10s linear infinite;
+      z-index: -2;
     }
-    @keyframes neon {
-      0% { left:-100%; }
-      100% { left:100%; }
+
+    @keyframes neonSweep {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .overlay-light {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(0, 102, 255, 0.04), transparent 60%);
+      z-index: -1;
     }
 
     .container {
-      max-width: 900px;
+      max-width: 920px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 50px 20px;
       position: relative;
       z-index: 2;
     }
 
-    /* 科技卡片 */
+    /* 卡片 */
     .card {
-      background: rgba(12, 26, 51, 0.7);
-      border: 1px solid rgba(21, 102, 255, 0.3);
-      border-radius: 20px;
-      padding: 28px;
-      margin-bottom: 28px;
-      box-shadow: 0 0 40px rgba(0, 68, 255, 0.15);
-      backdrop-filter: blur(12px);
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
-      background: linear-gradient(90deg,transparent,rgba(0,102,255,0.05),transparent);
-      animation: cardLight 6s infinite linear;
-    }
-    @keyframes cardLight {
-      0%{ left:-100%; } 100%{ left:100%; }
+      background: rgba(10, 20, 40, 0.85);
+      border: 1px solid rgba(0, 119, 255, 0.25);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 30px;
+      box-shadow: 0 0 50px rgba(0, 80, 255, 0.1);
+      backdrop-filter: blur(15px);
     }
 
     .card h2 {
-      color: #29bfff;
-      margin-bottom: 18px;
-      font-size: 20px;
-      text-shadow: 0 0 10px rgba(0,136,255,0.5);
+      font-size: 22px;
+      color: #3ccbff;
+      margin-bottom: 22px;
+      letter-spacing: 1px;
+      font-weight: 600;
     }
 
     /* 搜索框 */
     .search-box {
       width: 100%;
-      padding: 15px 20px;
-      border-radius: 14px;
-      border: 1px solid #1a73ff;
-      background: rgba(13,26,53,0.8);
+      padding: 16px 22px;
+      border-radius: 16px;
+      border: 1px solid rgba(0, 119, 255, 0.3);
+      background: rgba(12, 24, 48, 0.9);
       color: #fff;
       font-size: 16px;
       outline: none;
-      transition: 0.3s;
-    }
-    .search-box:focus {
-      box-shadow: 0 0 20px rgba(0,119,255,0.3);
-      border-color: #3399ff;
     }
 
     /* 播放器 */
-    .player-area { text-align: center; }
-    .player-title {
-      color: #7accff;
-      font-size: 18px;
-      margin-bottom: 14px;
-      min-height: 24px;
+    .player-area {
+      text-align: center;
     }
 
-    /* 黑胶唱片动画 */
-    .record-box {
-      width: 100px;
-      height: 100px;
-      margin: 0 auto 16px;
-      background: #111;
+    .record {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      background: #0a0f1f;
       border-radius: 50%;
       position: relative;
-      animation: recordRotate 20s linear infinite paused;
-      box-shadow: 0 0 20px rgba(0,102,255,0.4);
-    }
-    .record-box.play {
-      animation-play-state: running;
-    }
-    .record-box::before {
-      content:''; position:absolute; width:20px; height:20px; background:#000; border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%);
-      border:2px solid #0088ff;
-    }
-    @keyframes recordRotate {
-      100% { transform:rotate(360deg); }
+      box-shadow: 0 0 30px rgba(0, 136, 255, 0.25);
+      animation: recordSpin 22s linear infinite paused;
     }
 
-    .time-line {
+    .record.play {
+      animation-play-state: running;
+    }
+
+    .record::before {
+      content: '';
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      background: #000;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border: 2px solid #0099ff;
+    }
+
+    @keyframes recordSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .playing-title {
+      font-size: 19px;
+      color: #7accff;
+      margin-bottom: 16px;
+    }
+
+    .time-row {
       display: flex;
       justify-content: space-between;
-      color: #99bccc;
+      color: #9cc9e6;
       font-size: 13px;
       margin-top: 6px;
     }
-    .progress {
+
+    .progress-bar {
       width: 100%;
-      margin: 12px 0;
-      accent-color: #0088ff;
       height: 6px;
       border-radius: 3px;
+      margin: 12px 0 18px;
+      accent-color: #0099ff;
     }
 
-    .player-btn {
-      padding: 11px 22px;
-      border-radius: 12px;
+    .btn {
+      padding: 12px 26px;
+      border-radius: 14px;
       border: none;
-      background: linear-gradient(90deg,#0066cc,#0088ff);
+      background: linear-gradient(90deg, #0066dd, #0099ff);
       color: #fff;
-      margin: 0 8px;
+      font-size: 15px;
+      margin: 0 10px;
       cursor: pointer;
-      box-shadow: 0 0 15px rgba(0,102,255,0.3);
-      transition: 0.3s;
-    }
-    .player-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(0,119,255,0.5);
     }
 
     /* 文件夹 */
-    .folder-block { margin-bottom: 24px; }
-    .folder-title {
-      color: #00d8ff;
-      font-weight: bold;
-      margin-bottom: 12px;
-      font-size: 16px;
+    .folder-group {
+      margin-bottom: 28px;
     }
+
+    .folder-title {
+      font-size: 17px;
+      color: #00d8ff;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+
     .file-item {
-      padding: 12px 16px;
-      background: rgba(14,28,58,0.7);
-      border-radius: 12px;
+      padding: 14px 18px;
+      background: rgba(12, 24, 48, 0.8);
+      border-radius: 14px;
       margin-bottom: 10px;
       cursor: pointer;
-      transition: 0.3s;
-      border: 1px solid rgba(21,102,255,0.2);
-    }
-    .file-item:hover {
-      background: rgba(21,102,255,0.15);
-      transform: translateX(4px);
+      border: 1px solid rgba(0, 119, 255, 0.15);
     }
 
-    /* 背景音乐控制 */
+    /* 控制按钮 */
     .bg-control {
       position: fixed;
-      left: 20px;
-      bottom: 20px;
-      padding: 13px 18px;
-      background: linear-gradient(90deg,#0055cc,#0077ff);
+      left: 22px;
+      bottom: 22px;
+      padding: 14px 20px;
+      background: linear-gradient(90deg, #0055cc, #0088ff);
       color: #fff;
-      border-radius: 14px;
+      border-radius: 16px;
       cursor: pointer;
       z-index: 99;
-      box-shadow: 0 0 20px rgba(0,119,255,0.3);
     }
 
-    /* 后台入口 */
-    #open-admin {
+    #admin-open {
       position: fixed;
-      right: 20px;
-      bottom: 20px;
-      padding: 14px 22px;
-      background: linear-gradient(90deg,#0066ff,#0099ff);
+      right: 22px;
+      bottom: 22px;
+      padding: 15px 24px;
+      background: linear-gradient(90deg, #0077ff, #00aaff);
       color: #fff;
-      border-radius: 14px;
+      border-radius: 16px;
+      font-weight: 600;
       cursor: pointer;
       z-index: 999;
-      box-shadow: 0 0 25px rgba(0,119,255,0.4);
-      font-weight: bold;
     }
 
-    /* 后台独立页面 */
+    /* 后台页面 */
     #admin-page {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: #020818;
+      background: #01040d;
       z-index: 9999;
       display: none;
-      padding: 40px 20px;
+      padding: 50px 20px;
       overflow-y: auto;
     }
-    .admin-container {
+
+    .admin-wrap {
       max-width: 600px;
       margin: 0 auto;
     }
+
     .admin-card {
-      background: rgba(12,26,53,0.8);
-      border: 1px solid rgba(21,102,255,0.3);
-      border-radius: 20px;
-      padding: 30px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
+      background: rgba(10, 20, 40, 0.9);
+      border: 1px solid rgba(0, 119, 255, 0.25);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 24px;
     }
+
     .admin-btn {
-      padding: 13px;
       width: 100%;
-      border-radius: 12px;
+      padding: 14px;
+      border-radius: 14px;
       border: none;
-      background: linear-gradient(90deg,#0066ff,#0088ff);
+      background: linear-gradient(90deg, #0066dd, #0099ff);
       color: #fff;
       margin-top: 12px;
       cursor: pointer;
-      font-size: 15px;
     }
-    .admin-close {
-      background: linear-gradient(90deg,#ff3355,#ff5577);
+
+    .btn-danger {
+      background: linear-gradient(90deg, #ff3366, #ff5588);
     }
   </style>
 </head>
 
 <body>
 
-<!-- 科技粒子背景 + 霓虹流光 -->
 <canvas id="particle-bg"></canvas>
-<div class="neon-light"></div>
+<div class="neon-sweep"></div>
+<div class="overlay-light"></div>
 
 <div class="container">
 
   <audio id="bg-music" loop>
   <audio id="main-player">
 
-  <!-- 播放器 + 黑胶动效 -->
+  <!-- 播放器 -->
   <div class="card player-area">
     <h2>🎵 云端播放器</h2>
-    <div class="record-box" id="record"></div>
-    <div class="player-title" id="play-title">请搜索音乐播放</div>
-    <div class="time-line">
+    <div class="record" id="record"></div>
+    <div class="playing-title" id="play-title">搜索音乐开始播放</div>
+    <div class="time-row">
       <span id="t-curr">0:00</span>
       <span id="t-total">0:00</span>
     </div>
-    <input type="range" class="progress" id="progress" value="0" min="0" max="100">
+    <input type="range" class="progress-bar" id="progress" value="0" min="0" max="100">
     <div>
-      <button class="player-btn" id="prev">上一首</button>
-      <button class="player-btn" id="play">播放/暂停</button>
-      <button class="player-btn" id="next">下一首</button>
+      <button class="btn" id="prev">上一首</button>
+      <button class="btn" id="play">播放</button>
+      <button class="btn" id="next">下一首</button>
     </div>
   </div>
 
-  <!-- 在线搜索（歌曲隐藏） -->
+  <!-- 音乐搜索 -->
   <div class="card">
-    <h2>🎶 在线音乐搜索</h2>
-    <input type="text" class="search-box" id="search" placeholder="🔍 搜索全网在线音乐，回车播放">
+    <h2>🎶 全网音乐搜索</h2>
+    <input type="text" class="search-box" id="search" placeholder="🔍 输入歌曲名，回车播放全网音乐">
   </div>
 
-  <!-- 文件夹平铺 -->
+  <!-- 文件夹 -->
   <div class="card">
-    <h2>📁 个人文件夹</h2>
-    <div class="folder-block">
+    <h2>📁 个人文件中心</h2>
+    <div class="folder-group">
       <div class="folder-title">工作文件</div>
       <div id="work-list"></div>
     </div>
-    <div class="folder-block">
+    <div class="folder-group">
       <div class="folder-title">私人文件</div>
-      <button class="player-btn" id="show-private">输入密码查看</button>
-      <div id="private-list" style="margin-top:12px;"></div>
+      <button class="btn" id="show-private">解锁查看</button>
+      <div id="private-list" style="margin-top:14px;"></div>
     </div>
   </div>
 
@@ -296,87 +316,89 @@
 <div class="bg-control" id="bg-toggle">⏸ 暂停背景音乐</div>
 
 <!-- 后台入口 -->
-<div id="open-admin">⚙️ 后台管理</div>
+<div id="admin-open">⚙️ 后台管理</div>
 
-<!-- 后台独立页面 -->
+<!-- 后台页面 -->
 <div id="admin-page">
-  <div class="admin-container">
+  <div class="admin-wrap">
     <div class="admin-card">
-      <h2 style="color:#00d8ff;">🔐 管理员后台</h2>
-      <input type="password" id="admin-pwd" placeholder="输入管理员密码" class="search-box" style="margin-top:12px;">
-      <button class="admin-btn" onclick="tryLogin()">登录后台</button>
+      <h2>🔐 管理员登录</h2>
+      <input type="password" id="admin-pwd" class="search-box" placeholder="请输入管理员密码">
+      <button class="admin-btn" onclick="tryLogin()">登录</button>
     </div>
 
     <div id="admin-body" style="display:none;">
       <div class="admin-card">
-        <h3 style="color:#4fc3ff;">🎵 背景音乐设置</h3>
+        <h3>🎵 背景音乐设置</h3>
         <input type="file" id="bg-upload" accept="audio/*" class="search-box">
-        <button class="admin-btn" onclick="setBgMusic()">上传并设置背景音乐</button>
-        <button class="admin-btn admin-close" onclick="delBgMusic()">删除背景音乐</button>
+        <button class="admin-btn" onclick="setBgMusic()">设置背景音乐</button>
+        <button class="admin-btn btn-danger" onclick="delBgMusic()">删除背景音乐</button>
       </div>
 
       <div class="admin-card">
-        <h3 style="color:#4fc3ff;">📁 工作文件夹</h3>
+        <h3>📁 工作文件夹</h3>
         <input type="file" id="work-upload" multiple class="search-box">
         <button class="admin-btn" onclick="uploadWork()">上传文件</button>
-        <div id="admin-work" style="margin-top:14px;"></div>
+        <div id="admin-work" style="margin-top:16px;"></div>
       </div>
 
       <div class="admin-card">
-        <h3 style="color:#4fc3ff;">🔒 私人文件夹</h3>
+        <h3>🔒 私人文件夹</h3>
         <input type="file" id="private-upload" multiple class="search-box">
         <button class="admin-btn" onclick="uploadPrivate()">上传文件</button>
-        <div id="admin-private" style="margin-top:14px;"></div>
+        <div id="admin-private" style="margin-top:16px;"></div>
       </div>
 
-      <button class="admin-btn admin-close" onclick="closeAdmin()">关闭后台</button>
+      <button class="admin-btn" onclick="closeAdmin()">关闭后台</button>
     </div>
   </div>
 </div>
 
 <script>
-// ===================== 粒子背景特效 =====================
+// 粒子背景
 const canvas = document.getElementById('particle-bg');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-let particles = [];
 class Particle {
-  constructor(){
+  constructor() {
     this.x = Math.random() * canvas.width;
     this.y = Math.random() * canvas.height;
     this.size = Math.random() * 2 + 0.5;
     this.speedX = Math.random() * 0.5 - 0.25;
     this.speedY = Math.random() * 0.5 - 0.25;
-    this.color = '#0088ff';
+    this.color = '#0099ff';
   }
-  update(){
+  update() {
     this.x += this.speedX;
     this.y += this.speedY;
-    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
-    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
   }
-  draw(){
+  draw() {
     ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
     ctx.fill();
   }
 }
-function init(){
+
+let particles = [];
+function init() {
   particles = [];
-  for(let i=0;i<80;i++) particles.push(new Particle());
+  for (let i = 0; i < 80; i++) particles.push(new Particle());
 }
-function animate(){
-  ctx.fillStyle = 'rgba(2,8,24,0.2)';
-  ctx.fillRect(0,0,canvas.width,canvas.height);
-  particles.forEach(p=>{p.update();p.draw();});
+
+function animate() {
+  ctx.fillStyle = 'rgba(1,4,13,0.2)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
   requestAnimationFrame(animate);
 }
+
 init();
 animate();
-window.onresize = () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; };
 </script>
 
 <script src="script.js"></script>
