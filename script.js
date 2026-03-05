@@ -14,22 +14,36 @@ const nextBtn = document.getElementById('nextBtn');
 let currentIndex = 0;
 let musicList = [];
 
-// 稳定可播放音乐（带分类）
+// 稳定可播放音乐（20首，带分类）
 musicList = [
-  { name: "周杰伦 - 晴天", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", category: "chinese" },
-  { name: "林俊杰 - 江南", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", category: "chinese" },
-  { name: "张学友 - 吻别", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", category: "classic" },
-  { name: "Beyond - 海阔天空", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", category: "classic" },
-  { name: "卡农 - 钢琴版", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", category: "instrumental" },
-  { name: "天空之城 - 纯音乐", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", category: "instrumental" },
-  { name: "Taylor Swift - Love Story", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3", category: "english" },
-  { name: "Ed Sheeran - Shape of You", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", category: "english" }
+  { name: "SoundHelix - Song 1", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", category: "chinese" },
+  { name: "SoundHelix - Song 2", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", category: "chinese" },
+  { name: "SoundHelix - Song 3", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", category: "chinese" },
+  { name: "SoundHelix - Song 4", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", category: "chinese" },
+  { name: "SoundHelix - Song 5", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", category: "chinese" },
+  { name: "SoundHelix - Song 6", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3", category: "classic" },
+  { name: "SoundHelix - Song 7", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3", category: "classic" },
+  { name: "SoundHelix - Song 8", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3", category: "classic" },
+  { name: "SoundHelix - Song 9", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3", category: "classic" },
+  { name: "SoundHelix - Song 10", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-10.mp3", category: "classic" },
+  { name: "SoundHelix - Song 11", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-11.mp3", category: "instrumental" },
+  { name: "SoundHelix - Song 12", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-12.mp3", category: "instrumental" },
+  { name: "SoundHelix - Song 13", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-13.mp3", category: "instrumental" },
+  { name: "SoundHelix - Song 14", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-14.mp3", category: "instrumental" },
+  { name: "SoundHelix - Song 15", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3", category: "instrumental" },
+  { name: "SoundHelix - Song 16", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-16.mp3", category: "english" },
+  { name: "SoundHelix - Song 17", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3", category: "english" },
+  { name: "SoundHelix - Song 18", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-18.mp3", category: "english" },
+  { name: "SoundHelix - Song 19", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-19.mp3", category: "english" },
+  { name: "SoundHelix - Song 20", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-20.mp3", category: "english" }
 ];
 
-// 稳定可播放视频（带分类）
+// 稳定可播放视频（5个，带分类）
 const VIDEO_LIST = [
-  { name: "Big Buck Bunny", url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4", category: "test" },
-  { name: "Sintel", url: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4", category: "movie" },
+  { name: "Big Buck Bunny (720p)", url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4", category: "test" },
+  { name: "Sintel (720p)", url: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4", category: "test" },
+  { name: "Elephants Dream (720p)", url: "https://test-videos.co.uk/vids/elephants-dream/mp4/h264/720/Elephants_Dream_720_10s_1MB.mp4", category: "test" },
+  { name: "For Bigger Blazes (1080p)", url: "https://test-videos.co.uk/vids/for-bigger-blazes/mp4/h264/1080/For_Bigger_Blazes_1080_10s_1MB.mp4", category: "movie" },
   { name: "Tears of Steel", url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.mp4", category: "movie" }
 ];
 

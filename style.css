@@ -5,8 +5,45 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 body {
-  background: #0f1011;
+  background: #050a1a;
   color: #fff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* 科技感动态背景 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 89, 255, 0.1) 100%),
+    radial-gradient(circle at 20% 50%, rgba(0, 212, 255, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 89, 255, 0.15) 0%, transparent 50%);
+  z-index: -2;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  animation: gridMove 20s linear infinite;
+  z-index: -1;
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(50px, 50px); }
 }
 
 /* 开机动画 */
@@ -16,7 +53,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: #07090a;
+  background: #050a1a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -30,9 +67,10 @@ body {
 }
 .loader-text {
   font-size: 18px;
-  color: rgba(255,255,255,0.6);
+  color: #00d4ff;
   letter-spacing: 1px;
   animation: fadeInOut 1.2s infinite alternate;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
 }
 @keyframes fadeInOut {
   from { opacity: 0.4; }
@@ -43,7 +81,9 @@ body {
 .banner {
   width: 100%;
   height: 220px;
-  background: #0a0c0d;
+  background: rgba(10, 20, 40, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,9 +92,10 @@ body {
 .banner-content h1 {
   font-size: 32px;
   font-weight: 300;
-  color: #fff;
+  color: #00d4ff;
   letter-spacing: 1px;
   margin-bottom: 6px;
+  text-shadow: 0 0 15px rgba(0, 212, 255, 0.6);
 }
 
 .container {
@@ -65,15 +106,18 @@ body {
 
 /* 播放器 */
 .player-box {
-  background: #1a1d1f;
+  background: rgba(26, 35, 59, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 212, 255, 0.2);
   padding: 18px;
   border-radius: 14px;
   margin-bottom: 20px;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
 }
 .player-box h3 {
   margin-bottom: 12px;
   font-weight: 400;
-  color: #eee;
+  color: #00d4ff;
 }
 .player-controls {
   display: flex;
@@ -83,15 +127,17 @@ body {
 .player-controls button {
   flex: 1;
   padding: 10px;
-  border: none;
+  border: 1px solid rgba(0, 212, 255, 0.3);
   border-radius: 8px;
-  background: #24292d;
-  color: #fff;
+  background: rgba(36, 47, 79, 0.6);
+  color: #00d4ff;
   font-size: 14px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 .player-controls button:hover {
-  background: #2d3338;
+  background: rgba(0, 212, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 .player-box audio {
   width: 100%;
@@ -99,7 +145,7 @@ body {
 }
 .now-playing {
   font-size: 13px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(0, 212, 255, 0.7);
   text-align: center;
 }
 
@@ -112,42 +158,53 @@ body {
 }
 .category-tab, .video-tab {
   padding: 6px 12px;
-  border: none;
+  border: 1px solid rgba(0, 212, 255, 0.3);
   border-radius: 6px;
-  background: #24292d;
-  color: #fff;
+  background: rgba(36, 47, 79, 0.6);
+  color: #00d4ff;
   font-size: 13px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 .category-tab.active, .video-tab.active {
-  background: #ffcc00;
-  color: #000;
+  background: rgba(0, 212, 255, 0.3);
+  color: #050a1a;
+  font-weight: 600;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 
 /* 卡片 */
 .card {
-  background: #1a1d1f;
+  background: rgba(26, 35, 59, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 212, 255, 0.2);
   border-radius: 14px;
   padding: 20px;
   margin-bottom: 20px;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.1);
 }
 .card h2 {
   margin-bottom: 16px;
   font-size: 20px;
-  color: #ffcc00;
+  color: #00d4ff;
   font-weight: 500;
+  text-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 
 .list .item {
   padding: 14px;
-  background: #24292d;
+  background: rgba(36, 47, 79, 0.6);
+  border: 1px solid rgba(0, 212, 255, 0.2);
   border-radius: 10px;
   margin-bottom: 10px;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
+  color: #00d4ff;
 }
 .list .item:hover {
-  background: #2d3338;
+  background: rgba(0, 212, 255, 0.2);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
+  transform: translateY(-2px);
 }
 
 /* 后台 */
@@ -155,22 +212,28 @@ body {
   position: fixed;
   right: 20px;
   bottom: 20px;
-  background: #ff4444;
+  background: rgba(255, 68, 68, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 68, 68, 0.4);
   color: #fff;
   padding: 10px 14px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  box-shadow: 0 4px 16px rgba(255, 68, 68, 0.3);
 }
 .admin-panel {
   position: fixed;
   right: 20px;
   bottom: 70px;
-  background: #1a1d1f;
+  background: rgba(26, 35, 59, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 212, 255, 0.3);
   padding: 16px;
   border-radius: 10px;
   width: 320px;
   display: none;
+  box-shadow: 0 8px 32px rgba(0, 212, 255, 0.2);
 }
 .admin-panel input,
 .admin-panel textarea,
@@ -179,12 +242,19 @@ body {
   margin-bottom: 8px;
   padding: 8px;
   border-radius: 6px;
-  border: none;
+  border: 1px solid rgba(0, 212, 255, 0.3);
+  background: rgba(36, 47, 79, 0.6);
+  color: #00d4ff;
 }
 .admin-panel button {
-  background: #ffcc00;
-  color: #000;
+  background: rgba(0, 212, 255, 0.3);
+  color: #050a1a;
   font-weight: bold;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+.admin-panel button:hover {
+  background: rgba(0, 212, 255, 0.5);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.4);
 }
 
