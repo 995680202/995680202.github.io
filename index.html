@@ -1,98 +1,383 @@
 ﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>尐念 · 音乐站</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>尐念 · 云端音乐空间</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family: system-ui, -apple-system, sans-serif; }
+    body {
+      background: #020818;
+      color: #e0efff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* 动态粒子背景 */
+    #particle-bg {
+      position: fixed;
+      top:0; left:0; width:100%; height:100%;
+      z-index: -2;
+      background: #020818;
+    }
+
+    /* 霓虹流光扫过 */
+    .neon-light {
+      position: fixed;
+      top:0; left:-100%; width:100%; height:100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 119, 255, 0.08), transparent);
+      animation: neon 8s infinite linear;
+      z-index: -1;
+    }
+    @keyframes neon {
+      0% { left:-100%; }
+      100% { left:100%; }
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* 科技卡片 */
+    .card {
+      background: rgba(12, 26, 51, 0.7);
+      border: 1px solid rgba(21, 102, 255, 0.3);
+      border-radius: 20px;
+      padding: 28px;
+      margin-bottom: 28px;
+      box-shadow: 0 0 40px rgba(0, 68, 255, 0.15);
+      backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+      background: linear-gradient(90deg,transparent,rgba(0,102,255,0.05),transparent);
+      animation: cardLight 6s infinite linear;
+    }
+    @keyframes cardLight {
+      0%{ left:-100%; } 100%{ left:100%; }
+    }
+
+    .card h2 {
+      color: #29bfff;
+      margin-bottom: 18px;
+      font-size: 20px;
+      text-shadow: 0 0 10px rgba(0,136,255,0.5);
+    }
+
+    /* 搜索框 */
+    .search-box {
+      width: 100%;
+      padding: 15px 20px;
+      border-radius: 14px;
+      border: 1px solid #1a73ff;
+      background: rgba(13,26,53,0.8);
+      color: #fff;
+      font-size: 16px;
+      outline: none;
+      transition: 0.3s;
+    }
+    .search-box:focus {
+      box-shadow: 0 0 20px rgba(0,119,255,0.3);
+      border-color: #3399ff;
+    }
+
+    /* 播放器 */
+    .player-area { text-align: center; }
+    .player-title {
+      color: #7accff;
+      font-size: 18px;
+      margin-bottom: 14px;
+      min-height: 24px;
+    }
+
+    /* 黑胶唱片动画 */
+    .record-box {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 16px;
+      background: #111;
+      border-radius: 50%;
+      position: relative;
+      animation: recordRotate 20s linear infinite paused;
+      box-shadow: 0 0 20px rgba(0,102,255,0.4);
+    }
+    .record-box.play {
+      animation-play-state: running;
+    }
+    .record-box::before {
+      content:''; position:absolute; width:20px; height:20px; background:#000; border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%);
+      border:2px solid #0088ff;
+    }
+    @keyframes recordRotate {
+      100% { transform:rotate(360deg); }
+    }
+
+    .time-line {
+      display: flex;
+      justify-content: space-between;
+      color: #99bccc;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+    .progress {
+      width: 100%;
+      margin: 12px 0;
+      accent-color: #0088ff;
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .player-btn {
+      padding: 11px 22px;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(90deg,#0066cc,#0088ff);
+      color: #fff;
+      margin: 0 8px;
+      cursor: pointer;
+      box-shadow: 0 0 15px rgba(0,102,255,0.3);
+      transition: 0.3s;
+    }
+    .player-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,119,255,0.5);
+    }
+
+    /* 文件夹 */
+    .folder-block { margin-bottom: 24px; }
+    .folder-title {
+      color: #00d8ff;
+      font-weight: bold;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+    .file-item {
+      padding: 12px 16px;
+      background: rgba(14,28,58,0.7);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      border: 1px solid rgba(21,102,255,0.2);
+    }
+    .file-item:hover {
+      background: rgba(21,102,255,0.15);
+      transform: translateX(4px);
+    }
+
+    /* 背景音乐控制 */
+    .bg-control {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      padding: 13px 18px;
+      background: linear-gradient(90deg,#0055cc,#0077ff);
+      color: #fff;
+      border-radius: 14px;
+      cursor: pointer;
+      z-index: 99;
+      box-shadow: 0 0 20px rgba(0,119,255,0.3);
+    }
+
+    /* 后台入口 */
+    #open-admin {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      padding: 14px 22px;
+      background: linear-gradient(90deg,#0066ff,#0099ff);
+      color: #fff;
+      border-radius: 14px;
+      cursor: pointer;
+      z-index: 999;
+      box-shadow: 0 0 25px rgba(0,119,255,0.4);
+      font-weight: bold;
+    }
+
+    /* 后台独立页面 */
+    #admin-page {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #020818;
+      z-index: 9999;
+      display: none;
+      padding: 40px 20px;
+      overflow-y: auto;
+    }
+    .admin-container {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .admin-card {
+      background: rgba(12,26,53,0.8);
+      border: 1px solid rgba(21,102,255,0.3);
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 20px;
+      backdrop-filter: blur(10px);
+    }
+    .admin-btn {
+      padding: 13px;
+      width: 100%;
+      border-radius: 12px;
+      border: none;
+      background: linear-gradient(90deg,#0066ff,#0088ff);
+      color: #fff;
+      margin-top: 12px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+    .admin-close {
+      background: linear-gradient(90deg,#ff3355,#ff5577);
+    }
+  </style>
 </head>
+
 <body>
 
-<canvas id="bg-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;"></canvas>
+<!-- 科技粒子背景 + 霓虹流光 -->
+<canvas id="particle-bg"></canvas>
+<div class="neon-light"></div>
 
-<div class="container" style="max-width:1000px;margin:0 auto;padding:20px;">
+<div class="container">
 
-  <!-- ===================== 播放器 ===================== -->
-  <div class="card" style="padding:20px;border-radius:16px;background:#0a192f;">
-    <h3 style="margin:0 0 10px;color:#fff;">🎵 音乐播放器</h3>
-    <div id="playing-title" style="color:#a0d8ff;margin-bottom:8px;">未播放音乐</div>
-    
-    <div style="display:flex;justify-content:space-between;color:#aaa;font-size:12px;">
-      <span id="time-current">0:00</span>
-      <span id="time-total">0:00</span>
+  <audio id="bg-music" loop>
+  <audio id="main-player">
+
+  <!-- 播放器 + 黑胶动效 -->
+  <div class="card player-area">
+    <h2>🎵 云端播放器</h2>
+    <div class="record-box" id="record"></div>
+    <div class="player-title" id="play-title">请搜索音乐播放</div>
+    <div class="time-line">
+      <span id="t-curr">0:00</span>
+      <span id="t-total">0:00</span>
     </div>
-    <input 
-      id="progress" 
-      type="range" 
-      min="0" max="100" value="0"
-      style="width:100%;margin:6px 0;"
-    >
-    
-    <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;">
-      <button id="prev" style="padding:8px 16px;">上一首</button>
-      <button id="play" style="padding:8px 16px;">播放</button>
-      <button id="next" style="padding:8px 16px;">下一首</button>
-    </div>
-    <audio id="player">
-  </div>
-
-  <!-- ===================== 音乐库 + 在线搜索 ===================== -->
-  <div class="card" style="margin-top:20px;padding:20px;border-radius:16px;background:#0a192f;">
-    <h3 style="margin:0 0 10px;color:#fff;">🎶 音乐库</h3>
-    <input 
-      id="search" 
-      type="text" 
-      placeholder="🔍 搜索在线音乐，回车播放"
-      style="width:100%;padding:10px;border-radius:8px;margin-bottom:10px;"
-    >
-    <div id="song-list"></div>
-  </div>
-
-  <!-- ===================== 文件夹（平铺展示，无下拉） ===================== -->
-  <div class="card" style="margin-top:20px;padding:20px;border-radius:16px;background:#0a192f;">
-    <h3 style="margin:0 0 10px;color:#fff;">📁 文件夹</h3>
-    
-    <div style="margin-bottom:16px;">
-      <div style="color:#00d8ff;font-weight:bold;margin-bottom:6px;">工作文件</div>
-      <div id="work-files"></div>
-    </div>
-    
+    <input type="range" class="progress" id="progress" value="0" min="0" max="100">
     <div>
-      <div style="color:#00d8ff;font-weight:bold;margin-bottom:6px;">私人文件（需密码）</div>
-      <button id="show-private" style="padding:6px 12px;margin-bottom:8px;">查看私人文件</button>
-      <div id="private-files"></div>
+      <button class="player-btn" id="prev">上一首</button>
+      <button class="player-btn" id="play">播放/暂停</button>
+      <button class="player-btn" id="next">下一首</button>
+    </div>
+  </div>
+
+  <!-- 在线搜索（歌曲隐藏） -->
+  <div class="card">
+    <h2>🎶 在线音乐搜索</h2>
+    <input type="text" class="search-box" id="search" placeholder="🔍 搜索全网在线音乐，回车播放">
+  </div>
+
+  <!-- 文件夹平铺 -->
+  <div class="card">
+    <h2>📁 个人文件夹</h2>
+    <div class="folder-block">
+      <div class="folder-title">工作文件</div>
+      <div id="work-list"></div>
+    </div>
+    <div class="folder-block">
+      <div class="folder-title">私人文件</div>
+      <button class="player-btn" id="show-private">输入密码查看</button>
+      <div id="private-list" style="margin-top:12px;"></div>
     </div>
   </div>
 
 </div>
 
-<!-- ===================== 后台入口（固定显示，绝对看得见） ===================== -->
-<div 
-  id="admin-btn"
-  style="position:fixed;right:20px;bottom:20px;padding:14px 20px;background:#0066cc;color:#fff;border-radius:14px;cursor:pointer;z-index:9999;"
->
-  ⚙️ 后台管理
-</div>
+<!-- 背景音乐控制 -->
+<div class="bg-control" id="bg-toggle">⏸ 暂停背景音乐</div>
 
-<!-- ===================== 后台面板 ===================== -->
-<div id="admin-panel" style="display:none;position:fixed;right:20px;bottom:90px;width:340px;background:#001a3a;border:1px solid #00d8ff;border-radius:16px;padding:20px;z-index:9999;color:#fff;">
-  <input id="admin-pwd" type="password" placeholder="输入密码" style="width:100%;padding:8px;margin-bottom:10px;border-radius:8px;">
-  <button onclick="adminLogin()" style="width:100%;padding:8px;background:#00d8ff;color:#000;border-radius:8px;">登录</button>
+<!-- 后台入口 -->
+<div id="open-admin">⚙️ 后台管理</div>
 
-  <div id="admin-body" style="display:none;margin-top:16px;">
-    <div style="font-weight:bold;color:#00d8ff;">工作文件</div>
-    <input type="file" id="work-upload" multiple style="width:100%;margin-top:6px;">
-    <button onclick="uploadWork()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
-    <div id="admin-work-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
+<!-- 后台独立页面 -->
+<div id="admin-page">
+  <div class="admin-container">
+    <div class="admin-card">
+      <h2 style="color:#00d8ff;">🔐 管理员后台</h2>
+      <input type="password" id="admin-pwd" placeholder="输入管理员密码" class="search-box" style="margin-top:12px;">
+      <button class="admin-btn" onclick="tryLogin()">登录后台</button>
+    </div>
 
-    <div style="margin-top:16px;font-weight:bold;color:#00d8ff;">私人文件</div>
-    <input type="file" id="private-upload" multiple style="width:100%;margin-top:6px;">
-    <button onclick="uploadPrivate()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
-    <div id="admin-private-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
+    <div id="admin-body" style="display:none;">
+      <div class="admin-card">
+        <h3 style="color:#4fc3ff;">🎵 背景音乐设置</h3>
+        <input type="file" id="bg-upload" accept="audio/*" class="search-box">
+        <button class="admin-btn" onclick="setBgMusic()">上传并设置背景音乐</button>
+        <button class="admin-btn admin-close" onclick="delBgMusic()">删除背景音乐</button>
+      </div>
 
-    <button onclick="closeAdmin()" style="width:100%;padding:8px;margin-top:16px;background:#555;">关闭</button>
+      <div class="admin-card">
+        <h3 style="color:#4fc3ff;">📁 工作文件夹</h3>
+        <input type="file" id="work-upload" multiple class="search-box">
+        <button class="admin-btn" onclick="uploadWork()">上传文件</button>
+        <div id="admin-work" style="margin-top:14px;"></div>
+      </div>
+
+      <div class="admin-card">
+        <h3 style="color:#4fc3ff;">🔒 私人文件夹</h3>
+        <input type="file" id="private-upload" multiple class="search-box">
+        <button class="admin-btn" onclick="uploadPrivate()">上传文件</button>
+        <div id="admin-private" style="margin-top:14px;"></div>
+      </div>
+
+      <button class="admin-btn admin-close" onclick="closeAdmin()">关闭后台</button>
+    </div>
   </div>
 </div>
+
+<script>
+// ===================== 粒子背景特效 =====================
+const canvas = document.getElementById('particle-bg');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+class Particle {
+  constructor(){
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.speedY = Math.random() * 0.5 - 0.25;
+    this.color = '#0088ff';
+  }
+  update(){
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if(this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if(this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+  draw(){
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+function init(){
+  particles = [];
+  for(let i=0;i<80;i++) particles.push(new Particle());
+}
+function animate(){
+  ctx.fillStyle = 'rgba(2,8,24,0.2)';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{p.update();p.draw();});
+  requestAnimationFrame(animate);
+}
+init();
+animate();
+window.onresize = () => { canvas.width=window.innerWidth; canvas.height=window.innerHeight; };
+</script>
 
 <script src="script.js"></script>
 </body>
