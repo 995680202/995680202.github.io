@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>音乐空间 | 995680202.xyz</title>
     <style>
-        /* 整合自您提供的 style.css 并进行适配修正 */
         * {
             margin: 0;
             padding: 0;
@@ -20,7 +19,6 @@
             padding: 20px;
             padding-bottom: 100px;
         }
-        /* 头部科技光效 */
         .header {
             width: 100%;
             height: 200px;
@@ -79,7 +77,6 @@
             background: linear-gradient(90deg, transparent, #00d8ff, transparent);
             margin: 12px auto 0;
         }
-        /* 布局与卡片 */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -121,7 +118,6 @@
         .player-card { grid-column: 1 / -1; border-color: #00d8ff; }
         .card h2 { font-size: 22px; color: #00d8ff; margin-bottom: 18px; text-shadow: 0 0 12px #00aaff;}
         .card h3 { font-size: 18px; color: #00d8ff; margin: 15px 0 10px; }
-        /* 通用表单控件 */
         input, button, select, textarea {
             width: 100%;
             padding: 12px 15px;
@@ -146,7 +142,6 @@
         }
         button:hover { opacity: 0.9; box-shadow: 0 5px 15px rgba(0, 120, 255, 0.4); }
         button.secondary { background: rgba(0, 60, 140, 0.4); border: 1px solid #00d8ff; color: #00d8ff; }
-        /* 播放器特定样式 */
         .player-controls { display: flex; gap: 12px; margin: 20px 0; }
         .player-controls button { flex: 1; }
         .now-playing { text-align: center; color: #80d9ff; font-size: 16px; margin: 15px 0; min-height: 24px; font-weight: 300;}
@@ -166,7 +161,6 @@
             display: flex; justify-content: space-between;
             font-size: 13px; color: #80d9ff; margin-top: 5px;
         }
-        /* 列表样式 */
         .list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px;}
         .item {
             padding: 15px;
@@ -188,7 +182,6 @@
         }
         .item .actions { display: flex; gap: 8px; }
         .item .actions button { width: auto; padding: 6px 12px; font-size: 13px; margin:0;}
-        /* 后台与浮动按钮 */
         .fixed-btn {
             position: fixed; bottom: 24px; padding: 12px 24px;
             background: rgba(0, 80, 180, 0.9); border: 1px solid #00d8ff;
@@ -200,15 +193,32 @@
         #open-admin { right: 24px; }
         .admin-panel {
             display: none;
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 5, 15, 0.85); /* 加深背景，方便点击关闭 */
+            z-index: 1000;
+            display: flex; /* 使用flex让内容居中 */
+            justify-content: center;
+            align-items: center;
+        }
+        .admin-panel-content {
             background: rgba(0, 15, 40, 0.97); backdrop-filter: blur(20px);
-            border: 1px solid #00d8ff; border-radius: 20px; padding: 25px; z-index: 1000;
+            border: 1px solid #00d8ff; border-radius: 20px; padding: 25px; 
+            width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto;
             box-shadow: 0 0 50px rgba(0, 180, 255, 0.5);
         }
         .admin-section { margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid rgba(0, 150, 255, 0.3);}
         .admin-section:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0;}
-        .admin-panel h2 { text-align: center; color: #00d8ff; margin-bottom: 25px;}
+        .admin-panel-content h2 { text-align: center; color: #00d8ff; margin-bottom: 25px;}
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 8px;
+        }
+        .badge.audio { background: #0066cc; color: white; }
+        .badge.video { background: #cc0066; color: white; }
     </style>
 </head>
 <body>
@@ -218,7 +228,7 @@
         <div class="header-light"></div>
         <div class="header-content">
             <h1 class="header-title">音乐空间</h1>
-            <p class="header-subtitle">在线音乐播放与管理中心</p>
+            <p class="header-subtitle">在线音乐与视频播放中心</p>
             <div class="header-divider"></div>
         </div>
     </div>
@@ -246,7 +256,7 @@
         <!-- 搜索卡 -->
         <div class="card">
             <h2>🔍 搜索全网音乐</h2>
-            <p style="color:#80d9ff; font-size:14px; margin-bottom:15px;">输入歌名或歌手，按回车搜索（使用公开API）</p>
+            <p style="color:#80d9ff; font-size:14px; margin-bottom:15px;">输入歌名或歌手，按回车搜索（推荐热门歌曲）</p>
             <input type="text" id="search" placeholder="例如: 周杰伦 晴天">
             <div id="search-result" class="list"></div>
         </div>
@@ -254,7 +264,7 @@
         <!-- 工作文件夹卡 -->
         <div class="card">
             <h2>📁 工作文件夹</h2>
-            <p style="color:#80d9ff; font-size:14px; margin-bottom:15px;">此处文件对所有人可见。</p>
+            <p style="color:#80d9ff; font-size:14px; margin-bottom:15px;">支持上传音频和视频文件。点击播放。</p>
             <div id="work-list" class="list"></div>
         </div>
 
@@ -270,7 +280,7 @@
         </div>
     </div>
 
-    <!-- 音频元素 (已修正) -->
+    <!-- 音频元素 -->
     <audio id="main-player" preload="metadata"></audio>
     <audio id="bg-music" loop preload="metadata"></audio>
 
@@ -280,41 +290,47 @@
 
     <!-- 后台管理面板 -->
     <div id="admin-page" class="admin-panel">
-        <h2>⚙️ 后台管理系统</h2>
-        <div id="admin-login">
-            <div class="admin-section">
-                <p style="margin-bottom:15px; color:#a0e0ff; text-align:center;">请输入管理密码</p>
-                <input type="password" id="admin-pwd" placeholder="管理密码 (默认: qingnanliu)">
-                <button id="login-btn">登录</button>
-            </div>
-        </div>
-        <div id="admin-body" style="display:none;">
-            <div class="admin-section">
-                <h3>🎶 背景音乐设置</h3>
-                <input type="file" id="bg-upload" accept="audio/*">
-                <div style="display:flex; gap:10px; margin-top:10px;">
-                    <button id="set-bg-btn" style="flex:1;">上传并设置</button>
-                    <button id="del-bg-btn" style="flex:1;" class="secondary">删除背景音乐</button>
+        <div class="admin-panel-content" id="admin-panel-content">
+            <h2>⚙️ 后台管理系统</h2>
+            <div id="admin-login">
+                <div class="admin-section">
+                    <!-- 已移除默认密码提示 -->
+                    <p style="margin-bottom:15px; color:#a0e0ff; text-align:center;">请输入管理密码</p>
+                    <input type="password" id="admin-pwd" placeholder="请输入管理密码">
+                    <button id="login-btn">登录</button>
                 </div>
             </div>
-            <div class="admin-section">
-                <h3>📂 工作文件管理</h3>
-                <input type="file" id="work-upload" multiple accept="audio/*">
-                <button id="up-work-btn" style="margin-top:10px;">上传到工作文件夹</button>
-                <div id="admin-work-list" class="list" style="margin-top:15px;"></div>
+            <div id="admin-body" style="display:none;">
+                <div class="admin-section">
+                    <h3>🎶 背景音乐设置</h3>
+                    <p style="color:#a0e0ff; font-size:13px; margin-bottom:10px;">当前已预设一首欢快的背景音乐，您也可以上传自己的。</p>
+                    <input type="file" id="bg-upload" accept="audio/*">
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <button id="set-bg-btn" style="flex:1;">上传并设置</button>
+                        <button id="del-bg-btn" style="flex:1;" class="secondary">删除背景音乐</button>
+                    </div>
+                </div>
+                <div class="admin-section">
+                    <h3>📂 工作文件管理</h3>
+                    <p style="color:#a0e0ff; font-size:13px; margin-bottom:10px;">支持上传 .mp3, .wav, .ogg 等音频文件，以及 .mp4, .webm 等视频文件。</p>
+                    <input type="file" id="work-upload" multiple accept="audio/*,video/*">
+                    <button id="up-work-btn" style="margin-top:10px;">上传到工作文件夹</button>
+                    <div id="admin-work-list" class="list" style="margin-top:15px;"></div>
+                </div>
+                <div class="admin-section">
+                    <h3>🔒 私人文件管理</h3>
+                    <p style="color:#a0e0ff; font-size:13px; margin-bottom:10px;">支持上传音频和视频文件。</p>
+                    <input type="file" id="private-upload" multiple accept="audio/*,video/*">
+                    <button id="up-private-btn" style="margin-top:10px;">上传到私人文件夹</button>
+                    <div id="admin-private-list" class="list" style="margin-top:15px;"></div>
+                </div>
+                <button id="close-admin-btn" class="secondary">关闭后台</button>
             </div>
-            <div class="admin-section">
-                <h3>🔒 私人文件管理</h3>
-                <input type="file" id="private-upload" multiple accept="audio/*">
-                <button id="up-private-btn" style="margin-top:10px;">上传到私人文件夹</button>
-                <div id="admin-private-list" class="list" style="margin-top:15px;"></div>
-            </div>
-            <button id="close-admin-btn" class="secondary">关闭后台</button>
         </div>
     </div>
 
     <script>
-        // ===================== 核心应用逻辑 (整合自 script.js 并修复) =====================
+        // ===================== 核心应用逻辑 (已根据您的要求优化) =====================
         (function() {
             'use strict';
 
@@ -322,7 +338,11 @@
             const CONFIG = {
                 ADMIN_PWD: 'qingnanliu',
                 PRIVATE_PWD: 'qingnanliu',
-                SEARCH_API: 'https://api.apiopen.top/api/songList?name='
+                // 预设的欢快背景音乐 (Bensound - Happy Rock, CC-BY)
+                DEFAULT_BG_MUSIC: 'https://assets.bensound.com/bensound-happyrock.mp3',
+                // 使用新的音乐搜索API (网易云，通过CORS代理)
+                SEARCH_API: 'https://api.vvhan.com/api/cover',
+                SEARCH_PARAMS: 'type=netease&sort=hot'
             };
 
             // 状态与数据
@@ -337,7 +357,6 @@
 
             // DOM 元素引用
             const el = {
-                // 播放器相关
                 player: document.getElementById('main-player'),
                 bgMusic: document.getElementById('bg-music'),
                 title: document.getElementById('title'),
@@ -347,23 +366,20 @@
                 playBtn: document.getElementById('play'),
                 prevBtn: document.getElementById('prev'),
                 nextBtn: document.getElementById('next'),
-                // 搜索相关
                 search: document.getElementById('search'),
                 searchResult: document.getElementById('search-result'),
-                // 文件列表相关
                 workList: document.getElementById('work-list'),
                 privateList: document.getElementById('private-list'),
                 privatePwdInput: document.getElementById('private-pwd-input'),
                 showPrivateBtn: document.getElementById('show-private'),
-                // 后台相关
                 adminPanel: document.getElementById('admin-page'),
+                adminPanelContent: document.getElementById('admin-panel-content'),
                 adminBody: document.getElementById('admin-body'),
                 adminPwdInput: document.getElementById('admin-pwd'),
                 loginBtn: document.getElementById('login-btn'),
                 closeAdminBtn: document.getElementById('close-admin-btn'),
                 bgToggle: document.getElementById('bg-toggle'),
                 openAdminBtn: document.getElementById('open-admin'),
-                // 后台功能按钮
                 bgUpload: document.getElementById('bg-upload'),
                 setBgBtn: document.getElementById('set-bg-btn'),
                 delBgBtn: document.getElementById('del-bg-btn'),
@@ -386,7 +402,7 @@
                     return `${m}:${s}`;
                 },
                 showAlert: (msg, isError = false) => {
-                    alert(msg);
+                    alert(isError ? '❌ ' + msg : '✅ ' + msg);
                 },
                 debounce: (func, wait) => {
                     let timeout;
@@ -394,26 +410,36 @@
                         clearTimeout(timeout);
                         timeout = setTimeout(() => func(...args), wait);
                     };
+                },
+                isVideoFile: (filename) => {
+                    const videoExts = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv'];
+                    return videoExts.some(ext => filename.toLowerCase().endsWith(ext));
                 }
             };
 
             // 播放控制模块
             const player = {
-                play(url, title) {
+                play(url, title, isVideo = false) {
                     if (!url) return;
-                    el.player.src = url;
-                    el.player.play().then(() => {
-                        el.title.textContent = `正在播放: ${title}`;
-                        el.playBtn.textContent = '⏸ 暂停';
-                    }).catch(e => {
-                        console.error('播放失败:', e);
-                        utils.showAlert('播放失败，请检查文件格式或网络', true);
-                    });
+                    if (isVideo) {
+                        utils.showAlert(`正在尝试播放视频: ${title}。视频将在新标签页或默认播放器中打开。`);
+                        window.open(url, '_blank');
+                    } else {
+                        el.player.src = url;
+                        el.player.play().then(() => {
+                            el.title.textContent = `正在播放: ${title}`;
+                            el.playBtn.textContent = '⏸ 暂停';
+                        }).catch(e => {
+                            console.error('播放失败:', e);
+                            utils.showAlert('播放失败，请检查文件格式或网络', true);
+                        });
+                    }
                 },
                 togglePlay() {
                     if (el.player.paused) {
                         if (!el.player.src && state.workFiles.length > 0) {
-                            this.play(state.workFiles[0].url, state.workFiles[0].name);
+                            const firstFile = state.workFiles[0];
+                            this.play(firstFile.url, firstFile.name, firstFile.type === 'video');
                         } else {
                             el.player.play();
                         }
@@ -428,24 +454,24 @@
                     if (list.length === 0) return;
                     state.currentIndex = (state.currentIndex - 1 + list.length) % list.length;
                     const track = list[state.currentIndex];
-                    this.play(track.url, track.name);
+                    this.play(track.url, track.name, track.type === 'video');
                 },
                 playNext() {
                     const list = state.currentList === 'work' ? state.workFiles : state.privateFiles;
                     if (list.length === 0) return;
                     state.currentIndex = (state.currentIndex + 1) % list.length;
                     const track = list[state.currentIndex];
-                    this.play(track.url, track.name);
+                    this.play(track.url, track.name, track.type === 'video');
                 },
                 playFromList(listType, index) {
                     state.currentList = listType;
                     state.currentIndex = index;
                     const list = listType === 'work' ? state.workFiles : state.privateFiles;
-                    const track = list[index];
-                    this.play(track.url, track.name);
+                    const file = list[index];
+                    this.play(file.url, file.name, file.type === 'video');
                 },
                 playNetworkSong(url, fullTitle) {
-                    this.play(url, fullTitle);
+                    this.play(url, fullTitle, false);
                 },
                 updateProgress() {
                     if (el.player.duration) {
@@ -468,15 +494,28 @@
                     const container = document.getElementById(containerId);
                     if (!container) return;
                     const files = list === 'work' ? state.workFiles : state.privateFiles;
-                    container.innerHTML = files.map((file, idx) => `
-                        <div class="item">
-                            <span>${file.name}</span>
-                            <div class="actions">
-                                <button onclick="window.app.player.playFromList('${list}', ${idx})">播放</button>
-                                ${isAdmin ? `<button onclick="window.app.admin.deleteFile('${list}', ${idx})" class="secondary">删除</button>` : ''}
+                    container.innerHTML = files.map((file, idx) => {
+                        const isVideo = file.type === 'video' || utils.isVideoFile(file.name);
+                        const badge = isVideo ? '<span class="badge video">VIDEO</span>' : '<span class="badge audio">AUDIO</span>';
+                        let actionButtons = `<button onclick="window.app.player.playFromList('${list}', ${idx})">播放</button>`;
+                        
+                        if (isVideo) {
+                            actionButtons += `<button onclick="window.app.utils.downloadFile('${file.url}', '${file.name}')" class="secondary">下载</button>`;
+                        }
+                        
+                        if (isAdmin) {
+                            actionButtons += `<button onclick="window.app.admin.deleteFile('${list}', ${idx})" class="secondary">删除</button>`;
+                        }
+                        
+                        return `
+                            <div class="item">
+                                <span>${file.name} ${badge}</span>
+                                <div class="actions">
+                                    ${actionButtons}
+                                </div>
                             </div>
-                        </div>
-                    `).join('');
+                        `;
+                    }).join('');
                 },
                 renderAll() {
                     this.renderList('work', 'work-list');
@@ -490,7 +529,7 @@
                 }
             };
 
-            // 网络搜索模块
+            // 网络搜索模块 (已修复，使用新API和备用方案)
             const searcher = {
                 async search(keyword) {
                     if (!keyword.trim()) {
@@ -498,23 +537,60 @@
                         return;
                     }
                     el.searchResult.innerHTML = '<div class="item">🔍 搜索中...</div>';
+                    
                     try {
-                        const res = await fetch(CONFIG.SEARCH_API + encodeURIComponent(keyword));
-                        const data = await res.json();
-                        if (data.code === 200 && data.result && data.result.length > 0) {
-                            el.searchResult.innerHTML = data.result.slice(0, 8).map(song => `
+                        // 尝试主API
+                        const apiUrl = `${CONFIG.SEARCH_API}?${CONFIG.SEARCH_PARAMS}&keyword=${encodeURIComponent(keyword)}`;
+                        const response = await fetch(apiUrl);
+                        
+                        if (!response.ok) throw new Error(`API请求失败: ${response.status}`);
+                        
+                        const data = await response.json();
+                        
+                        if (data.success && data.data && data.data.length > 0) {
+                            el.searchResult.innerHTML = data.data.slice(0, 8).map(song => `
                                 <div class="item">
-                                    <span>🎵 ${song.title} - ${song.author}</span>
-                                    <button onclick="window.app.player.playNetworkSong('${song.url}', '${song.title} - ${song.author}')">播放</button>
+                                    <span>🎵 ${song.title || song.name} - ${song.author || song.artist}</span>
+                                    <button onclick="window.app.player.playNetworkSong('${song.url || song.link}', '${song.title || song.name} - ${song.author || song.artist}')">播放</button>
                                 </div>
                             `).join('');
                         } else {
-                            el.searchResult.innerHTML = '<div class="item">❌ 未找到相关歌曲</div>';
+                            this.showFallbackResults(keyword);
                         }
                     } catch (error) {
-                        console.error('搜索失败:', error);
-                        el.searchResult.innerHTML = '<div class="item">❌ 网络请求失败，请检查网络连接</div>';
+                        console.error('搜索失败，使用备用方案:', error);
+                        this.showFallbackResults(keyword);
                     }
+                },
+                
+                showFallbackResults(keyword) {
+                    // 备用方案：显示预设的热门歌曲
+                    const fallbackSongs = [
+                        { name: '晴天', artist: '周杰伦', url: 'https://music.163.com/song/media/outer/url?id=186436.mp3' },
+                        { name: '起风了', artist: '买辣椒也用券', url: 'https://music.163.com/song/media/outer/url?id=1330348068.mp3' },
+                        { name: 'Faded', artist: 'Alan Walker', url: 'https://music.163.com/song/media/outer/url?id=36990266.mp3' },
+                        { name: '光年之外', artist: 'G.E.M.邓紫棋', url: 'https://music.163.com/song/media/outer/url?id=449818741.mp3' },
+                        { name: 'Lemon', artist: '米津玄師', url: 'https://music.163.com/song/media/outer/url?id=536622304.mp3' }
+                    ];
+                    
+                    const filtered = fallbackSongs.filter(song => 
+                        song.name.toLowerCase().includes(keyword.toLowerCase()) || 
+                        song.artist.toLowerCase().includes(keyword.toLowerCase())
+                    );
+                    
+                    const results = filtered.length > 0 ? filtered : fallbackSongs.slice(0, 5);
+                    
+                    el.searchResult.innerHTML = `
+                        <div class="item" style="background:rgba(255,100,100,0.1);border-color:#ff6666;">
+                            <span>⚠️ 搜索API暂时不可用，为您推荐以下热门歌曲：</span>
+                        </div>
+                        ${results.map(song => `
+                            <div class="item">
+                                <span>🎵 ${song.name} - ${song.artist}</span>
+                                <button onclick="window.app.player.playNetworkSong('${song.url}', '${song.name} - ${song.artist}')">播放</button>
+                            </div>
+                        `).join('')}
+                    `;
                 }
             };
 
@@ -530,12 +606,14 @@
                         utils.showAlert('密码错误', true);
                     }
                 },
+                
                 closeAdmin() {
                     el.adminPanel.style.display = 'none';
                     el.adminBody.style.display = 'none';
                     document.getElementById('admin-login').style.display = 'block';
                     el.adminPwdInput.value = '';
                 },
+                
                 setBgMusic() {
                     if (!el.bgUpload.files.length) {
                         utils.showAlert('请先选择音乐文件', true);
@@ -544,40 +622,53 @@
                     const file = el.bgUpload.files[0];
                     const oldUrl = localStorage.getItem('bgMusicUrl');
                     if (oldUrl && oldUrl.startsWith('blob:')) URL.revokeObjectURL(oldUrl);
+                    
                     const url = URL.createObjectURL(file);
                     localStorage.setItem('bgMusicUrl', url);
                     el.bgMusic.src = url;
                     el.bgUpload.value = '';
                     utils.showAlert('背景音乐设置成功！');
                 },
+                
                 delBgMusic() {
                     const oldUrl = localStorage.getItem('bgMusicUrl');
                     if (oldUrl && oldUrl.startsWith('blob:')) URL.revokeObjectURL(oldUrl);
                     localStorage.removeItem('bgMusicUrl');
-                    el.bgMusic.src = '';
+                    el.bgMusic.src = CONFIG.DEFAULT_BG_MUSIC; // 恢复到默认
                     el.bgMusic.pause();
                     el.bgToggle.textContent = '🎵 背景音乐 (关)';
-                    utils.showAlert('背景音乐已删除');
+                    utils.showAlert('已删除自定义背景音乐，恢复为默认音乐');
                 },
+                
                 uploadFiles(listType, inputElement) {
                     const files = Array.from(inputElement.files);
                     if (files.length === 0) {
                         utils.showAlert('请先选择文件', true);
                         return;
                     }
+                    
                     const targetList = listType === 'work' ? state.workFiles : state.privateFiles;
+                    
                     files.forEach(file => {
-                        if (file.type.startsWith('audio/')) {
-                            targetList.push({ name: file.name, url: URL.createObjectURL(file) });
+                        if (file.type.startsWith('audio/') || file.type.startsWith('video/')) {
+                            const fileType = file.type.startsWith('video/') ? 'video' : 'audio';
+                            targetList.push({ 
+                                name: file.name, 
+                                url: URL.createObjectURL(file),
+                                type: fileType
+                            });
                         }
                     });
+                    
                     utils.set(listType + 'Files', targetList);
                     fileManager.renderAll();
                     inputElement.value = '';
                     utils.showAlert(`成功上传文件到${listType === 'work' ? '工作' : '私人'}文件夹`);
                 },
+                
                 uploadWork() { this.uploadFiles('work', el.workUpload); },
                 uploadPrivate() { this.uploadFiles('private', el.privateUpload); },
+                
                 deleteFile(listType, index) {
                     const targetList = listType === 'work' ? state.workFiles : state.privateFiles;
                     if (index >= 0 && index < targetList.length) {
@@ -590,13 +681,29 @@
                 }
             };
 
+            // 工具函数扩展
+            const extendedUtils = {
+                ...utils,
+                downloadFile: (url, filename) => {
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                }
+            };
+
             // 事件绑定与初始化
             function init() {
-                // 1. 加载背景音乐
-                const bgUrl = localStorage.getItem('bgMusicUrl');
-                if (bgUrl) {
-                    el.bgMusic.src = bgUrl;
+                // 1. 设置背景音乐 (使用预设的欢快音乐)
+                let bgUrl = localStorage.getItem('bgMusicUrl');
+                if (!bgUrl) {
+                    bgUrl = CONFIG.DEFAULT_BG_MUSIC;
+                    localStorage.setItem('bgMusicUrl', bgUrl);
                 }
+                el.bgMusic.src = bgUrl;
+                el.bgMusic.volume = 0.3;
 
                 // 2. 绑定播放器事件
                 el.player.addEventListener('timeupdate', () => player.updateProgress());
@@ -607,7 +714,7 @@
                 el.nextBtn.addEventListener('click', () => player.playNext());
 
                 // 3. 绑定搜索事件 (防抖)
-                el.search.addEventListener('keyup', utils.debounce((e) => {
+                el.search.addEventListener('keyup', extendedUtils.debounce((e) => {
                     if (e.key === 'Enter') searcher.search(el.search.value);
                 }, 500));
 
@@ -625,12 +732,12 @@
                 // 5. 绑定背景音乐控制
                 el.bgToggle.addEventListener('click', () => {
                     if (el.bgMusic.paused) {
-                        if (!el.bgMusic.src) {
-                            utils.showAlert('请先在后台设置背景音乐', true);
-                            return;
-                        }
-                        el.bgMusic.play();
-                        el.bgToggle.textContent = '⏸ 背景音乐 (开)';
+                        el.bgMusic.play().then(() => {
+                            el.bgToggle.textContent = '⏸ 背景音乐 (开)';
+                        }).catch(e => {
+                            console.error('背景音乐播放失败:', e);
+                            utils.showAlert('背景音乐播放失败，请检查文件', true);
+                        });
                     } else {
                         el.bgMusic.pause();
                         el.bgToggle.textContent = '🎵 背景音乐 (关)';
@@ -638,12 +745,24 @@
                 });
 
                 // 6. 绑定后台面板开关
-                el.openAdminBtn.addEventListener('click', () => { el.adminPanel.style.display = 'block'; });
+                el.openAdminBtn.addEventListener('click', () => { 
+                    el.adminPanel.style.display = 'flex'; // 使用flex显示
+                });
+                
+                // 点击空白处(背景)关闭面板，点击内容区域不关闭
+                el.adminPanel.addEventListener('click', (e) => { 
+                    if (e.target === el.adminPanel) {
+                        admin.closeAdmin();
+                    }
+                });
+                
                 el.closeAdminBtn.addEventListener('click', () => admin.closeAdmin());
-                el.adminPanel.addEventListener('click', (e) => { if (e.target === el.adminPanel) admin.closeAdmin(); });
 
                 // 7. 绑定后台功能按钮
                 el.loginBtn.addEventListener('click', () => admin.tryLogin());
+                el.adminPwdInput.addEventListener('keyup', (e) => {
+                    if (e.key === 'Enter') admin.tryLogin();
+                });
                 el.setBgBtn.addEventListener('click', () => admin.setBgMusic());
                 el.delBgBtn.addEventListener('click', () => admin.delBgMusic());
                 el.upWorkBtn.addEventListener('click', () => admin.uploadWork());
@@ -664,8 +783,8 @@
                 console.log('音乐空间初始化完成！');
             }
 
-            // 暴露API给全局，供onclick调用
-            window.app = { player, admin };
+            // 暴露API给全局
+            window.app = { player, admin, utils: extendedUtils };
 
             // 启动应用
             if (document.readyState === 'loading') {
