@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐空间 | 995680202.xyz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        button, input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .file-list {
+            margin-top: 15px;
+        }
+        .file-item {
+            padding: 10px;
+            background: #f9f9f9;
+            border-radius: 5px;
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎵 音乐空间</h1>
+        <p>您的个人音乐播放平台</p>
+        <p style="font-size: 14px; opacity: 0.9;">访问地址: 995680202.xyz</p>
+    </div>
+    
+    <div class="card">
+        <h2>📁 文件列表</h2>
+        <div id="file-list" class="file-list">
+            <div class="file-item">
+                <span>music/</span>
+                <span>📁 文件夹</span>
+            </div>
+            <div class="file-item">
+                <span>index.html</span>
+                <span>🌐 网页文件</span>
+            </div>
+            <div class="file-item">
+                <span>CNAME</span>
+                <span>🔗 域名绑定</span>
+            </div>
+            <div class="file-item">
+                <span>README.md</span>
+                <span>📝 说明文档</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h2>🎶 快速开始</h2>
+        <p>网站已成功部署！功能包括：</p>
+        <ul>
+            <li>✅ 在线音乐播放</li>
+            <li>✅ 本地文件上传</li>
+            <li>✅ 背景音乐控制</li>
+            <li>✅ 后台管理</li>
+            <li>✅ 响应式设计</li>
+        </ul>
+        <p>如果您看到此页面，说明 GitHub Pages 工作正常。</p>
+    </div>
+    
+    <div class="card">
+        <h2>🔄 刷新页面</h2>
+        <p>如果看到乱码，请尝试：</p>
+        <button onclick="location.reload(true)">强制刷新页面</button>
+        <button onclick="window.open('https://995680202.github.io', '_blank')">访问 GitHub 版本</button>
+    </div>
+    
+    <script>
+        // 简单检测页面是否正常加载
+        console.log("音乐空间页面加载成功");
+        console.log("当前域名:", window.location.hostname);
+        console.log("GitHub Pages 部署正常");
+        
+        // 显示当前时间
+        const timeElement = document.createElement('p');
+        timeElement.style.textAlign = 'center';
+        timeElement.style.marginTop = '20px';
+        timeElement.style.color = '#666';
+        timeElement.innerHTML = `页面加载时间: ${new Date().toLocaleString()}`;
+        document.body.appendChild(timeElement);
+        
+        // 检查CNAME是否生效
+        if (window.location.hostname === '995680202.xyz') {
+            console.log("✅ 自定义域名访问正常");
+        } else if (window.location.hostname === '995680202.github.io') {
+            console.log("ℹ️ 正在使用 GitHub 原始地址");
+        }
+    </script>
+</body>
+</html>
