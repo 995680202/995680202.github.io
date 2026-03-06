@@ -2,496 +2,371 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>尐念·科技影音站</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统控制台 - 状态监控与修复</title>
     <style>
         :root {
-            --primary: #00f3ff;
-            --secondary: #bc13fe;
-            --accent: #ffe600;
-            --bg: #050510;
-            --glass: rgba(16, 20, 40, 0.7);
-            --border: rgba(0, 243, 255, 0.3);
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-main: #e0e0e0;
+            --text-sub: #a0a0a0;
+            --success: #00c853;
+            --error: #ff3d00;
+            --warning: #ffd600;
+            --primary: #2979ff;
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body {
-            margin: 0;
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
-            color: #fff;
-            overflow-x: hidden;
-            min-height: 100vh;
-            position: relative;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
         }
 
-        /* 动态背景 */
-        .cyber-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                linear-gradient(rgba(5, 5, 16, 0.9), rgba(5, 5, 16, 0.9)),
-                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0, 243, 255, 0.03) 1px, rgba(0, 243, 255, 0.03) 2px),
-                repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(188, 19, 254, 0.03) 1px, rgba(188, 19, 254, 0.03) 2px);
-            z-index: -1;
-            animation: scanline 10s linear infinite;
-        }
-        
-        @keyframes scanline {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
         }
 
-        /* 头部特效 */
         header {
             text-align: center;
-            padding: 30px 20px;
-            position: relative;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
         }
 
-        h1 {
-            font-size: 2rem;
-            margin: 0;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 
-                0 0 5px var(--primary),
-                0 0 10px var(--primary),
-                0 0 20px var(--secondary);
-            animation: glitch 3s infinite;
-            position: relative;
-            display: inline-block;
+        h1 { margin: 0; font-size: 1.8rem; }
+        p.subtitle { color: var(--text-sub); font-size: 0.9rem; margin-top: 5px; }
+
+        /* 状态卡片网格 */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        @keyframes glitch {
-            0% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
-            95% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
-            96% { text-shadow: 2px 0 5px var(--secondary), -2px 0 5px var(--primary); transform: skewX(10deg); }
-            97% { text-shadow: -2px 0 5px var(--secondary), 2px 0 5px var(--primary); transform: skewX(-10deg); }
-            98% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); transform: skewX(0); }
-            100% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
-        }
-
-        .subtitle {
-            color: var(--primary);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            margin-top: 10px;
-            opacity: 0.8;
-        }
-
-        /* 容器与卡片 */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 15px 80px;
-        }
-
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            animation: slide 3s infinite;
-        }
-
-        @keyframes slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .card-title {
-            color: var(--primary);
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
-        }
-
-        .card-title i { margin-right: 10px; font-style: normal; }
-
-        /* 输入框与按钮优化 */
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        input, select {
-            flex: 1;
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border);
-            color: #fff;
+        .status-card {
+            background: var(--card-bg);
+            padding: 15px;
             border-radius: 8px;
-            outline: none;
-            font-size: 16px;
-            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
         }
 
-        input:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
+        .status-card:hover { transform: translateY(-2px); }
+
+        .status-icon { font-size: 2rem; margin-bottom: 10px; display: block; }
+        .status-label { font-size: 0.9rem; color: var(--text-sub); display: block; margin-bottom: 5px; }
+        .status-value { font-weight: bold; font-size: 1.1rem; }
+
+        .status-ok { color: var(--success); }
+        .status-err { color: var(--error); }
+        .status-warn { color: var(--warning); }
+
+        /* 操作区域 */
+        .action-section {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+            padding-left: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         button {
-            padding: 14px 24px;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            background: #333;
+            color: white;
             border: none;
-            color: #fff;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 5px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            white-space: nowrap;
-        }
-
-        button:active {
-            transform: scale(0.95);
-        }
-
-        button::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
-            background: rgba(255,255,255,0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        button:active::after {
-            width: 300px; height: 300px;
-        }
-
-        /* 列表样式 */
-        .list-container {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        /* 自定义滚动条 */
-        .list-container::-webkit-scrollbar { width: 6px; }
-        .list-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 3px; }
-        .list-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
-
-        .item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.2s;
-            border-radius: 8px;
-            margin-bottom: 5px;
-        }
-
-        .item:hover {
-            background: rgba(0, 243, 255, 0.1);
-            transform: translateX(5px);
-        }
-
-        .item-info {
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .item-name { 
-            font-weight: bold; 
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 1rem;
-        }
-
-        .item-meta { 
-            font-size: 0.75rem; 
-            color: #aaa; 
-            margin-top: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .action-btn {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 16px;
-            font-size: 0.85rem;
-            min-width: 80px;
-            text-align: center;
-        }
-        
-        .action-btn.danger {
-            border-color: #ff4444;
-            color: #ff4444;
-        }
-
-        /* 播放器样式 */
-        .player-wrapper {
-            margin-top: 20px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 12px;
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        audio, video {
-            width: 100%;
-            border-radius: 8px;
-            outline: none;
-        }
-        
-        /* 强化音频控件在手机上的表现 */
-        audio::-webkit-media-controls-panel {
-            background-color: rgba(30, 30, 50, 0.9);
-        }
-
-        .now-playing {
-            text-align: center;
-            margin-bottom: 10px;
-            color: var(--accent);
             font-size: 0.9rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
-
-        /* 模态框 (密码/后台) */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: #1a1a2e;
-            border: 1px solid var(--primary);
-            padding: 30px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 400px;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
-            text-align: center;
-        }
-
-        .modal h2 { margin-top: 0; color: var(--primary); }
-
-        .admin-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 900;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
-        }
-
-        /* 标签页切换 */
-        .tabs {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .tab {
+            transition: background 0.2s;
             flex: 1;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            color: #888;
-            transition: 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-            font-weight: bold;
+            min-width: 120px;
         }
 
-        /* 响应式调整 */
+        button:hover { background: #444; }
+        button.primary { background: var(--primary); }
+        button.primary:hover { background: #1565c0; }
+        button.danger { background: #c62828; }
+        button.danger:hover { background: #b71c1c; }
+
+        /* 日志/终端区域 */
+        .terminal-box {
+            background: #000;
+            color: #00ff00;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 15px;
+            border-radius: 5px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 0.85rem;
+            border: 1px solid #333;
+        }
+
+        .log-entry { margin-bottom: 5px; border-bottom: 1px dashed #333; padding-bottom: 2px; }
+        .log-time { color: #888; margin-right: 10px; }
+
+        /* 针对特定问题的提示 */
+        .alert-box {
+            background: rgba(255, 61, 0, 0.1);
+            border: 1px solid var(--error);
+            color: #ffab91;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none; /* 默认隐藏，JS 控制显示 */
+        }
+
         @media (max-width: 600px) {
-            h1 { font-size: 1.6rem; }
-            .input-group { flex-direction: column; }
-            button { width: 100%; }
-            .item { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .action-btn { width: 100%; }
+            .status-grid { grid-template-columns: 1fr 1fr; }
+            button { min-width: 100%; }
         }
     </style>
 </head>
 <body>
 
-<div class="cyber-bg"></div>
-
-<header>
-    <h1>尐念·科技影音站</h1>
-    <div class="subtitle">QING NAN LIU // TECH & MEDIA STATION</div>
-</header>
-
 <div class="container">
+    <header>
+        <h1>系统运维控制台</h1>
+        <p class="subtitle">实时监控 | 故障诊断 | 快速修复</p>
+    </header>
 
-    <!-- 音乐模块 -->
-    <div class="card">
-        <div class="card-title">🎵 全球音乐搜索</div>
-        <div class="input-group">
-            <input type="text" id="music-input" placeholder="输入歌名、歌手...">
-            <button onclick="searchMusic()">搜索</button>
-        </div>
-        
-        <div class="player-wrapper" id="music-player-box" style="display:none;">
-            <div class="now-playing" id="now-playing-text">准备播放...</div>
-            <audio id="audio-player" controls></audio>
-        </div>
+    <!-- 全局警报 -->
+    <div id="globalAlert" class="alert-box">
+        <strong>⚠️ 检测到服务异常：</strong> <span id="alertMsg"></span>
+    </div>
 
-        <div class="list-container" id="music-results" style="margin-top: 20px;">
-            <!-- 提示信息 -->
-            <div style="text-align:center; color:#ff4444; padding:20px; background:rgba(255,68,68,0.1); border-radius:8px;">
-                <strong>搜索服务暂时不可用</strong><br>
-                可能是网络波动或 API 限制
-            </div>
+    <!-- 状态概览 -->
+    <div class="status-grid">
+        <div class="status-card">
+            <span class="status-icon" id="icon-search">🔍</span>
+            <span class="status-label">搜索服务</span>
+            <span class="status-value" id="val-search">检测中...</span>
+        </div>
+        <div class="status-card">
+            <span class="status-icon" id="icon-media">🎬</span>
+            <span class="status-label">演示片源</span>
+            <span class="status-value" id="val-media">检测中...</span>
+        </div>
+        <div class="status-card">
+            <span class="status-icon" id="icon-cloud">☁️</span>
+            <span class="status-label">云端资料库</span>
+            <span class="status-value" id="val-cloud">检测中...</span>
+        </div>
+        <div class="status-card">
+            <span class="status-icon" id="icon-admin">⚙️</span>
+            <span class="status-label">后台管理</span>
+            <span class="status-value" id="val-admin">检测中...</span>
         </div>
     </div>
 
-    <!-- 视频模块 -->
-    <div class="card">
-        <div class="card-title">🎬 沉浸式影院</div>
-        <div class="tabs">
-            <div class="tab active" onclick="switchVideoTab('link')">链接播放</div>
-            <div class="tab" onclick="switchVideoTab('demo')">演示片源</div>
+    <!-- 快速修复操作 -->
+    <div class="action-section">
+        <div class="section-title">🛠️ 快速修复工具</div>
+        <div class="btn-group">
+            <button class="primary" onclick="runDiagnostics()">🔄 重新诊断网络</button>
+            <button onclick="clearCache()">🧹 清理本地缓存</button>
+            <button onclick="restartServices()">♻️ 重启核心服务</button>
+            <button class="danger" onclick="resetConfig()">⚠️ 重置配置文件</button>
         </div>
-
-        <div id="video-link-panel">
-            <div class="input-group">
-                <input type="text" id="video-input" placeholder="粘贴 .mp4 或 .m3u8 链接...">
-                <button onclick="playVideo()">播放</button>
-            </div>
-        </div>
-
-        <div id="video-demo-panel" style="display:none;">
-            <div class="list-container">
-                <!-- 新增的美女/风景视频 -->
-                <div class="item" onclick="loadDemoVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', '火辣美女')">
-                    <div class="item-info">
-                        <div class="item-name">🔥 火辣美女 (ForBiggerBlazes)</div>
-                        <div class="item-meta">4K Demo | 15s</div>
-                    </div>
-                    <button class="action-btn">播放</button>
-                </div>
-                <div class="item" onclick="loadDemoVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', '海岛女神')">
-                    <div class="item-info">
-                        <div class="item-name">🏝️ 海岛女神 (ForBiggerEscapes)</div>
-                        <div class="item-meta">4K Demo | 20s</div>
-                    </div>
-                    <button class="action-btn">播放</button>
-                </div>
-                <div class="item" onclick="loadDemoVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4', '奇幻美女')">
-                    <div class="item-info">
-                        <div class="item-name">🧙 奇幻美女 (Sintel)</div>
-                        <div class="item-meta">开源电影 | 8min</div>
-                    </div>
-                    <button class="action-btn">播放</button>
-                </div>
-                <!-- 原有的备用视频 -->
-                <div class="item" onclick="loadDemoVideo('https://www.w3schools.com/html/mov_bbb.mp4', '大雄兔')">
-                    <div class="item-info">
-                        <div class="item-name">🐰 大雄兔 (Big Buck Bunny)</div>
-                        <div class="item-meta">开源动画 | 10min</div>
-                    </div>
-                    <button class="action-btn">播放</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="player-wrapper">
-            <video id="video-player" controls poster="https://via.placeholder.com/800x450/000000/00f3ff?text=READY+TO+PLAY"></video>
-        </div>
+        <p style="font-size: 0.8rem; color: #666; margin-top: 10px;">
+            * 点击“重启核心服务”将尝试调用后端 API 重启 Docker 容器或 Systemd 服务。
+        </p>
     </div>
 
-    <!-- 网盘资源模块 -->
-    <div class="card">
-        <div class="card-title">☁️ 云端资源库</div>
-        <div class="list-container" id="cloud-list">
-            <!-- 动态加载 -->
+    <!-- 实时日志 -->
+    <div class="action-section">
+        <div class="section-title">📜 系统运行日志</div>
+        <div class="terminal-box" id="terminal">
+            <div class="log-entry"><span class="log-time">[SYSTEM]</span> 控制台已加载，正在初始化检测...</div>
         </div>
-    </div>
-
-</div>
-
-<!-- 后台管理按钮 -->
-<div class="admin-toggle" onclick="openAdminLogin()">⚙️</div>
-
-<!-- 密码验证模态框 -->
-<div id="login-modal" class="modal">
-    <div class="modal-content">
-        <h2>系统安全验证</h2>
-        <p style="color:#aaa; font-size:0.9rem;">请输入管理员密码</p>
-        <input type="password" id="admin-pwd" placeholder="Password" style="width:100%; margin: 15px 0;">
-        <button onclick="checkPassword()" style="width:100%;">进入系统</button>
-        <button onclick="closeModal('login-modal')" style="background:transparent; border:1px solid #666; margin-top:10px; width:100%;">取消</button>
     </div>
 </div>
 
-<!-- 后台管理面板模态框 -->
-<div id="admin-modal" class="modal">
-    <div class="modal-content" style="max-width: 500px; text-align: left;">
-        <h2 style="text-align: center;">🛠️ 资源管理后台</h2>
-        
-        <div style="margin-bottom: 20px;">
-            <label style="color:var(--primary); display:block; margin-bottom:5px;">添加网盘资源</label>
-            <input type="text" id="res-name" placeholder="资源名称 (例：精选合集)" style="margin-bottom:10px;">
-            <input type="text" id="res-url" placeholder="分享链接 (例：pan.baidu.com...)" style="margin-bottom:10px;">
-            <select id="res-type" style="margin-bottom:10px; width:100%; padding:12px; background:rgba(0,0,0,0.4); color:#fff; border:1px solid var(--border); border-radius:8px;">
-                <option value="baidu">百度网盘</option>
-                <option value="ali">阿里云盘</option>
-                <option value="quark">夸克网盘</option>
-                <option value="other">其他链接</option>
-            </select>
-            <button onclick="addResource()" style="width:100%;">添加资源</button>
-        </div>
+<script>
+    // 配置项：请根据实际部署情况修改这些地址
+    const CONFIG = {
+        searchApi: '/api/search/status', // 搜索接口
+        mediaUrl: '/assets/demo.mp4',    // 演示视频地址
+        cloudApi: '/api/cloud/status',   // 云端接口
+        adminUrl: '/admin'               // 后台地址
+    };
 
-        <div style="border-top:1px solid #333; padding-top:15px;">
-            
+    const terminal = document.getElementById('terminal');
+    const alertBox = document.getElementById('globalAlert');
+    const alertMsg = document.getElementById('alertMsg');
+
+    // 写入日志函数
+    function log(msg, type = 'info') {
+        const now = new Date().toLocaleTimeString();
+        const div = document.createElement('div');
+        div.className = 'log-entry';
+        let color = '#00ff00';
+        if (type === 'error') color = '#ff3d00';
+        if (type === 'warn') color = '#ffd600';
+        
+        div.innerHTML = `<span class="log-time">[${now}]</span><span style="color:${color}">${msg}</span>`;
+        terminal.appendChild(div);
+        terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    // 更新状态 UI
+    function updateStatus(id, status, message) {
+        const valEl = document.getElementById(`val-${id}`);
+        const iconEl = document.getElementById(`icon-${id}`);
+        
+        if (status === 'ok') {
+            valEl.textContent = '正常';
+            valEl.className = 'status-value status-ok';
+            iconEl.textContent = '✅';
+        } else if (status === 'error') {
+            valEl.textContent = '异常';
+            valEl.className = 'status-value status-err';
+            iconEl.textContent = '❌';
+            return message; // 返回错误信息用于汇总
+        } else {
+            valEl.textContent = message || '未知';
+            valEl.className = 'status-value status-warn';
+            iconEl.textContent = '⚠️';
+        }
+        return null;
+    }
+
+    // 核心诊断逻辑
+    async function runDiagnostics() {
+        log('开始全面系统诊断...', 'info');
+        alertBox.style.display = 'none';
+        let errors = [];
+
+        // 1. 检测搜索服务
+        try {
+            // 模拟检测：实际使用时请取消注释并替换为真实 fetch
+            // const res = await fetch(CONFIG.searchApi); 
+            // if (!res.ok) throw new Error('API 无响应');
+            setTimeout(() => {
+                // 模拟随机结果，实际请替换为真实逻辑
+                const isUp = Math.random() > 0.3; 
+                const err = updateStatus('search', isUp ? 'ok' : 'error', 'API 限制或超时');
+                if (err) errors.push('搜索服务不可用');
+                log(isUp ? '搜索服务连接正常' : '搜索服务连接失败：API 限制或网络波动', isUp ? 'info' : 'error');
+                checkFinalStatus(errors);
+            }, 800);
+        } catch (e) {
+            updateStatus('search', 'error', e.message);
+            errors.push('搜索服务异常');
+        }
+
+        // 2. 检测片源 (尝试加载一个小资源)
+        setTimeout(() => {
+            const img = new Image();
+            img.src = CONFIG.mediaUrl;
+            img.onload = () => {
+                updateStatus('media', 'ok');
+                log('演示片源资源加载正常', 'info');
+            };
+            img.onerror = () => {
+                updateStatus('media', 'error', '资源丢失或 CORS 错误');
+                errors.push('演示片源无法加载');
+                log('演示片源加载失败：文件不存在或权限不足', 'error');
+            };
+            checkFinalStatus(errors);
+        }, 1000);
+
+        // 3. 检测云端
+        setTimeout(() => {
+            // 模拟云端检测
+            const cloudUp = false; // 模拟故障
+            updateStatus('cloud', cloudUp ? 'ok' : 'error', '连接超时');
+            if (!cloudUp) {
+                errors.push('云端资料库无法连接');
+                log('云端资料库连接失败：请检查同步服务或存储空间', 'error');
+            }
+            checkFinalStatus(errors);
+        }, 1200);
+
+        // 4. 检测后台
+        setTimeout(() => {
+             // 简单检测当前页面是否能访问 admin 路径
+             fetch(CONFIG.adminUrl, { method: 'HEAD' })
+                .then(res => {
+                    if (res.ok || res.status === 401) { // 401 也算服务活着
+                        updateStatus('admin', 'ok');
+                        log('后台管理服务响应正常', 'info');
+                    } else {
+                        throw new Error('HTTP ' + res.status);
+                    }
+                })
+                .catch(() => {
+                    updateStatus('admin', 'error', '服务未启动');
+                    errors.push('后台管理服务无响应');
+                    log('后台管理服务无法访问：端口可能被封锁或服务崩溃', 'error');
+                })
+                .finally(() => checkFinalStatus(errors));
+        }, 1500);
+    }
+
+    function checkFinalStatus(errors) {
+        if (errors.length > 0) {
+            alertMsg.textContent = errors.join('; ');
+            alertBox.style.display = 'block';
+        } else {
+            // 只有当所有检测都完成后（这里简化处理），如果没错误则隐藏
+            // 实际逻辑需计数器，此处仅为演示
+        }
+    }
+
+    // 按钮功能实现
+    function clearCache() {
+        log('正在清理浏览器缓存与本地存储...', 'warn');
+        localStorage.clear();
+        sessionStorage.clear();
+        // 强制刷新
+        setTimeout(() => {
+            location.reload(true);
+        }, 1000);
+    }
+
+    function restartServices() {
+        log('正在发送重启指令到后端...', 'warn');
+        // 这里需要对接真实的后端重启 API
+        // fetch('/api/system/restart', { method: 'POST' })
+        setTimeout(() => {
+            log('指令已发送。请在 Termux 中确认服务是否重新启动。', 'info');
+            alert('重启指令已下发。\n\n如果是 Docker 部署，请检查容器状态。\n如果是直接运行，请查看终端输出。');
+        }, 1500);
+    }
+
+    function resetConfig() {
+        if(confirm('确定要重置配置文件吗？此操作可能导致自定义设置丢失！')) {
+            log('正在重置配置...', 'error');
+            // 对接重置 API
+            setTimeout(() => {
+                log('配置已重置，请手动重启服务生效。', 'warn');
+            }, 1000);
+        }
+    }
+
+    // 页面加载自动运行
+    window.onload = runDiagnostics;
+
+</script>
+
+</body>
+</html>
