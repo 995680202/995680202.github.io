@@ -1,142 +1,485 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音乐空间 | 995680202.xyz</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background: #f5f5f5;
-            color: #333;
-        }
-        .header {
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-        }
-        .header h1 {
-            margin: 0;
-            font-size: 2.5em;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        button, input {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-        button {
-            background: #667eea;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        .file-list {
-            margin-top: 15px;
-        }
-        .file-item {
-            padding: 10px;
-            background: #f9f9f9;
-            border-radius: 5px;
-            margin: 5px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            .header h1 {
-                font-size: 2em;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>尐念 · 音乐站</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', '微软雅黑', sans-serif;
+    }
+    body {
+      background: linear-gradient(135deg, #000428 0%, #002c5a 100%);
+      color: #e3f2ff;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    #bg-canvas {
+      position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;
+    }
+    /* 布局 */
+    .container {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 20px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    /* 科技卡片 */
+    .card {
+      background: rgba(0, 20, 60, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(0, 150, 255, 0.4);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0, 100, 200, 0.25);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 180, 255, 0.08), transparent);
+      transition: left 0.6s ease;
+    }
+    .card:hover::before {
+      left: 100%;
+    }
+    .card:hover {
+      border-color: #00d8ff;
+      box-shadow: 0 0 40px rgba(0, 180, 255, 0.35);
+      transform: translateY(-4px);
+    }
+    .player-card {
+      grid-column: 1 / -1;
+      border-color: #00d8ff;
+    }
+    .card h2 {
+      font-size: 22px;
+      color: #00d8ff;
+      margin-bottom: 18px;
+      text-shadow: 0 0 12px #00aaff;
+    }
+    .card h3 {
+      font-size: 20px;
+      color: #00d8ff;
+      margin-bottom: 16px;
+    }
+    /* 播放器样式 */
+    .player-controls {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .player-controls button {
+      flex: 1;
+      padding: 12px;
+      border: 1px solid #00d8ff;
+      border-radius: 12px;
+      background: rgba(0, 60, 140, 0.4);
+      color: #00d8ff;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .player-controls button:hover {
+      background: #00d8ff;
+      color: #002050;
+      box-shadow: 0 0 16px #00d8ff;
+    }
+    /* 搜索框 */
+    #search {
+      width: 100%;
+      padding: 10px;border-radius:8px;
+      margin-bottom:10px;
+      border:1px solid rgba(0, 150, 255, 0.4);
+      background: #001a3a;
+      color: #c0e8ff;
+      outline: none;
+    }
+    /* 进度条 */
+    #progress {
+      width:100%;margin:6px 0;
+      accent-color: #00d8ff;
+    }
+    /* 文件列表样式 */
+    #work-files, #private-files {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    #work-files div, #private-files div {
+      padding: 6px 10px;
+      background: #112244;
+      border-radius: 6px;
+      margin-bottom: 4px;
+      color: #fff;
+      cursor: pointer;
+    }
+    /* 后台样式 */
+    #admin-btn {
+      position:fixed;right:20px;bottom:20px;
+      padding:14px 20px;background:#0066cc;
+      color:#fff;border-radius:14px;cursor:pointer;z-index:9999;
+    }
+    #admin-panel {
+      display:none;position:fixed;right:20px;bottom:90px;
+      width:340px;background:#001a3a;border:1px solid #00d8ff;
+      border-radius:16px;padding:20px;z-index:9999;color:#fff;
+    }
+    #admin-panel input {
+      width:100%;padding:8px;margin-bottom:10px;border-radius:8px;
+      border:1px solid rgba(0, 150, 255, 0.4);
+      background: #001a3a;color: #c0e8ff;outline: none;
+    }
+    #admin-panel button {
+      width:100%;padding:8px;background:#00d8ff;
+      color:#000;border-radius:8px;border:none;cursor:pointer;
+    }
+    #admin-body {
+      display:none;margin-top:16px;
+    }
+    /* 时间显示 */
+    .time-row {
+      display:flex;justify-content:space-between;color:#aaa;font-size:12px;
+    }
+    /* 手机适配 */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+      #admin-panel {
+        width: calc(100% - 40px);
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>🎵 音乐空间</h1>
-        <p>您的个人音乐播放平台</p>
-        <p style="font-size: 14px; opacity: 0.9;">访问地址: 995680202.xyz</p>
+<canvas id="bg-canvas"></canvas>
+<div class="container">
+  <!-- 播放器 -->
+  <div class="card player-card">
+    <h3>🎵 音乐播放器</h3>
+    <div id="playing-title" style="color:#a0d8ff;margin-bottom:8px;">未播放音乐</div>
+    
+    <div class="time-row">
+      <span id="time-current">0:00</span>
+      <span id="time-total">0:00</span>
+    </div>
+    <input 
+      id="progress" 
+      type="range" 
+      min="0" max="100" value="0"
+    >
+    
+    <div class="player-controls">
+      <button id="prev">上一首</button>
+      <button id="play">播放</button>
+      <button id="next">下一首</button>
+    </div>
+    <audio id="player">
+  </div>
+
+  <!-- 音乐库 + 搜索 -->
+  <div class="card">
+    <h3>🎶 音乐库</h3>
+    <input 
+      id="search" 
+      type="text" 
+      placeholder="🔍 搜索在线音乐，回车播放"
+    >
+    <div id="song-list"></div>
+  </div>
+
+  <!-- 文件夹 -->
+  <div class="card">
+    <h3>📁 文件夹</h3>
+    
+    <div style="margin-bottom:16px;">
+      <div style="color:#00d8ff;font-weight:bold;margin-bottom:6px;">工作文件</div>
+      <div id="work-files"></div>
     </div>
     
-    <div class="card">
-        <h2>📁 文件列表</h2>
-        <div id="file-list" class="file-list">
-            <div class="file-item">
-                <span>music/</span>
-                <span>📁 文件夹</span>
-            </div>
-            <div class="file-item">
-                <span>index.html</span>
-                <span>🌐 网页文件</span>
-            </div>
-            <div class="file-item">
-                <span>CNAME</span>
-                <span>🔗 域名绑定</span>
-            </div>
-            <div class="file-item">
-                <span>README.md</span>
-                <span>📝 说明文档</span>
-            </div>
-        </div>
+    <div>
+      <div style="color:#00d8ff;font-weight:bold;margin-bottom:6px;">私人文件（需密码）</div>
+      <button id="show-private" style="padding:6px 12px;margin-bottom:8px;">查看私人文件</button>
+      <div id="private-files"></div>
     </div>
+  </div>
+</div>
+
+<!-- 后台入口 -->
+<div id="admin-btn">⚙️ 后台管理</div>
+
+<!-- 后台面板 -->
+<div id="admin-panel">
+  <input id="admin-pwd" type="password" placeholder="输入密码">
+  <button onclick="adminLogin()">登录</button>
+  <div id="admin-body">
+    <div style="font-weight:bold;color:#00d8ff;">工作文件</div>
+    <input type="file" id="work-upload" multiple style="width:100%;margin-top:6px;">
+    <button onclick="uploadWork()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
+    <div id="admin-work-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
     
-    <div class="card">
-        <h2>🎶 快速开始</h2>
-        <p>网站已成功部署！功能包括：</p>
-        <ul>
-            <li>✅ 在线音乐播放</li>
-            <li>✅ 本地文件上传</li>
-            <li>✅ 背景音乐控制</li>
-            <li>✅ 后台管理</li>
-            <li>✅ 响应式设计</li>
-        </ul>
-        <p>如果您看到此页面，说明 GitHub Pages 工作正常。</p>
-    </div>
+    <div style="margin-top:16px;font-weight:bold;color:#00d8ff;">私人文件</div>
+    <input type="file" id="private-upload" multiple style="width:100%;margin-top:6px;">
+    <button onclick="uploadPrivate()" style="width:100%;padding:6px;margin-top:6px;">上传</button>
+    <div id="admin-private-list" style="margin-top:8px;max-height:100px;overflow:auto;"></div>
     
-    <div class="card">
-        <h2>🔄 刷新页面</h2>
-        <p>如果看到乱码，请尝试：</p>
-        <button onclick="location.reload(true)">强制刷新页面</button>
-        <button onclick="window.open('https://995680202.github.io', '_blank')">访问 GitHub 版本</button>
-    </div>
-    
-    <script>
-        // 简单检测页面是否正常加载
-        console.log("音乐空间页面加载成功");
-        console.log("当前域名:", window.location.hostname);
-        console.log("GitHub Pages 部署正常");
-        
-        // 显示当前时间
-        const timeElement = document.createElement('p');
-        timeElement.style.textAlign = 'center';
-        timeElement.style.marginTop = '20px';
-        timeElement.style.color = '#666';
-        timeElement.innerHTML = `页面加载时间: ${new Date().toLocaleString()}`;
-        document.body.appendChild(timeElement);
-        
-        // 检查CNAME是否生效
-        if (window.location.hostname === '995680202.xyz') {
-            console.log("✅ 自定义域名访问正常");
-        } else if (window.location.hostname === '995680202.github.io') {
-            console.log("ℹ️ 正在使用 GitHub 原始地址");
-        }
-    </script>
+    <button onclick="closeAdmin()" style="width:100%;padding:8px;margin-top:16px;background:#555;">关闭</button>
+  </div>
+</div>
+
+<script>
+// 粒子背景效果
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+class Particle {
+  constructor() {
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 0.5;
+    this.speedX = Math.random() * 0.5 - 0.25;
+    this.speedY = Math.random() * 0.5 - 0.25;
+    this.color = '#00d8ff';
+  }
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+    if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+  }
+  draw() {
+    ctx.fillStyle = this.color;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+function initParticles() {
+  particles = [];
+  for (let i = 0; i < 80; i++) particles.push(new Particle());
+}
+function animateParticles() {
+  ctx.fillStyle = 'rgba(0, 4, 40, 0.2)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => { p.update(); p.draw(); });
+  requestAnimationFrame(animateParticles);
+}
+initParticles();
+animateParticles();
+window.onresize = () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  initParticles();
+};
+
+// 核心功能逻辑
+const player = document.getElementById('player');
+const playingTitle = document.getElementById('playing-title');
+const progress = document.getElementById('progress');
+const timeCurrent = document.getElementById('time-current');
+const timeTotal = document.getElementById('time-total');
+const btnPlay = document.getElementById('play');
+const btnPrev = document.getElementById('prev');
+const btnNext = document.getElementById('next');
+const searchInput = document.getElementById('search');
+const songListEl = document.getElementById('song-list');
+const workFilesEl = document.getElementById('work-files');
+const privateFilesEl = document.getElementById('private-files');
+const btnShowPrivate = document.getElementById('show-private');
+
+const ADMIN_PWD = 'qingnanliu';
+const PRIVATE_PWD = 'qingnanliu';
+
+// 本地存储工具
+function get(key) { return JSON.parse(localStorage.getItem(key) || '[]'); }
+function set(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+let workFiles = get('workFiles');
+let privateFiles = get('privateFiles');
+
+// 内置音乐库
+const songList = [
+  { name: '民谣-风吹麦浪', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3' },
+  { name: '民谣-成都',     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3' },
+  { name: '华语-七里香',   url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3' },
+  { name: '华语-晴天',     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3' },
+  { name: '流行-告白气球', url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3' },
+  { name: '流行-小幸运',   url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3' },
+  { name: '古典-月光',     url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3' },
+  { name: '轻音乐-清晨',   url: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3' },
+];
+
+let currentList = [...songList];
+let currentIndex = 0;
+
+// 时间格式化
+function fmt(t) {
+  if (isNaN(t)) return '0:00';
+  const m = Math.floor(t / 60);
+  const s = Math.floor(t % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+// 播放歌曲
+function playSong(song) {
+  player.src = song.url;
+  player.play();
+  playingTitle.textContent = `正在播放：${song.name}`;
+  btnPlay.textContent = '暂停';
+}
+
+function playIndex(i) {
+  currentIndex = i;
+  playSong(currentList[i]);
+}
+
+// 播放/暂停控制
+btnPlay.onclick = () => {
+  if (player.paused) { player.play(); btnPlay.textContent = '暂停'; } 
+  else { player.pause(); btnPlay.textContent = '播放'; }
+};
+
+// 上一首/下一首
+btnPrev.onclick = () => {
+  currentIndex = (currentIndex - 1 + currentList.length) % currentList.length;
+  playIndex(currentIndex);
+};
+btnNext.onclick = () => {
+  currentIndex = (currentIndex + 1) % currentList.length;
+  playIndex(currentIndex);
+};
+
+// 进度条同步
+player.ontimeupdate = () => {
+  timeCurrent.textContent = fmt(player.currentTime);
+  timeTotal.textContent = fmt(player.duration);
+  progress.value = (player.currentTime / player.duration) * 100 || 0;
+};
+progress.oninput = () => {
+  player.currentTime = (progress.value / 100) * player.duration;
+};
+
+// 搜索功能
+searchInput.onkeydown = (e) => {
+  if (e.key === 'Enter') {
+    const kw = searchInput.value.trim().toLowerCase();
+    const found = songList.find(s => s.name.toLowerCase().includes(kw));
+    if (found) {
+      playSong(found);
+    } else {
+      alert('未找到该歌曲');
+    }
+  }
+};
+
+// 渲染音乐列表
+function renderSongs() {
+  songListEl.innerHTML = '';
+  currentList.forEach((s, i) => {
+    const div = document.createElement('div');
+    div.style.padding = '8px 10px';
+    div.style.background = '#112244';
+    div.style.borderRadius = '8px';
+    div.style.marginBottom = '6px';
+    div.style.color = '#fff';
+    div.textContent = s.name;
+    div.onclick = () => playIndex(i);
+    songListEl.appendChild(div);
+  });
+}
+
+// 渲染文件夹
+function renderFiles() {
+  workFilesEl.innerHTML = '';
+  workFiles.forEach((f) => {
+    const d = document.createElement('div');
+    d.textContent = f.name;
+    d.onclick = () => window.open(f.url, '_blank');
+    workFilesEl.appendChild(d);
+  });
+}
+
+// 私人文件夹密码验证
+btnShowPrivate.onclick = () => {
+  if (prompt('请输入私人文件夹密码：') === PRIVATE_PWD) {
+    privateFilesEl.innerHTML = '';
+    privateFiles.forEach(f => {
+      const d = document.createElement('div');
+      d.textContent = f.name;
+      d.onclick = () => window.open(f.url, '_blank');
+      privateFilesEl.appendChild(d);
+    });
+  }
+};
+
+// 后台功能
+document.getElementById('admin-btn').onclick = () => {
+  document.getElementById('admin-panel').style.display = 'block';
+};
+function closeAdmin() {
+  document.getElementById('admin-panel').style.display = 'none';
+}
+function adminLogin() {
+  if (document.getElementById('admin-pwd').value === ADMIN_PWD) {
+    document.getElementById('admin-body').style.display = 'block';
+    renderAdminList();
+  } else {
+    alert('密码错误');
+  }
+}
+
+// 后台文件上传/删除
+function uploadWork() {
+  const files = document.getElementById('work-upload').files;
+  for (let f of files) workFiles.push({ name: f.name, url: URL.createObjectURL(f) });
+  set('workFiles', workFiles);
+  renderFiles();
+  renderAdminList();
+}
+function uploadPrivate() {
+  const files = document.getElementById('private-upload').files;
+  for (let f of files) privateFiles.push({ name: f.name, url: URL.createObjectURL(f) });
+  set('privateFiles', privateFiles);
+  renderAdminList();
+}
+function delWork(i) {
+  workFiles.splice(i, 1);
+  set('workFiles', workFiles);
+  renderFiles();
+  renderAdminList();
+}
+function delPrivate(i) {
+  privateFiles.splice(i, 1);
+  set('privateFiles', privateFiles);
+  renderAdminList();
+}
+function renderAdminList() {
+  const wl = document.getElementById('admin-work-list');
+  const pl = document.getElementById('admin-private-list');
+  wl.innerHTML = workFiles.map((f, i) => `<div>${f.name} <button onclick="delWork(${i})">删</button></div>`).join('');
+  pl.innerHTML = privateFiles.map((f, i) => `<div>${f.name} <button onclick="delPrivate(${i})">删</button></div>`).join('');
+}
+
+// 初始化
+window.onload = () => {
+  renderSongs();
+  renderFiles();
+};
+</script>
 </body>
 </html>
