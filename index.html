@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>清南流·科技影音站</title>
+    <title>尐念·科技影音站</title>
     <style>
         :root {
             --primary: #00f3ff;
@@ -143,7 +143,7 @@
             color: #fff;
             border-radius: 8px;
             outline: none;
-            font-size: 16px; /* 防止 iOS 缩放 */
+            font-size: 16px;
             transition: all 0.3s;
         }
 
@@ -368,7 +368,7 @@
 <div class="cyber-bg"></div>
 
 <header>
-    <h1>清南流·科技影音站</h1>
+    <h1>尐念·科技影音站</h1>
     <div class="subtitle">QING NAN LIU // TECH & MEDIA STATION</div>
 </header>
 
@@ -378,7 +378,7 @@
     <div class="card">
         <div class="card-title">🎵 全球音乐搜索</div>
         <div class="input-group">
-            <input type="text" id="music-input" placeholder="输入歌名、歌手 (如：周杰伦 七里香)...">
+            <input type="text" id="music-input" placeholder="输入歌名、歌手...">
             <button onclick="searchMusic()">搜索</button>
         </div>
         
@@ -388,7 +388,11 @@
         </div>
 
         <div class="list-container" id="music-results" style="margin-top: 20px;">
-            <div style="text-align:center; color:#666; padding:20px;">点击上方搜索按钮查找音乐</div>
+            <!-- 提示信息 -->
+            <div style="text-align:center; color:#ff4444; padding:20px; background:rgba(255,68,68,0.1); border-radius:8px;">
+                <strong>搜索服务暂时不可用</strong><br>
+                可能是网络波动或 API 限制
+            </div>
         </div>
     </div>
 
@@ -409,17 +413,33 @@
 
         <div id="video-demo-panel" style="display:none;">
             <div class="list-container">
-                <div class="item" onclick="loadDemoVideo('https://www.w3schools.com/html/mov_bbb.mp4', '大雄兔 (Big Buck Bunny)')">
+                <!-- 新增的美女/风景视频 -->
+                <div class="item" onclick="loadDemoVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4', '火辣美女')">
                     <div class="item-info">
-                        <div class="item-name">大雄兔 (Big Buck Bunny)</div>
-                        <div class="item-meta">开源动画短片 | 1080P</div>
+                        <div class="item-name">🔥 火辣美女 (ForBiggerBlazes)</div>
+                        <div class="item-meta">4K Demo | 15s</div>
                     </div>
                     <button class="action-btn">播放</button>
                 </div>
-                <div class="item" onclick="loadDemoVideo('https://www.w3schools.com/html/movie.mp4', '熊的故事')">
+                <div class="item" onclick="loadDemoVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4', '海岛女神')">
                     <div class="item-info">
-                        <div class="item-name">熊的故事 (Bear Story)</div>
-                        <div class="item-meta">奥斯卡提名短片</div>
+                        <div class="item-name">🏝️ 海岛女神 (ForBiggerEscapes)</div>
+                        <div class="item-meta">4K Demo | 20s</div>
+                    </div>
+                    <button class="action-btn">播放</button>
+                </div>
+                <div class="item" onclick="loadDemoVideo('https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4', '奇幻美女')">
+                    <div class="item-info">
+                        <div class="item-name">🧙 奇幻美女 (Sintel)</div>
+                        <div class="item-meta">开源电影 | 8min</div>
+                    </div>
+                    <button class="action-btn">播放</button>
+                </div>
+                <!-- 原有的备用视频 -->
+                <div class="item" onclick="loadDemoVideo('https://www.w3schools.com/html/mov_bbb.mp4', '大雄兔')">
+                    <div class="item-info">
+                        <div class="item-name">🐰 大雄兔 (Big Buck Bunny)</div>
+                        <div class="item-meta">开源动画 | 10min</div>
                     </div>
                     <button class="action-btn">播放</button>
                 </div>
@@ -474,237 +494,4 @@
         </div>
 
         <div style="border-top:1px solid #333; padding-top:15px;">
-            <label style="color:#aaa; font-size:0.9rem;">当前资源列表 (点击删除)</label>
-            <div class="list-container" id="admin-res-list" style="max-height: 200px; margin-top:10px;"></div>
-        </div>
-
-        <button onclick="closeModal('admin-modal')" style="background:#333; width:100%; margin-top:20px;">关闭后台</button>
-    </div>
-</div>
-
-<script>
-    // --- 配置区域 ---
-    const ADMIN_PASSWORD = "123456"; // 修改这里的密码
-    const STORAGE_KEY = "qnl_resources_v1";
-
-    // --- 初始化 ---
-    document.addEventListener('DOMContentLoaded', () => {
-        renderCloudList();
-        renderAdminList();
-    });
-
-    // --- 音乐搜索功能 (调用公开 API) ---
-    async function searchMusic() {
-        const keyword = document.getElementById('music-input').value.trim();
-        const resultsDiv = document.getElementById('music-results');
-        const playerBox = document.getElementById('music-player-box');
-        const audioPlayer = document.getElementById('audio-player');
-        const nowText = document.getElementById('now-playing-text');
-
-        if (!keyword) return alert('请输入搜索内容');
-
-        resultsDiv.innerHTML = '<div style="text-align:center; padding:20px; color:var(--primary)">正在连接星云数据库...</div>';
-        
-        try {
-            // 使用 NetEase Cloud Music 的公开 API 代理
-            const response = await fetch(`https://music.163.com/api/search/get/web?csrf_token=&type=1&s=${encodeURIComponent(keyword)}&offset=0&limit=20`);
-            const data = await response.json();
-
-            if (data.result && data.result.songs.length > 0) {
-                resultsDiv.innerHTML = '';
-                data.result.songs.forEach(song => {
-                    const artists = song.artists.map(a => a.name).join('/');
-                    // 构造播放链接 (注意：由于版权限制，部分歌曲可能无法直接播放，这里使用网易云临时链接)
-                    // 实际生产中建议使用后端代理获取真实 MP3 地址，此处为前端演示
-                    const playUrl = `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`;
-                    
-                    const item = document.createElement('div');
-                    item.className = 'item';
-                    item.innerHTML = `
-                        <div class="item-info">
-                            <div class="item-name">${song.name}</div>
-                            <div class="item-meta">${artists} - ${song.album.name}</div>
-                        </div>
-                        <button class="action-btn" onclick="playMusic('${playUrl}', '${song.name} - ${artists}')">播放</button>
-                    `;
-                    resultsDiv.appendChild(item);
-                });
-            } else {
-                resultsDiv.innerHTML = '<div style="text-align:center; padding:20px; color:#666">未找到相关音源</div>';
-            }
-        } catch (error) {
-            console.error(error);
-            resultsDiv.innerHTML = '<div style="text-align:center; padding:20px; color:#ff4444">搜索服务暂时不可用<br><small>可能是网络波动或 API 限制</small></div>';
-        }
-    }
-
-    function playMusic(url, title) {
-        const playerBox = document.getElementById('music-player-box');
-        const audioPlayer = document.getElementById('audio-player');
-        const nowText = document.getElementById('now-playing-text');
-
-        playerBox.style.display = 'block';
-        nowText.innerText = "正在缓冲：" + title;
-        audioPlayer.src = url;
-        
-        // 自动播放处理
-        audioPlayer.play().catch(e => {
-            nowText.innerText = "点击播放按钮开始： " + title;
-        });
-
-        // 滚动到播放器
-        playerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // --- 视频功能 ---
-    function switchVideoTab(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        
-        if(tab === 'link') {
-            document.getElementById('video-link-panel').style.display = 'block';
-            document.getElementById('video-demo-panel').style.display = 'none';
-        } else {
-            document.getElementById('video-link-panel').style.display = 'none';
-            document.getElementById('video-demo-panel').style.display = 'block';
-        }
-    }
-
-    function playVideo() {
-        const url = document.getElementById('video-input').value.trim();
-        const player = document.getElementById('video-player');
-        if (!url) return alert('请输入有效的视频链接');
-        
-        player.src = url;
-        player.play();
-        player.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function loadDemoVideo(url, title) {
-        const player = document.getElementById('video-player');
-        player.src = url;
-        player.play();
-        player.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // --- 网盘资源管理 (LocalStorage) ---
-    function getResources() {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    }
-
-    function saveResources(list) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-        renderCloudList();
-        renderAdminList();
-    }
-
-    function renderCloudList() {
-        const list = getResources();
-        const container = document.getElementById('cloud-list');
-        container.innerHTML = '';
-
-        if (list.length === 0) {
-            container.innerHTML = '<div style="text-align:center; color:#666; padding:20px;">暂无资源，请联系管理员添加</div>';
-            return;
-        }
-
-        const icons = {
-            'baidu': '☁️ 百度',
-            'ali': '🟦 阿里',
-            'quark': '🌀 夸克',
-            'other': '🔗 链接'
-        };
-
-        list.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerHTML = `
-                <div class="item-info">
-                    <div class="item-name">${icons[item.type] || '🔗'} ${item.name}</div>
-                    <div class="item-meta" style="color:var(--primary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.url}</div>
-                </div>
-                <a href="${item.url}" target="_blank" class="action-btn">访问</a>
-            `;
-            container.appendChild(div);
-        });
-    }
-
-    // --- 后台管理逻辑 ---
-    function openAdminLogin() {
-        document.getElementById('login-modal').style.display = 'flex';
-        document.getElementById('admin-pwd').value = '';
-        document.getElementById('admin-pwd').focus();
-    }
-
-    function checkPassword() {
-        const pwd = document.getElementById('admin-pwd').value;
-        if (pwd === ADMIN_PASSWORD) {
-            closeModal('login-modal');
-            document.getElementById('admin-modal').style.display = 'flex';
-            renderAdminList();
-        } else {
-            alert('密码错误！访问已被记录');
-            document.getElementById('admin-pwd').value = '';
-        }
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
-    }
-
-    function addResource() {
-        const name = document.getElementById('res-name').value.trim();
-        const url = document.getElementById('res-url').value.trim();
-        const type = document.getElementById('res-type').value;
-
-        if (!name || !url) return alert('请填写完整信息');
-
-        const list = getResources();
-        list.unshift({ name, url, type, time: new Date().getTime() });
-        saveResources(list);
-
-        // 清空输入
-        document.getElementById('res-name').value = '';
-        document.getElementById('res-url').value = '';
-        alert('资源添加成功！');
-        renderAdminList();
-    }
-
-    function renderAdminList() {
-        const list = getResources();
-        const container = document.getElementById('admin-res-list');
-        container.innerHTML = '';
-
-        if (list.length === 0) {
-            container.innerHTML = '<div style="color:#666; font-size:0.8rem;">暂无数据</div>';
-            return;
-        }
-
-        list.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #333; font-size:0.9rem;";
-            div.innerHTML = `
-                <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%;">${item.name}</span>
-                <button class="action-btn danger" style="padding:4px 8px; font-size:0.7rem; min-width:auto;" onclick="deleteResource(${index})">删除</button>
-            `;
-            container.appendChild(div);
-        });
-    }
-
-    function deleteResource(index) {
-        if(!confirm('确定删除此资源吗？')) return;
-        const list = getResources();
-        list.splice(index, 1);
-        saveResources(list);
-    }
-
-    // 点击模态框外部关闭
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
-        }
-    }
-</script>
-
-</body>
-</html>
+            
