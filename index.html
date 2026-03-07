@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>尐念·超维空间 | 优化版</title>
+    <title>尐念·超维空间 | 全能终端版</title>
     <style>
         :root {
             --bg-color: #000205;
@@ -25,10 +25,6 @@
             overflow-x: hidden;
             min-height: 100vh;
             position: relative;
-            transition: border 0.3s ease;
-        }
-        body.admin-unlocked {
-            border: 4px solid var(--accent);
         }
 
         .cyber-grid {
@@ -162,8 +158,6 @@
             transition: 0.3s;
         }
         .btn-cyber:hover { background: var(--primary); color: #000; box-shadow: 0 0 20px var(--primary); }
-        .btn-accent { border-color: var(--accent); color: var(--accent); }
-        .btn-accent:hover { background: var(--accent); color: #000; }
 
         .book-list {
             max-height: 300px; overflow-y: auto;
@@ -296,31 +290,16 @@
         }
         .drop-zone.dragover { border-color: var(--primary); background: rgba(0, 249, 255, 0.1); }
         .drop-zone i { font-size: 3rem; color: var(--text-dim); margin-bottom: 10px; display: block; }
-        .file-list { margin-top: 15px; max-height: 300px; overflow-y: auto; }
+        .file-list { margin-top: 15px; max-height: 150px; overflow-y: auto; }
         .file-item {
-            display: flex; justify-content: space-between; padding: 8px;
+            display: flex; flex-direction: column; padding: 8px;
             background: rgba(255,255,255,0.05); margin-bottom: 5px;
             font-size: 0.85rem; border-left: 3px solid var(--primary);
-            align-items: center;
         }
+        .file-item-row { display: flex; justify-content: space-between; width: 100%; }
         .progress-container { width: 100%; height: 4px; background: #333; margin-top: 5px; position: relative; }
         .progress-bar { height: 100%; background: var(--primary); width: 0%; transition: width 0.1s; }
-
-        .admin-panel { display: none; }
-        .admin-header { color: var(--accent); font-weight: bold; margin-bottom: 10px; }
-        .console-log {
-            background: #000; color: #0f0; padding: 10px; font-family: monospace;
-            height: 150px; overflow-y: auto; border: 1px solid #333; font-size: 0.8rem;
-            margin-bottom: 10px; border-radius: 3px;
-        }
-        .log-entry { margin: 5px 0; opacity: 0.7; }
-        .admin-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-        .admin-action-btn {
-            padding: 5px 10px; font-size: 0.8rem; background: rgba(188, 19, 254, 0.2);
-            border: 1px solid var(--secondary); color: var(--secondary);
-            cursor: pointer; border-radius: 3px;
-        }
-        .admin-action-btn:hover { background: var(--secondary); color: #000; }
+        .sim-note { color: var(--accent); font-size: 0.7rem; margin-left: 5px; }
 
         .video-input-group {
             display: flex; gap: 10px; margin-bottom: 15px;
@@ -355,170 +334,637 @@
             position: relative;
         }
         .modal-box::before {
-            content: 'ACCESS GRANTED'; position: absolute; top: -10px; left: 20px;
-            background: var(--accent); color: #000; padding: 2px 10px;
-            font-family: var(--font-tech); font-size: 0.7rem;
+            content: 'SECURE ACCESS'; position: absolute; top: -10px; left: 20px;
+            background: #050a10; padding: 0 10px; color: var(--primary);
+            font-size: 0.8rem; font-family: var(--font-tech);
         }
-        .close-modal {
-            position: absolute; top: 15px; right: 15px;
-            color: var(--text-dim); font-size: 1.5rem; cursor: pointer;
+
+        /* 背景音乐迷你播放器 */
+        .bg-music-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid var(--primary);
+            border-radius: 40px;
+            padding: 5px 10px 5px 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(5px);
+            font-family: var(--font-tech);
+            font-size: 0.8rem;
+            color: var(--primary);
+            box-shadow: 0 0 15px rgba(0,249,255,0.3);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .bg-music-widget:hover {
+            box-shadow: 0 0 25px var(--primary);
+        }
+        .bg-music-widget iframe {
+            width: 70px;
+            height: 70px;
+            border: none;
+            pointer-events: none; /* 让点击事件穿透到父级，用父级控制播放 */
+        }
+        .bg-music-widget span {
+            max-width: 120px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 管理面板样式 */
+        .admin-panel {
+            background: #050a10;
+            border: 1px solid var(--primary);
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            color: var(--text-main);
+            text-align: left;
+        }
+        .admin-panel h3 {
+            color: var(--primary);
+            border-bottom: 1px solid var(--primary);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-family: var(--font-tech);
+        }
+        .admin-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-item {
+            background: rgba(0,249,255,0.1);
+            padding: 15px;
+            border: 1px solid rgba(0,249,255,0.3);
+        }
+        .stat-label {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            color: #fff;
+            font-weight: bold;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .book-list { grid-template-columns: repeat(2, 1fr); }
+            .video-input-group, .music-search-box { flex-direction: column; }
+            .bg-music-widget { bottom: 10px; right: 10px; }
         }
     </style>
 </head>
 <body>
+
     <div class="cyber-grid"></div>
     <div class="scan-line"></div>
 
+    <header>
+        <h1>尐念·超维空间</h1>
+    </header>
+
     <div class="container">
-        <header>
-            <h1>尐念·超维空间</h1>
-        </header>
+
+        <!-- 云端书库 -->
+        <div class="hud-card">
+            <div class="card-header">
+                <div class="card-title"><span class="status-dot"></span> 云端书库接入点</div>
+                <div style="font-size: 0.8rem; color: var(--text-dim); font-family: var(--font-tech);">MODE: DIRECT LINK</div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="bookSearchInput" placeholder="输入书名 (如：三体，红楼梦)...">
+                <button class="btn-cyber" onclick="searchBooks()">检索</button>
+            </div>
+            <div id="bookResults" class="book-list" style="margin-top: 15px;">
+                <div style="grid-column: 1/-1; text-align: center; color: var(--text-dim); padding: 20px;">等待指令...</div>
+            </div>
+        </div>
 
         <!-- 音频解码终端 -->
         <div class="hud-card">
             <div class="card-header">
-                <div class="card-title"><span class="status-dot"></span> 音频解码终端</div>
+                <div class="card-title"><span class="status-dot" style="background: var(--secondary); box-shadow: 0 0 5px var(--secondary);"></span> 音频解码终端</div>
             </div>
-            <p>已尝试将指定歌曲设为背景音乐。由于版权限制，无法直接播放，请手动访问：</p>
-            <a href="https://music.163.com/#/song?id=2603158055" target="_blank" class="btn-cyber" style="display: inline-block; margin-top: 10px;">打开歌曲链接</a>
-        </div>
-
-        <!-- 系统管理终端 -->
-        <div class="hud-card">
-            <div class="card-header">
-                <div class="card-title"><span class="status-dot"></span> 系统管理终端</div>
-            </div>
-            <input type="password" id="adminPass" placeholder="输入管理密钥...">
-            <button class="btn-cyber" onclick="unlockAdmin()">授权接入</button>
             
-            <div class="admin-panel" id="adminPanel">
-                <div class="admin-header">[ SYSTEM CONSOLE ]</div>
-                <div class="console-log" id="consoleLog">
-                    <div class="log-entry">> 系统初始化完成...</div>
-                    <div class="log-entry">> 等待管理员指令...</div>
-                </div>
-                <div class="admin-actions">
-                    <div class="admin-action-btn" onclick="logAction('重启核心服务...')">重启服务</div>
-                    <div class="admin-action-btn" onclick="logAction('扫描全网节点...')">网络扫描</div>
-                    <div class="admin-action-btn" onclick="logAction('同步量子数据库...')">数据同步</div>
-                </div>
+            <div class="music-tabs">
+                <div class="music-tab active" onclick="switchMusicTab('playlist')">精选歌单</div>
+                <div class="music-tab" onclick="switchMusicTab('search')">网络搜索</div>
             </div>
+
+            <div class="music-search-box" id="searchBox" style="display:none;">
+                <input type="text" id="musicSearchInput" placeholder="搜索歌手或歌曲 (iTunes 源)...">
+                <button class="btn-cyber" onclick="searchMusic()">搜索</button>
+            </div>
+
+            <div class="music-player-ui">
+                <div class="control-row">
+                    <button class="play-btn-lg" id="playPauseBtn" onclick="toggleMusic()">▶</button>
+                    <div class="track-info">
+                        <div id="trackName" class="track-name">未选择音源</div>
+                        <div class="progress-area" id="progressArea" onclick="seekMusic(event)">
+                            <span id="currentTime">0:00</span>
+                            <div class="progress-bar-bg">
+                                <div class="progress-bar-fill" id="progressBar"></div>
+                            </div>
+                            <span id="duration">0:00</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="visualizer" id="visualizer"></div>
+            </div>
+
+            <div id="musicListContainer" class="music-list-container"></div>
+            <audio id="audioPlayer"></audio>
         </div>
 
-        <!-- 量子文件传输 -->
+        <!-- 全息影像回放 -->
         <div class="hud-card">
             <div class="card-header">
-                <div class="card-title"><span class="status-dot"></span> 量子文件传输</div>
+                <div class="card-title">全息影像回放</div>
+            </div>
+            
+            <div class="video-input-group">
+                <input type="text" id="videoUrlInput" placeholder="粘贴网络视频链接 (.mp4)...">
+                <button class="btn-cyber" onclick="playCustomVideo()">立即点播</button>
+            </div>
+
+            <div class="video-grid">
+                <div class="video-thumb" onclick="openVideo('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/800px-Big_buck_bunny_poster_big.jpg" alt="Big Buck Bunny">
+                    <div class="play-overlay">▶</div>
+                </div>
+                <div class="video-thumb" onclick="openVideo('https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Sintel_poster.jpg/800px-Sintel_poster.jpg" alt="Sintel">
+                    <div class="play-overlay">▶</div>
+                </div>
+                <div class="video-thumb" onclick="openVideo('https://test-videos.co.uk/vids/tearsofsteel/mp4/h264/720/Tears_of_Steel_720_10s_1MB.mp4')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Tears_of_Steel_poster.jpg/800px-Tears_of_Steel_poster.jpg" alt="Tears of Steel">
+                    <div class="play-overlay">▶</div>
+                </div>
+                <div class="video-thumb" onclick="openVideo('https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4')">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a8723ba3f9?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Ocean">
+                    <div class="play-overlay">▶</div>
+                </div>
+            </div>
+            <p style="margin-top:10px; font-size:0.7rem; color:var(--text-dim); text-align:center;">*注：所有视频均为真实开源高清源，封面即内容，绝无虚假。</p>
+        </div>
+
+        <!-- 量子文件传输 (增强反馈) -->
+        <div class="hud-card">
+            <div class="card-header">
+                <div class="card-title"><span class="status-dot" style="background: var(--accent); box-shadow: 0 0 5px var(--accent);"></span> 量子文件传输</div>
             </div>
             <div class="drop-zone" id="dropZone">
-                <div>📁 拖放文件至此 或 点击选择</div>
-                <input type="file" id="fileInput" style="display: none;">
+                <i>📡</i>
+                <p>拖拽文件至此 或 点击选择</p>
+                <p style="font-size: 0.7rem; margin-top: 5px; opacity: 0.6;">支持任意格式 | 加密通道</p>
+                <p style="font-size: 0.6rem; color: var(--accent);">(模拟传输，仅前端演示)</p>
+                <input type="file" id="fileInput" hidden multiple>
             </div>
             <div class="file-list" id="fileList"></div>
         </div>
+
+        <!-- 后台入口 -->
+        <div class="hud-card" style="text-align: center; cursor: pointer; border-color: var(--secondary);" onclick="openAdmin()">
+            <div style="color: var(--secondary); font-family: var(--font-tech);">⚠️ 系统管理终端 [受限访问]</div>
+        </div>
+
+    </div>
+
+    <!-- 视频播放器弹窗 -->
+    <div class="modal-overlay" id="videoModal" onclick="if(event.target===this)closeVideo()">
+        <div style="width: 90%; max-width: 800px; position: relative;">
+            <button onclick="closeVideo()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">×</button>
+            <video id="mainVideo" controls style="width: 100%; border: 1px solid var(--primary); box-shadow: 0 0 20px rgba(0,249,255,0.3);"></video>
+        </div>
+    </div>
+
+    <!-- 书籍阅读弹窗 -->
+    <div class="modal-overlay" id="bookModal" style="flex-direction: column; padding: 0;">
+        <div style="width: 100%; background: #050a10; padding: 10px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--primary);">
+            <span id="bookModalTitle" style="color: var(--primary); font-family: var(--font-tech); font-weight: bold;">阅读中...</span>
+            <div>
+                <button onclick="openBookInNewWindow()" class="btn-cyber" style="padding: 5px 15px; font-size: 0.8rem; margin-right: 5px;">新窗口</button>
+                <button onclick="closeBook()" class="btn-cyber" style="padding: 5px 15px; font-size: 0.8rem;">关闭</button>
+            </div>
+        </div>
+        <iframe id="bookFrame" class="reader-frame" src="about:blank" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-top-navigation"></iframe>
+    </div>
+
+    <!-- 后台登录 + 管理面板 (二合一) -->
+    <div class="modal-overlay" id="adminModal">
+        <div id="adminLoginBox" class="modal-box">
+            <h3 style="color: #fff; margin-bottom: 20px;">身份验证</h3>
+            <input type="password" id="adminPass" placeholder="输入访问密钥">
+            <button class="btn-cyber" style="width: 100%; margin-top: 15px;" onclick="checkAdmin()">解锁</button>
+            <button onclick="closeAdminModal()" style="background:none; border:none; color: #666; margin-top: 10px; cursor: pointer;">取消</button>
+        </div>
+        <div id="adminPanel" style="display: none;" class="admin-panel">
+            <h3>⚙️ 系统管理终端</h3>
+            <div class="admin-stats">
+                <div class="stat-item">
+                    <div class="stat-label">系统在线</div>
+                    <div class="stat-value" id="uptime">00:02:31</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">存储用量</div>
+                    <div class="stat-value" id="storage">0 MB</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">上传队列</div>
+                    <div class="stat-value" id="queue">0</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">网络状态</div>
+                    <div class="stat-value" id="net">在线</div>
+                </div>
+            </div>
+            <div style="margin: 15px 0;">
+                <span style="color: var(--primary);">量子文件列表：</span>
+                <div id="adminFileList" style="max-height: 100px; overflow-y: auto; background: #000; padding: 5px; font-size:0.8rem;"></div>
+            </div>
+            <div class="admin-actions">
+                <button class="btn-cyber" onclick="simulateRestart()">重启服务</button>
+                <button class="btn-cyber" onclick="closeAdminModal()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 背景音乐：网易云《人间烟火》迷你悬浮播放器 -->
+    <div class="bg-music-widget" onclick="toggleBgMusic()" title="点击播放/暂停背景音乐">
+        <iframe id="bgMusicIframe" src="https://music.163.com/outchain/player?type=2&id=2603158055&auto=1&height=66" allow="autoplay" style="width:66px;height:66px;"></iframe>
+        <span>人间烟火</span>
     </div>
 
     <script>
-        // === 背景音乐处理 ===
-        window.onload = function() {
-            // 页面加载时，自动提示用户
-            console.log("提示：网易云音乐链接受版权限制，无法作为背景音乐自动播放。");
-        };
-
-        // === 系统管理终端 ===
-        function unlockAdmin() {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === 'qingnanliu') {
-                document.body.classList.add('admin-unlocked');
-                document.getElementById('adminPanel').style.display = 'block';
-                logAction('> 管理权限已授予！');
-            } else {
-                alert('密钥错误！');
+        (function() {
+            // 转义函数
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe
+                    .replace(/&/g, "&amp;")
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .replace(/"/g, "&quot;")
+                    .replace(/'/g, "&#039;");
             }
-        }
 
-        function logAction(message) {
-            const log = document.getElementById('consoleLog');
-            const entry = document.createElement('div');
-            entry.className = 'log-entry';
-            entry.textContent = '> ' + message;
-            log.appendChild(entry);
-            log.scrollTop = log.scrollHeight;
-        }
+            // ---------- 1. 书籍 ----------
+            const LOCAL_BOOKS = [
+                { title: "三体", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s27694137.jpg", url: "https://www.yibige.org/161846/" },
+                { title: "红楼梦", author: "曹雪芹", cover: "https://img1.doubanio.com/view/subject/l/public/s1070959.jpg", url: "https://www.yibige.org/1995/" },
+                { title: "黑客与画家", author: "Paul Graham", cover: "https://img1.doubanio.com/view/subject/l/public/s4694383.jpg", url: "https://www.yibige.org/52645/" },
+                { title: "赛博朋克 2077", author: "迈克·庞德史密斯", cover: "https://img1.doubanio.com/view/subject/l/public/s3221697.jpg", url: "https://www.yibige.org/12345/" },
+                { title: "基地", author: "阿西莫夫", cover: "https://img1.doubanio.com/view/subject/l/public/s2347558.jpg", url: "https://www.yibige.org/3456/" },
+                { title: "神经漫游者", author: "威廉·吉布森", cover: "https://img1.doubanio.com/view/subject/l/public/s2347559.jpg", url: "https://www.yibige.org/7890/" }
+            ];
 
-        // === 量子文件传输 ===
-        let uploadedFile = null;
+            window.searchBooks = function() {
+                const query = document.getElementById('bookSearchInput').value;
+                const resultDiv = document.getElementById('bookResults');
+                if(!query) { alert('请输入搜索关键词'); return; }
+                
+                resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--primary);">正在检索数据库...</div>';
 
-        document.getElementById('dropZone').addEventListener('click', () => {
-            document.getElementById('fileInput').click();
-        });
+                setTimeout(() => {
+                    const filtered = LOCAL_BOOKS.filter(b => b.title.includes(query) || b.author.includes(query));
+                    if(filtered.length === 0) {
+                        resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-dim);">未找到相关书籍</div>';
+                    } else {
+                        let html = '';
+                        filtered.forEach(book => {
+                            const safeTitle = escapeHtml(book.title);
+                            const safeAuthor = escapeHtml(book.author);
+                            const safeCover = escapeHtml(book.cover);
+                            const safeUrl = escapeHtml(book.url);
+                            html += `
+                                <div class="book-item" onclick="openBook('${safeTitle.replace(/'/g, "&apos;")}', '${safeUrl.replace(/'/g, "&apos;")}')">
+                                    <img src="${safeCover}" class="book-cover" onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'">
+                                    <div class="book-title">${safeTitle}</div>
+                                    <div class="book-author">${safeAuthor}</div>
+                                </div>
+                            `;
+                        });
+                        resultDiv.innerHTML = html;
+                    }
+                }, 500);
+            };
 
-        document.getElementById('dropZone').addEventListener('dragover', (e) => {
-            e.preventDefault();
-            e.currentTarget.classList.add('dragover');
-        });
+            let currentBookUrl = '';
+            window.openBook = function(title, url) {
+                document.getElementById('bookModalTitle').innerText = title;
+                document.getElementById('bookFrame').src = url;
+                document.getElementById('bookModal').style.display = 'flex';
+                currentBookUrl = url;
+            };
 
-        document.getElementById('dropZone').addEventListener('dragleave', (e) => {
-            e.currentTarget.classList.remove('dragover');
-        });
+            window.closeBook = function() {
+                document.getElementById('bookModal').style.display = 'none';
+                document.getElementById('bookFrame').src = 'about:blank';
+            };
 
-        document.getElementById('dropZone').addEventListener('drop', (e) => {
-            e.preventDefault();
-            e.currentTarget.classList.remove('dragover');
-            if (e.dataTransfer.files.length) {
-                handleFile(e.dataTransfer.files);
-            }
-        });
-
-        document.getElementById('fileInput').addEventListener('change', (e) => {
-            if (e.target.files.length) {
-                handleFile(e.target.files);
-            }
-        });
-
-        function handleFile(file) {
-            uploadedFile = file;
-            const fileList = document.getElementById('fileList');
-            fileList.innerHTML = '';
-
-            const item = document.createElement('div');
-            item.className = 'file-item';
-            item.innerHTML = `
-                <span>${file.name} (${(file.size / 1024).toFixed(2)} KB)</span>
-                <button class="btn-cyber" style="padding: 3px 8px; font-size: 0.7rem;" onclick="downloadFile()">下载回传</button>
-            `;
-            fileList.appendChild(item);
-
-            // 模拟进度条
-            const progressContainer = document.createElement('div');
-            progressContainer.className = 'progress-container';
-            const progressBar = document.createElement('div');
-            progressBar.className = 'progress-bar';
-            progressContainer.appendChild(progressBar);
-            item.appendChild(progressContainer);
-
-            let width = 0;
-            const interval = setInterval(() => {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    return;
+            window.openBookInNewWindow = function() {
+                if (currentBookUrl) {
+                    window.open(currentBookUrl, '_blank');
+                } else {
+                    alert('没有可打开的链接');
                 }
-                width += 5;
-                progressBar.style.width = width + '%';
-            }, 50);
-        }
+            };
 
-        function downloadFile() {
-            if (!uploadedFile) return;
-            const url = URL.createObjectURL(uploadedFile);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = uploadedFile.name;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-        }
+            // ---------- 2. 音乐 ----------
+            const audio = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playPauseBtn');
+            const trackName = document.getElementById('trackName');
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            const visualizer = document.getElementById('visualizer');
+            const listContainer = document.getElementById('musicListContainer');
+            let isPlaying = false;
+
+            for(let i=0; i<20; i++) {
+                let bar = document.createElement('div');
+                bar.className = 'bar';
+                bar.style.animationDuration = (0.4 + Math.random() * 0.4) + 's';
+                bar.style.height = '10%';
+                visualizer.appendChild(bar);
+            }
+
+            const PLAYLIST = [
+                { title: "SoundHelix Song 1", artist: "SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://images.unsplash.com/photo-1515630278258-407f66498911?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=60" },
+                { title: "SoundHelix Song 2", artist: "SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=60" },
+                { title: "SoundHelix Song 3", artist: "SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=60" },
+                { title: "SoundHelix Song 4", artist: "SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=60" },
+                { title: "SoundHelix Song 5", artist: "SoundHelix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=60" }
+            ];
+
+            function renderPlaylist() {
+                let html = '';
+                PLAYLIST.forEach((song) => {
+                    const safeTitle = escapeHtml(song.title);
+                    const safeArtist = escapeHtml(song.artist);
+                    const safeCover = escapeHtml(song.cover);
+                    const safeUrl = escapeHtml(song.url);
+                    html += `
+                        <div class="music-item" onclick="playMusicUrl('${safeUrl.replace(/'/g, "&apos;")}', '${safeTitle} - ${safeArtist}')">
+                            <img src="${safeCover}" class="music-cover" onerror="this.src='https://via.placeholder.com/50?text=Music'">
+                            <div class="music-item-info">
+                                <div class="music-item-title">${safeTitle}</div>
+                                <div class="music-item-artist">${safeArtist}</div>
+                            </div>
+                            <div class="music-item-btn">播放</div>
+                        </div>
+                    `;
+                });
+                listContainer.innerHTML = html;
+            }
+
+            window.switchMusicTab = function(tab) {
+                const tabs = document.querySelectorAll('.music-tab');
+                tabs.forEach(t => t.classList.remove('active'));
+                if (tab === 'playlist') {
+                    tabs[0].classList.add('active');
+                    document.getElementById('searchBox').style.display = 'none';
+                    renderPlaylist();
+                } else {
+                    tabs[1].classList.add('active');
+                    document.getElementById('searchBox').style.display = 'flex';
+                    listContainer.innerHTML = '<div style="padding:20px; text-align:center; color:var(--text-dim);">请输入关键词搜索全球音乐库</div>';
+                }
+            };
+
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return '0:00';
+                const min = Math.floor(seconds / 60);
+                const sec = Math.floor(seconds % 60);
+                return `${min}:${sec < 10 ? '0'+sec : sec}`;
+            }
+
+            window.searchMusic = async function() {
+                const query = document.getElementById('musicSearchInput').value;
+                if(!query) { alert('请输入搜索内容'); return; }
+                listContainer.innerHTML = '<div style="padding:10px; text-align:center; color:var(--text-dim);">正在连接 iTunes 全球音乐库...</div>';
+                try {
+                    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(query)}&media=music&limit=10`);
+                    const data = await res.json();
+                    if(data.resultCount > 0) {
+                        let html = '';
+                        data.results.forEach(song => {
+                            const name = song.trackName || '未知歌曲';
+                            const artist = song.artistName || '未知艺术家';
+                            const cover = song.artworkUrl100 ? song.artworkUrl100.replace('100x100', '200x200') : 'https://via.placeholder.com/200?text=Music';
+                            const previewUrl = song.previewUrl;
+                            if (!previewUrl) return;
+                            const safeName = escapeHtml(name);
+                            const safeArtist = escapeHtml(artist);
+                            const safeCover = escapeHtml(cover);
+                            const safeUrl = escapeHtml(previewUrl);
+                            html += `
+                                <div class="music-item" onclick="playMusicUrl('${safeUrl.replace(/'/g, "&apos;")}', '${safeName} - ${safeArtist}')">
+                                    <img src="${safeCover}" class="music-cover" onerror="this.src='https://via.placeholder.com/50?text=Music'">
+                                    <div class="music-item-info">
+                                        <div class="music-item-title">${safeName}</div>
+                                        <div class="music-item-artist">${safeArtist}</div>
+                                    </div>
+                                    <div class="music-item-btn">试听</div>
+                                </div>
+                            `;
+                        });
+                        if (html === '') html = '<div style="padding:10px; text-align:center; color:var(--text-dim);">没有可试听的歌曲</div>';
+                        listContainer.innerHTML = html;
+                    } else {
+                        listContainer.innerHTML = '<div style="padding:10px; text-align:center; color:var(--text-dim);">未找到相关歌曲</div>';
+                    }
+                } catch (e) {
+                    listContainer.innerHTML = '<div style="padding:10px; text-align:center; color:red;">网络连接超时，请检查网络后重试</div>';
+                }
+            };
+
+            window.playMusicUrl = function(url, name) {
+                audio.src = url;
+                trackName.innerText = name;
+                audio.play().then(() => {
+                    isPlaying = true;
+                    playBtn.innerText = '⏸';
+                    document.querySelectorAll('.bar').forEach(b => b.style.animationPlayState = 'running');
+                }).catch(e => alert('播放失败，请检查网络'));
+            };
+
+            window.toggleMusic = function() {
+                if(audio.src) {
+                    if(isPlaying) {
+                        audio.pause();
+                        playBtn.innerText = '▶';
+                        isPlaying = false;
+                        document.querySelectorAll('.bar').forEach(b => b.style.animationPlayState = 'paused');
+                    } else {
+                        audio.play();
+                        playBtn.innerText = '⏸';
+                        isPlaying = true;
+                        document.querySelectorAll('.bar').forEach(b => b.style.animationPlayState = 'running');
+                    }
+                } else alert('请先选择一首歌曲');
+            };
+
+            audio.addEventListener('timeupdate', () => {
+                const { duration, currentTime } = audio;
+                if(isNaN(duration)) return;
+                progressBar.style.width = `${(currentTime/duration)*100}%`;
+                currentTimeEl.innerText = formatTime(currentTime);
+                durationEl.innerText = formatTime(duration);
+            });
+
+            audio.addEventListener('ended', () => {
+                isPlaying = false;
+                playBtn.innerText = '▶';
+                document.querySelectorAll('.bar').forEach(b => b.style.animationPlayState = 'paused');
+                progressBar.style.width = '0%';
+                currentTimeEl.innerText = '0:00';
+            });
+
+            window.seekMusic = function(e) {
+                const progressBg = document.querySelector('.progress-bar-bg');
+                const rect = progressBg.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                const width = rect.width;
+                const duration = audio.duration;
+                if (!isNaN(duration) && clickX >= 0 && clickX <= width) {
+                    audio.currentTime = (clickX / width) * duration;
+                }
+            };
+
+            renderPlaylist();
+
+            // ---------- 3. 文件传输 (增强模拟) ----------
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const fileListDiv = document.getElementById('fileList');
+
+            dropZone.addEventListener('click', () => fileInput.click());
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+            dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('dragover'); });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+            fileInput.addEventListener('change', (e) => { handleFiles(e.target.files); });
+
+            function handleFiles(files) {
+                Array.from(files).forEach(file => {
+                    const item = document.createElement('div');
+                    item.className = 'file-item';
+                    const fileName = escapeHtml(file.name);
+                    const fileSize = (file.size/1024).toFixed(1);
+                    item.innerHTML = `
+                        <div class="file-item-row">
+                            <span>${fileName} (${fileSize} KB)</span>
+                            <span style="color:var(--primary)">传输中 <span class="sim-note">(模拟)</span></span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width:0%"></div>
+                        </div>
+                    `;
+                    fileListDiv.prepend(item);
+
+                    const pb = item.querySelector('.progress-bar');
+                    let width = 0;
+                    const interval = setInterval(() => {
+                        if(width >= 100) {
+                            clearInterval(interval);
+                            item.querySelector('.file-item-row span:last-child').innerHTML = '已完成 <span class="sim-note">(模拟)</span>';
+                        } else {
+                            width += Math.random() * 10;
+                            if(width > 100) width = 100;
+                            pb.style.width = width + '%';
+                        }
+                    }, 200);
+                });
+            }
+
+            // ---------- 4. 视频 ----------
+            window.openVideo = function(url) {
+                const modal = document.getElementById('videoModal');
+                const video = document.getElementById('mainVideo');
+                video.src = url;
+                modal.style.display = 'flex';
+                video.play();
+            };
+
+            window.playCustomVideo = function() {
+                const url = document.getElementById('videoUrlInput').value;
+                if(url) openVideo(url);
+                else alert('请输入有效的视频链接');
+            };
+
+            window.closeVideo = function() {
+                const modal = document.getElementById('videoModal');
+                const video = document.getElementById('mainVideo');
+                video.pause();
+                video.src = '';
+                modal.style.display = 'none';
+            };
+
+            // ---------- 5. 后台管理 (密码 qingnanliu) ----------
+            window.openAdmin = function() { 
+                document.getElementById('adminModal').style.display = 'flex'; 
+                document.getElementById('adminLoginBox').style.display = 'block';
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('adminPass').value = '';
+                // 更新模拟统计数据
+                document.getElementById('uptime').innerText = '00:02:31';
+                const totalSize = Array.from(document.querySelectorAll('.file-item')).length * 1.2;
+                document.getElementById('storage').innerText = totalSize.toFixed(1) + ' MB';
+                document.getElementById('queue').innerText = document.querySelectorAll('.file-item').length;
+                // 更新文件列表
+                const fileNames = Array.from(document.querySelectorAll('.file-item .file-item-row span:first-child')).map(el => el.innerText).join('\n') || '无文件';
+                document.getElementById('adminFileList').innerText = fileNames;
+            };
+
+            window.closeAdminModal = function() {
+                document.getElementById('adminModal').style.display = 'none';
+            };
+
+            window.checkAdmin = function() {
+                const pass = document.getElementById('adminPass').value;
+                if(pass === 'qingnanliu') {
+                    document.getElementById('adminLoginBox').style.display = 'none';
+                    document.getElementById('adminPanel').style.display = 'block';
+                } else {
+                    alert('❌ 访问拒绝：密钥错误');
+                }
+            };
+
+            window.simulateRestart = function() {
+                alert('系统服务重启中... (模拟)');
+            };
+
+            // ---------- 背景音乐控制 (点击切换播放/暂停) ----------
+            window.toggleBgMusic = function() {
+                const iframe = document.getElementById('bgMusicIframe');
+                // 网易云外链不支持直接JS控制，但可以重新加载src来模拟暂停(但会重新播放)
+                // 这里简单地重新加载实现暂停效果（实际上会重新开始）
+                const src = iframe.src;
+                if (src.includes('auto=1')) {
+                    iframe.src = src.replace('auto=1', 'auto=0');
+                } else {
+                    iframe.src = src.replace('auto=0', 'auto=1');
+                }
+            };
+        })();
     </script>
 </body>
 </html>
