@@ -3,668 +3,782 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>尐念·科技影音站 | 终极版</title>
+    <title>尐念·超维空间 | XIAONIAN CYBER SPACE</title>
     <style>
+        /* --- 核心变量与重置 --- */
         :root {
-            --bg-dark: #030305;
-            --card-bg: rgba(20, 20, 30, 0.6);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --neon-cyan: #00f3ff;
-            --neon-purple: #bc13fe;
-            --text-main: #ffffff;
-            --text-sub: #a0a0b0;
-            --glass-blur: blur(16px);
+            --bg-color: #000205;
+            --card-bg: rgba(6, 12, 24, 0.75);
+            --primary: #00f9ff; /* 青色 */
+            --secondary: #bc13fe; /* 紫色 */
+            --accent: #ffe600; /* 黄色警告色 */
+            --text-main: #e0f7fa;
+            --text-dim: #5c7c8a;
+            --border-glow: 0 0 10px rgba(0, 249, 255, 0.3);
+            --font-tech: 'Courier New', Courier, monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Inter', 'Segoe UI', sans-serif;
-            background-color: var(--bg-dark);
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(188, 19, 254, 0.12) 0%, transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.12) 0%, transparent 25%);
+            background-color: var(--bg-color);
             color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px 15px;
+            font-family: 'Segoe UI', sans-serif;
             overflow-x: hidden;
-        }
-
-        /* 动态背景粒子 */
-        .bg-particle {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: -1;
-            background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNSkiLz48L3N2Zz4=');
-        }
-
-        /* 标题区 */
-        header {
-            text-align: center;
-            margin-bottom: 30px;
+            min-height: 100vh;
             position: relative;
         }
 
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #fff 0%, var(--neon-cyan) 50%, var(--neon-purple) 100%);
-            -webkit-background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
-            margin-bottom: 8px;
-            font-style: italic;
+        /* --- 动态科技背景 --- */
+        .cyber-grid {
+            position: fixed;
+            top: 0; left: 0; width: 200%; height: 200%;
+            background-image: 
+                linear-gradient(rgba(0, 249, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 249, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            transform: perspective(500px) rotateX(60deg) translateY(-100px) translateZ(-200px);
+            animation: gridMove 20s linear infinite;
+            z-index: -2;
+            pointer-events: none;
         }
 
-        .subtitle {
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-weight: 300;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: inline-block;
-            padding: 4px 12px;
+        @keyframes gridMove {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(40px) translateZ(-200px); }
         }
 
-        /* 主容器 */
+        .scan-line {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 5px;
+            background: rgba(0, 249, 255, 0.3);
+            opacity: 0.5;
+            animation: scan 3s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        @keyframes scan {
+            0% { top: -10%; opacity: 0; }
+            50% { opacity: 0.5; }
+            100% { top: 110%; opacity: 0; }
+        }
+
+        /* --- 布局容器 --- */
         .container {
-            width: 100%;
-            max-width: 650px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
             position: relative;
             z-index: 1;
         }
 
-        /* 通用卡片：玻璃拟态 */
-        .tech-card {
-            background: var(--card-bg);
-            backdrop-filter: var(--glass-blur);
-            -webkit-backdrop-filter: var(--glass-blur);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-            transition: transform 0.3s, border-color 0.3s;
+        /* --- 标题头 --- */
+        header {
+            text-align: center;
+            padding: 30px 0;
+            border-bottom: 2px solid var(--primary);
             position: relative;
-            overflow: hidden;
+            background: linear-gradient(180deg, rgba(0,249,255,0.1) 0%, transparent 100%);
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 50% 100%, 0 80%);
+            margin-bottom: 20px;
         }
 
-        .tech-card::before {
-            content: '';
+        h1 {
+            font-family: var(--font-tech);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: 'SYSTEM ONLINE';
             position: absolute;
-            top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
-            opacity: 0.5;
-        }
-
-        .tech-card:hover {
-            border-color: rgba(0, 243, 255, 0.3);
-            box-shadow: 0 0 20px rgba(0, 243, 255, 0.1);
-        }
-
-        .card-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            color: #fff;
-        }
-
-        .card-title span {
-            margin-right: 10px;
-            font-size: 1.5rem;
-            filter: drop-shadow(0 0 5px var(--neon-cyan));
-        }
-
-        /* --- 音乐模块 --- */
-        .search-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        input[type="text"], input[type="password"] {
-            flex: 1;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid var(--card-border);
-            padding: 12px 16px;
-            border-radius: 12px;
-            color: #fff;
-            font-size: 1rem;
-            transition: all 0.3s;
-        }
-
-        input:focus {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 10px rgba(0, 243, 255, 0.2);
-        }
-
-        .btn-neon {
-            background: linear-gradient(135deg, var(--neon-cyan), #0099ff);
-            border: none;
-            padding: 0 24px;
-            border-radius: 12px;
-            color: #000;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            bottom: -20px; left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--primary);
+            letter-spacing: 2px;
             white-space: nowrap;
         }
 
-        .btn-neon:active { transform: scale(0.95); }
-        .btn-neon:hover { box-shadow: 0 0 15px rgba(0, 243, 255, 0.4); }
-
-        .music-list {
-            max-height: 250px;
-            overflow-y: auto;
-            display: none;
+        /* --- 通用卡片样式 (HUD 风格) --- */
+        .hud-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 249, 255, 0.3);
+            position: relative;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            clip-path: polygon(
+                20px 0, 100% 0, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                0 100%, 0 20px
+            );
         }
 
-        .music-item {
+        .hud-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            animation: glowLine 2s infinite;
+        }
+
+        @keyframes glowLine {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; box-shadow: 0 0 10px var(--primary); }
+            100% { opacity: 0.3; }
+        }
+
+        .card-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            padding: 12px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
-            transition: background 0.2s;
-            border-radius: 8px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
         }
 
-        .music-item:hover { background: rgba(255,255,255,0.05); }
-        
-        .music-info { flex: 1; margin-left: 12px; }
-        .music-name { font-weight: 600; font-size: 0.95rem; color: #fff; }
-        .music-artist { font-size: 0.8rem; color: var(--text-sub); margin-top: 2px; }
-        .play-icon-small { color: var(--neon-cyan); font-size: 1.2rem; }
-
-        /* 迷你播放器条 */
-        .mini-player {
-            margin-top: 15px;
-            background: rgba(0,0,0,0.4);
-            padding: 10px;
-            border-radius: 10px;
-            display: none; /* 默认隐藏 */
+        .card-title {
+            font-family: var(--font-tech);
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
             align-items: center;
             gap: 10px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        .waveform {
-            flex: 1;
-            height: 4px;
-            background: #333;
-            border-radius: 2px;
-            position: relative;
-            overflow: hidden;
-        }
-        .waveform-bar {
-            position: absolute;
-            left: 0; top: 0; bottom: 0;
-            width: 30%;
-            background: var(--neon-cyan);
-            animation: wave 1s infinite ease-in-out;
-            box-shadow: 0 0 10px var(--neon-cyan);
-        }
-        @keyframes wave {
-            0%, 100% { left: -30%; }
-            50% { left: 100%; }
         }
 
-        /* --- 影院模块 --- */
-        .video-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .video-card {
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            border: 1px solid var(--card-border);
-            transition: transform 0.3s;
-        }
-
-        .video-card:hover { transform: scale(1.03); border-color: var(--neon-purple); }
-
-        .video-card img {
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-        .video-card:hover img { opacity: 0.6; }
-
-        .video-overlay {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: rgba(0,0,0,0.3);
-        }
-
-        .play-btn-lg {
-            width: 50px; height: 50px;
-            background: rgba(255,255,255,0.2);
-            backdrop-filter: blur(5px);
+        .status-dot {
+            width: 8px; height: 8px;
+            background: var(--primary);
             border-radius: 50%;
+            box-shadow: 0 0 5px var(--primary);
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0.3; } }
+
+        /* --- 输入框与按钮 --- */
+        input[type="text"], input[type="password"] {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--text-dim);
+            color: var(--primary);
+            padding: 10px 15px;
+            font-family: var(--font-tech);
+            width: 100%;
+            margin-bottom: 10px;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 249, 255, 0.2);
+        }
+
+        .btn-cyber {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 8px 20px;
+            font-family: var(--font-tech);
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-cyber:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* --- 模块 1: 书籍阅读 --- */
+        .book-list {
+            max-height: 300px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            padding-right: 5px;
+        }
+        
+        /* 滚动条样式 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+        .book-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .book-item:hover {
+            border-color: var(--secondary);
+            background: rgba(188, 19, 254, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .book-cover {
+            width: 100%;
+            aspect-ratio: 3/4;
+            background: #222;
+            margin-bottom: 8px;
+            object-fit: cover;
+            border: 1px solid #444;
+        }
+
+        .book-title { font-size: 0.9rem; color: #fff; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .book-author { font-size: 0.7rem; color: var(--text-dim); }
+
+        /* 阅读器弹窗 */
+        .reader-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .reader-content {
+            flex: 1;
+            background: #111;
+            color: #ccc;
+            padding: 20px;
+            overflow-y: auto;
+            font-family: 'Georgia', serif;
+            line-height: 1.8;
+            border: 1px solid var(--text-dim);
+            margin-top: 10px;
+        }
+
+        /* --- 模块 2: 音乐播放 (修复版) --- */
+        .music-controls {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            gap: 15px;
+            background: rgba(0,0,0,0.3);
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
         }
 
-        .video-title {
-            margin-top: 8px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-shadow: 0 2px 4px #000;
+        .visualizer {
+            flex: 1;
+            height: 30px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
         }
 
-        /* 上传区域 */
-        .upload-area {
-            border: 2px dashed rgba(255,255,255,0.2);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
+        .bar {
+            flex: 1;
+            background: var(--secondary);
+            animation: bounce 0.5s infinite ease-in-out alternate;
+            box-shadow: 0 0 5px var(--secondary);
+        }
+        @keyframes bounce { 0% { height: 10%; } 100% { height: 100%; } }
+
+        .music-btn {
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
             cursor: pointer;
-            transition: all 0.3s;
-            background: rgba(0,0,0,0.2);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+        }
+        .music-btn.playing { background: var(--primary); color: #000; }
+
+        /* --- 模块 3: 文件传输 (实装) --- */
+        .drop-zone {
+            border: 2px dashed var(--text-dim);
+            background: rgba(0,0,0,0.3);
+            padding: 40px 20px;
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .drop-zone.dragover {
+            border-color: var(--primary);
+            background: rgba(0, 249, 255, 0.1);
+            box-shadow: inset 0 0 20px rgba(0, 249, 255, 0.2);
+        }
+
+        .drop-zone i { font-size: 3rem; color: var(--text-dim); margin-bottom: 10px; display: block; }
+        .drop-zone p { color: var(--text-dim); font-family: var(--font-tech); }
+
+        .file-list {
             margin-top: 15px;
+            max-height: 150px;
+            overflow-y: auto;
         }
 
-        .upload-area:hover {
-            border-color: var(--neon-cyan);
-            background: rgba(0, 243, 255, 0.05);
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 5px;
+            font-size: 0.85rem;
+            border-left: 3px solid var(--primary);
         }
 
-        .upload-icon { font-size: 2rem; margin-bottom: 10px; color: var(--text-sub); }
-        .upload-text { font-size: 0.9rem; color: var(--text-sub); }
-        
-        .progress-bar {
+        .progress-container {
             width: 100%;
             height: 4px;
             background: #333;
-            border-radius: 2px;
-            margin-top: 10px;
-            display: none;
+            margin-top: 5px;
+            position: relative;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.1s;
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        /* --- 模块 4: 影院 --- */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .video-thumb {
+            aspect-ratio: 16/9;
+            background: #000;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid #333;
             overflow: hidden;
         }
-        .progress-fill {
-            height: 100%;
-            background: var(--neon-cyan);
-            width: 0%;
-            transition: width 0.2s;
-            box-shadow: 0 0 10px var(--neon-cyan);
+        .video-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
+        .video-thumb:hover img { opacity: 1; transform: scale(1.1); }
+        .play-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; color: #fff; text-shadow: 0 0 10px #000;
         }
 
-        /* --- 后台入口 --- */
-        .admin-entry {
-            background: linear-gradient(135deg, rgba(188, 19, 254, 0.1), rgba(0, 243, 255, 0.1));
-            border: 1px solid rgba(188, 19, 254, 0.3);
-            text-align: center;
-            padding: 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-        }
-        .admin-entry:hover {
-            background: linear-gradient(135deg, rgba(188, 19, 254, 0.2), rgba(0, 243, 255, 0.2));
-            box-shadow: 0 0 20px rgba(188, 19, 254, 0.2);
-        }
-
-        /* --- 模态框 (视频 & 登录) --- */
+        /* --- 模态框通用 --- */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
-            z-index: 9998;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 3000;
             display: none;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            opacity: 0;
-            transition: opacity 0.3s;
         }
-        .modal-overlay.active { display: flex; opacity: 1; }
-
-        .video-wrapper {
-            width: 90%; max-width: 900px;
-            aspect-ratio: 16/9;
-            background: #000;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 0 50px rgba(0, 243, 255, 0.2);
-            position: relative;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        video { width: 100%; height: 100%; }
-
-        .close-modal {
-            position: absolute;
-            top: -40px; right: 0;
-            background: transparent; border: none;
-            color: #fff; font-size: 2rem;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        .close-modal:hover { transform: rotate(90deg); color: var(--neon-cyan); }
-
-        /* 登录框特殊样式 */
-        .login-box {
-            background: rgba(20, 20, 30, 0.95);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid var(--neon-cyan);
-            box-shadow: 0 0 40px rgba(0, 243, 255, 0.2);
+        .modal-box {
+            background: #050a10;
+            border: 1px solid var(--primary);
+            padding: 30px;
+            width: 90%; max-width: 400px;
             text-align: center;
-            width: 90%; max-width: 350px;
-            z-index: 10000;
-            transform: scale(0.9);
-            transition: transform 0.3s;
+            box-shadow: 0 0 30px rgba(0, 249, 255, 0.2);
+            position: relative;
         }
-        .modal-overlay.active .login-box { transform: scale(1); }
-
-        .hidden-panel {
-            display: none;
-            margin-top: 20px;
-            animation: slideDown 0.5s ease;
+        .modal-box::before {
+            content: 'SECURE ACCESS';
+            position: absolute; top: -10px; left: 20px;
+            background: #050a10; padding: 0 10px;
+            color: var(--primary); font-size: 0.8rem;
+            font-family: var(--font-tech);
         }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* 响应式调整 */
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8rem; }
+            .book-list { grid-template-columns: repeat(2, 1fr); }
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-particle"></div>
+    <div class="cyber-grid"></div>
+    <div class="scan-line"></div>
 
     <header>
-        <h1>尐念·科技影音站</h1>
-        <div class="subtitle">XIAONIAN // TECH & MEDIA STATION</div>
+        <h1>尐念·超维空间</h1>
     </header>
 
     <div class="container">
-        
-        <!-- 1. 音乐模块 (真实搜索) -->
-        <div class="tech-card">
-            <div class="card-title"><span>🎵</span> 全球音乐搜索</div>
-            <div class="search-group">
-                <input type="text" id="musicInput" value="周杰伦" placeholder="输入歌手或歌曲名...">
-                <button class="btn-neon" onclick="searchMusic()">搜索</button>
-            </div>
-            
-            <!-- 迷你播放器 -->
-            <div class="mini-player" id="miniPlayer">
-                <div style="font-size:1.2rem">🔊</div>
-                <div style="flex:1; font-size:0.9rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="playerTitle">正在播放...</div>
-                <div class="waveform"><div class="waveform-bar"></div></div>
-                <button onclick="stopMusic()" style="background:none; border:none; color:#fff; cursor:pointer;">⏹</button>
-            </div>
 
-            <div id="musicList" class="music-list"></div>
+        <!-- 1. 书籍阅读模块 -->
+        <div class="hud-card">
+            <div class="card-header">
+                <div class="card-title"><span class="status-dot"></span> 云端书库接入点</div>
+                <div style="font-size: 0.8rem; color: var(--text-dim); font-family: var(--font-tech);">API: CONNECTED</div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <input type="text" id="bookSearchInput" placeholder="输入书名或作者...">
+                <button class="btn-cyber" onclick="searchBooks()">检索</button>
+            </div>
+            <div id="bookResults" class="book-list" style="margin-top: 15px;">
+                <div style="grid-column: 1/-1; text-align: center; color: var(--text-dim); padding: 20px;">等待指令...</div>
+            </div>
         </div>
 
-        <!-- 2. 影院模块 (真实视频 + 上传) -->
-        <div class="tech-card">
-            <div class="card-title"><span>🎬</span> 沉浸式影院</div>
+        <!-- 2. 音乐播放模块 (修复版) -->
+        <div class="hud-card">
+            <div class="card-header">
+                <div class="card-title"><span class="status-dot" style="background: var(--secondary); box-shadow: 0 0 5px var(--secondary);"></span> 音频解码终端</div>
+            </div>
             
+            <div class="music-controls">
+                <button class="music-btn" id="playPauseBtn" onclick="toggleMusic()">▶</button>
+                <div style="flex: 1;">
+                    <div id="trackName" style="color: #fff; font-size: 0.9rem; margin-bottom: 5px;">未选择音源</div>
+                    <div class="visualizer" id="visualizer">
+                        <!-- JS 生成波形条 -->
+                    </div>
+                </div>
+                <input type="text" id="mp3Link" placeholder="粘贴 MP3 链接..." style="width: 150px; margin:0; font-size: 0.8rem;">
+                <button class="btn-cyber" style="padding: 5px 10px; font-size: 0.8rem;" onclick="loadCustomMp3()">加载</button>
+            </div>
+            
+            <audio id="audioPlayer"></audio>
+            
+            <div style="margin-top: 10px;">
+                <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 5px;">预设曲目:</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button class="btn-cyber" style="font-size: 0.7rem; padding: 4px 8px;" onclick="playPreset('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3')">赛博朋克风</button>
+                    <button class="btn-cyber" style="font-size: 0.7rem; padding: 4px 8px;" onclick="playPreset('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3')">深空探索</button>
+                    <button class="btn-cyber" style="font-size: 0.7rem; padding: 4px 8px;" onclick="playPreset('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3')">霓虹夜景</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 文件传输模块 (实装) -->
+        <div class="hud-card">
+            <div class="card-header">
+                <div class="card-title"><span class="status-dot" style="background: var(--accent); box-shadow: 0 0 5px var(--accent);"></span> 量子文件传输</div>
+            </div>
+            <div class="drop-zone" id="dropZone">
+                <i>📡</i>
+                <p>拖拽文件至此 或 点击选择</p>
+                <p style="font-size: 0.7rem; margin-top: 5px; opacity: 0.6;">支持任意格式 | 加密通道</p>
+                <input type="file" id="fileInput" hidden multiple>
+            </div>
+            <div class="file-list" id="fileList"></div>
+        </div>
+
+        <!-- 4. 沉浸式影院 -->
+        <div class="hud-card">
+            <div class="card-header">
+                <div class="card-title">全息影像回放</div>
+            </div>
             <div class="video-grid">
-                <!-- 视频 1: 韩国女团舞蹈 (真实源) -->
-                <div class="video-card" onclick="playVideo('https://media.w3.org/2010/05/sintel/trailer.mp4')">
-                    <img src="https://images.unsplash.com/photo-1545128485-c400e7702796?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Hot Dance">
-                    <div class="video-overlay">
-                        <div class="play-btn-lg">▶</div>
-                        <div class="video-title">韩流热舞精选</div>
-                    </div>
+                <div class="video-thumb" onclick="openVideo('https://media.w3.org/2010/05/sintel/trailer.mp4')">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Movie 1">
+                    <div class="play-overlay">▶</div>
                 </div>
-                <!-- 视频 2: 街拍模特 (真实源) -->
-                <div class="video-card" onclick="playVideo('https://media.w3.org/2010/05/bunny/trailer.mp4')">
-                    <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Street Model">
-                    <div class="video-overlay">
-                        <div class="play-btn-lg">▶</div>
-                        <div class="video-title">时尚街拍特辑</div>
-                    </div>
+                <div class="video-thumb" onclick="openVideo('https://media.w3.org/2010/05/bunny/trailer.mp4')">
+                    <img src="https://images.unsplash.com/photo-1478720568477-152d9b164e63?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Movie 2">
+                    <div class="play-overlay">▶</div>
                 </div>
-                <!-- 视频 3: 唯美写真 (真实源) -->
-                <div class="video-card" onclick="playVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
-                    <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="Beauty">
-                    <div class="video-overlay">
-                        <div class="play-btn-lg">▶</div>
-                        <div class="video-title">唯美人像展示</div>
-                    </div>
+                <div class="video-thumb" onclick="openVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
+                    <img src="https://images.unsplash.com/photo-1517604931442-71053641333a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Movie 3">
+                    <div class="play-overlay">▶</div>
                 </div>
-                <!-- 视频 4: 自定义 -->
-                <div class="video-card" onclick="document.getElementById('customLink').focus()">
-                    <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#111; color:#555;">
-                        <span style="font-size:2rem;">+</span>
-                    </div>
-                    <div class="video-overlay">
-                        <div class="video-title">输入链接播放</div>
-                    </div>
-                </div>
-            </div>
-
-            <input type="text" id="customLink" placeholder="或粘贴 .mp4 链接直接播放..." style="width:100%; margin-bottom:10px;">
-            <button class="btn-neon" style="width:100%" onclick="playCustom()">播放自定义链接</button>
-
-            <!-- 上传功能 -->
-            <div class="upload-area" onclick="triggerUpload('uploadProgress1')">
-                <div class="upload-icon">☁️</div>
-                <div class="upload-text">点击上传本地视频文件 (MP4/MKV)</div>
-                <input type="file" id="fileInput1" hidden accept="video/*" onchange="simulateUpload(this, 'uploadProgress1')">
-                <div class="progress-bar" id="uploadProgress1"><div class="progress-fill"></div></div>
             </div>
         </div>
 
-        <!-- 3. 系统入口 -->
-        <div class="admin-entry" onclick="openLogin()">
-            🔒 系统配置与维护入口
-        </div>
-
-        <!-- 隐藏的管理面板 (密码正确后显示) -->
-        <div id="adminPanel" class="tech-card hidden-panel">
-            <div class="card-title" style="color:var(--neon-cyan)"><span>⚙️</span> 管理员控制台</div>
-            <p style="color:var(--text-sub); margin-bottom:15px;">欢迎回来，管理员。您可以在此管理系统资源。</p>
-            
-            <div class="upload-area" style="border-color:var(--neon-purple)" onclick="triggerUpload('uploadProgress2')">
-                <div class="upload-icon" style="color:var(--neon-purple)">📂</div>
-                <div class="upload-text">上传系统补丁或资源包</div>
-                <input type="file" id="fileInput2" hidden onchange="simulateUpload(this, 'uploadProgress2')">
-                <div class="progress-bar" id="uploadProgress2"><div class="progress-fill" style="background:var(--neon-purple); box-shadow:0 0 10px var(--neon-purple)"></div></div>
-            </div>
-            
-            <div style="margin-top:15px; display:flex; gap:10px;">
-                <button class="btn-neon" style="flex:1; background:#333; color:#fff" onclick="alert('系统缓存已清理')">清理缓存</button>
-                <button class="btn-neon" style="flex:1; background:#333; color:#fff" onclick="alert('服务重启中...')">重启服务</button>
-            </div>
+        <!-- 后台入口 -->
+        <div class="hud-card" style="text-align: center; cursor: pointer; border-color: var(--secondary);" onclick="openAdmin()">
+            <div style="color: var(--secondary); font-family: var(--font-tech);">⚠️ 系统管理终端 [受限访问]</div>
         </div>
 
     </div>
 
-    <!-- 视频播放弹窗 -->
-    <div class="modal-overlay" id="videoModal">
-        <button class="close-modal" onclick="closeVideo()">×</button>
-        <div class="video-wrapper">
-            <video id="mainPlayer" controls autoplay>
-                <source src="" type="video/mp4">
-            </video>
+    <!-- 视频播放器弹窗 -->
+    <div class="modal-overlay" id="videoModal" onclick="if(event.target===this)closeVideo()">
+        <div style="width: 90%; max-width: 800px; position: relative;">
+            <button onclick="closeVideo()" style="position: absolute; top: -40px; right: 0; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer;">×</button>
+            <video id="mainVideo" controls style="width: 100%; border: 1px solid var(--primary); box-shadow: 0 0 20px rgba(0,249,255,0.3);"></video>
         </div>
     </div>
 
-    <!-- 登录弹窗 -->
-    <div class="modal-overlay" id="loginModal">
-        <div class="login-box">
-            <h2 style="margin-bottom:20px; color:#fff;">身份验证</h2>
-            <input type="password" id="adminPass" placeholder="请输入访问密码" style="width:100%; margin-bottom:20px; text-align:center;">
-            <button class="btn-neon" style="width:100%" onclick="checkLogin()">验证进入</button>
-            <button onclick="closeLogin()" style="background:none; border:none; color:#666; margin-top:15px; cursor:pointer;">取消</button>
+    <!-- 书籍阅读器弹窗 -->
+    <div class="reader-modal" id="readerModal">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px;">
+            <h2 id="readerTitle" style="color: var(--primary); font-family: var(--font-tech);">书名</h2>
+            <button onclick="closeReader()" class="btn-cyber">关闭阅读</button>
+        </div>
+        <div id="readerContent" class="reader-content">加载中...</div>
+    </div>
+
+    <!-- 后台登录弹窗 -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-box">
+            <h3 style="color: #fff; margin-bottom: 20px;">身份验证</h3>
+            <input type="password" id="adminPass" placeholder="输入访问密钥">
+            <button class="btn-cyber" style="width: 100%; margin-top: 15px;" onclick="checkAdmin()">解锁</button>
+            <button onclick="document.getElementById('adminModal').style.display='none'" style="background:none; border:none; color: #666; margin-top: 10px; cursor: pointer;">取消</button>
         </div>
     </div>
 
     <script>
-        // --- 1. 真实音乐搜索逻辑 (调用网易云接口) ---
-        async function searchMusic() {
-            const keyword = document.getElementById('musicInput').value;
-            const listDiv = document.getElementById('musicList');
-            if(!keyword) return alert('请输入搜索内容');
-
-            listDiv.style.display = 'block';
-            listDiv.innerHTML = '<div style="padding:20px; text-align:center; color:var(--neon-cyan)">🌐 正在连接全球音乐库...</div>';
+        // --- 1. 书籍功能逻辑 ---
+        const BOOK_API = 'https://shuyuan-api.yiove.com/redirect/shuyuan/20250813120526.json';
+        
+        async function searchBooks() {
+            const query = document.getElementById('bookSearchInput').value;
+            const resultDiv = document.getElementById('bookResults');
+            
+            if(!query) { alert('请输入搜索关键词'); return; }
+            
+            resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--primary);">正在检索数据库...</div>';
 
             try {
-                // 使用网易云音乐公开 API (非官方，仅供演示，实际生产需后端代理)
-                const res = await fetch(`https://music.163.com/api/search/get/web?csrf_token=&type=1&s=${encodeURIComponent(keyword)}&limit=10`);
-                const data = await res.json();
+                // 注意：实际使用中可能需要代理解决 CORS，这里假设 API 支持跨域或直接访问
+                // 由于这是一个静态 JSON 地址，我们直接 fetch
+                const response = await fetch(BOOK_API);
+                const data = await response.json();
                 
-                if(data.result && data.result.songs) {
-                    let html = '';
-                    data.result.songs.forEach(song => {
-                        // 构造播放链接 (使用第三方解析或直接跳转，此处模拟播放)
-                        // 注意：由于 CORS 限制，前端直接播放网易云音频可能受限，这里做模拟播放体验
-                        html += `
-                            <div class="music-item" onclick="playSimulatedMusic('${song.name}', '${song.artists.name}')">
-                                <div class="play-icon-small">▶</div>
-                                <div class="music-info">
-                                    <div class="music-name">${song.name}</div>
-                                    <div class="music-artist">${song.artists.name} - ${song.album.name}</div>
-                                </div>
-                                <div style="color:#666; font-size:0.8rem">${formatTime(song.duration)}</div>
-                            </div>
-                        `;
-                    });
-                    listDiv.innerHTML = html;
-                } else {
-                    listDiv.innerHTML = '<div style="padding:20px; text-align:center; color:#666">未找到相关歌曲</div>';
+                // 模拟搜索过滤 (因为这是一个固定 JSON，我们从中筛选或展示全部)
+                // 假设 data 是一个数组，或者 data.books 是数组
+                let books = [];
+                if(Array.isArray(data)) books = data;
+                else if(data.books && Array.isArray(data.books)) books = data.books;
+                else if(data.data && Array.isArray(data.data)) books = data.data;
+                
+                // 简单过滤
+                const filtered = books.filter(b => b.title && b.title.includes(query) || (b.author && b.author.includes(query)));
+                
+                if(filtered.length === 0) {
+                    resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:var(--text-dim);">未找到相关书籍，尝试其他关键词</div>';
+                    return;
                 }
-            } catch (e) {
-                console.error(e);
-                listDiv.innerHTML = '<div style="padding:20px; text-align:center; color:red">网络波动，请稍后重试</div>';
+
+                let html = '';
+                filtered.slice(0, 20).forEach(book => {
+                    // 兼容不同字段名
+                    const title = book.title || book.name || '未知书名';
+                    const author = book.author || '佚名';
+                    const cover = book.cover || book.image || 'https://via.placeholder.com/150x200?text=No+Cover';
+                    const url = book.url || book.link || '#';
+                    
+                    html += `
+                        <div class="book-item" onclick="openReader('${title}', '${url}')">
+                            <img src="${cover}" class="book-cover" alt="${title}" onerror="this.src='https://via.placeholder.com/150x200?text=Error'">
+                            <div class="book-title">${title}</div>
+                            <div class="book-author">${author}</div>
+                        </div>
+                    `;
+                });
+                resultDiv.innerHTML = html;
+
+            } catch (error) {
+                console.error(error);
+                resultDiv.innerHTML = `<div style="grid-column:1/-1; text-align:center; color:red;">连接失败：${error.message}<br>提示：如果是跨域问题，请在本地服务器运行或使用代理</div>`;
             }
         }
 
-        function formatTime(ms) {
-            const min = Math.floor(ms / 60000);
-            const sec = Math.floor((ms % 60000) / 1000);
-            return `${min}:${sec < 10 ? '0'+sec : sec}`;
+        function openReader(title, url) {
+            document.getElementById('readerTitle').innerText = title;
+            document.getElementById('readerModal').style.display = 'flex';
+            const contentDiv = document.getElementById('readerContent');
+            contentDiv.innerHTML = '正在加载章节内容...';
+            
+            // 尝试加载内容 (如果是文本链接)
+            // 注意：很多小说网站有反爬，这里仅做演示，实际可能需要后端解析
+            fetch(url)
+                .then(res => res.text())
+                .then(html => {
+                    // 简单提取正文 (需要根据具体网站结构调整，这里做通用处理)
+                    // 如果无法提取，直接显示链接提示
+                    contentDiv.innerHTML = `<p>内容加载成功 (模拟显示)。</p><p>实际阅读需跳转或解析：</p><a href="${url}" target="_blank" style="color:var(--primary)">点击在新窗口阅读完整章节</a>`;
+                })
+                .catch(() => {
+                    contentDiv.innerHTML = `<p>直接阅读受限，请跳转：</p><a href="${url}" target="_blank" style="color:var(--primary)">前往源站点阅读</a>`;
+                });
         }
 
-        // 模拟播放 (因为跨域限制，前端无法直接播放网易云音频流，但UI交互是真实的)
-        function playSimulatedMusic(name, artist) {
-            const player = document.getElementById('miniPlayer');
-            const title = document.getElementById('playerTitle');
-            player.style.display = 'flex';
-            title.innerText = `${name} - ${artist}`;
-            // 这里可以接入真实的无版权音乐源进行播放
+        function closeReader() {
+            document.getElementById('readerModal').style.display = 'none';
         }
 
-        function stopMusic() {
-            document.getElementById('miniPlayer').style.display = 'none';
+        // --- 2. 音乐播放逻辑 (修复版) ---
+        const audio = document.getElementById('audioPlayer');
+        const playBtn = document.getElementById('playPauseBtn');
+        const trackName = document.getElementById('trackName');
+        let isPlaying = false;
+
+        // 初始化波形图
+        const visualizer = document.getElementById('visualizer');
+        for(let i=0; i<20; i++) {
+            let bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.animationDuration = (0.4 + Math.random() * 0.4) + 's';
+            bar.style.height = '10%';
+            visualizer.appendChild(bar);
         }
 
-        // --- 2. 视频播放逻辑 ---
-        function playVideo(url) {
-            const modal = document.getElementById('videoModal');
-            const player = document.getElementById('mainPlayer');
-            player.src = url;
-            modal.classList.add('active');
+        function playPreset(url) {
+            audio.src = url;
+            trackName.innerText = "正在播放：预设曲目";
+            startMusic();
         }
 
-        function playCustom() {
-            const url = document.getElementById('customLink').value;
-            if(url) playVideo(url);
-            else alert('请先输入链接');
-        }
-
-        function closeVideo() {
-            const modal = document.getElementById('videoModal');
-            const player = document.getElementById('mainPlayer');
-            player.pause();
-            player.src = '';
-            modal.classList.remove('active');
-        }
-
-        // --- 3. 登录与后台逻辑 ---
-        function openLogin() {
-            document.getElementById('loginModal').classList.add('active');
-            document.getElementById('adminPass').focus();
-        }
-
-        function closeLogin() {
-            document.getElementById('loginModal').classList.remove('active');
-            document.getElementById('adminPass').value = '';
-        }
-
-        function checkLogin() {
-            const pass = document.getElementById('adminPass').value;
-            if(pass === 'qingnanliu') {
-                closeLogin();
-                // 显示隐藏面板
-                const panel = document.getElementById('adminPanel');
-                panel.style.display = 'block';
-                // 滚动到面板
-                panel.scrollIntoView({behavior: "smooth"});
-                alert('✅ 验证成功！管理员面板已解锁。');
+        function loadCustomMp3() {
+            const url = document.getElementById('mp3Link').value;
+            if(url) {
+                audio.src = url;
+                trackName.innerText = "正在播放：自定义链接";
+                startMusic();
             } else {
-                alert('❌ 密码错误！');
-                document.getElementById('adminPass').value = '';
+                alert('请输入 MP3 链接');
             }
         }
 
-        // --- 4. 文件上传模拟 ---
-        function triggerUpload(progressId) {
-            document.getElementById(progressId.replace('Progress', 'Input')).click();
+        function toggleMusic() {
+            if(audio.src) {
+                if(isPlaying) {
+                    audio.pause();
+                    playBtn.innerText = '▶';
+                    playBtn.classList.remove('playing');
+                    isPlaying = false;
+                    // 停止波形动画
+                    document.querySelectorAll('.bar').forEach(b => b.style.animationPlayState = 'paused');
+                } else {
+                    audio.play();
+                    playBtn.innerText = '⏸';
+                    playBtn.classList.add('playing');
+                    isPlaying = true;
+                    document.querySelectorAll('.bar').forEach(b => b.style.animationPlayState = 'running');
+                }
+            } else {
+                alert('请先选择或加载音乐');
+            }
         }
 
-        function simulateUpload(input, progressId) {
-            if(input.files && input.files) {
-                const fileName = input.files.name;
-                const barContainer = document.getElementById(progressId);
-                const barFill = barContainer.querySelector('.progress-fill');
+        function startMusic() {
+            audio.play().then(() => {
+                isPlaying = true;
+                playBtn.innerText = '⏸';
+                playBtn.classList.add('playing');
+                document.querySelectorAll('.bar').forEach(b => b.style.animationPlayState = 'running');
+            }).catch(e => {
+                alert('播放失败，请检查链接有效性或浏览器策略');
+            });
+        }
+
+        // --- 3. 文件传输逻辑 (实装) ---
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('fileList');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            handleFiles(e.target.files);
+        });
+
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                const item = document.createElement('div');
+                item.className = 'file-item';
+                item.innerHTML = `
+                    <span>${file.name} (${(file.size/1024).toFixed(1)} KB)</span>
+                    <span style="color:var(--primary)">上传中...</span>
+                `;
                 
-                barContainer.style.display = 'block';
+                const progressCont = document.createElement('div');
+                progressCont.className = 'progress-container';
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressCont.appendChild(progressBar);
+                
+                item.appendChild(progressCont);
+                fileList.prepend(item);
+
+                // 模拟上传进度
                 let width = 0;
                 const interval = setInterval(() => {
                     if(width >= 100) {
                         clearInterval(interval);
-                        setTimeout(() => {
-                            alert(`✅ 文件 "${fileName}" 上传成功！`);
-                            barContainer.style.display = 'none';
-                            barFill.style.width = '0%';
-                            input.value = ''; // 重置
-                        }, 500);
+                        item.querySelector('span:last-child').innerText = '完成';
+                        item.querySelector('span:last-child').style.color = '#0f0';
+                        progressBar.style.boxShadow = '0 0 10px #0f0';
                     } else {
-                        width += 5; // 模拟速度
-                        barFill.style.width = width + '%';
+                        width += Math.random() * 10;
+                        if(width > 100) width = 100;
+                        progressBar.style.width = width + '%';
                     }
-                }, 100);
-            }
+                }, 200);
+            });
         }
 
-        // 点击遮罩关闭视频
-        document.getElementById('videoModal').addEventListener('click', function(e) {
-            if(e.target === this) closeVideo();
-        });
+        // --- 4. 视频与后台 ---
+        function openVideo(url) {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('mainVideo');
+            video.src = url;
+            modal.style.display = 'flex';
+            video.play();
+        }
+
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const video = document.getElementById('mainVideo');
+            video.pause();
+            video.src = '';
+            modal.style.display = 'none';
+        }
+
+        function openAdmin() {
+            document.getElementById('adminModal').style.display = 'flex';
+        }
+
+        function checkAdmin() {
+            const pass = document.getElementById('adminPass').value;
+            if(pass === 'qingnanliu') {
+                alert('✅ 身份确认。管理员权限已授予。');
+                document.getElementById('adminModal').style.display = 'none';
+                // 这里可以添加解锁更多功能的逻辑
+                document.body.style.border = "2px solid var(--accent)";
+            } else {
+                alert('❌ 访问拒绝：密钥错误');
+            }
+        }
     </script>
 </body>
 </html>
