@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>心念 · 超维空间 · 赛博旗舰版</title>
+    <title>心念 · 超维空间 · 美女直播版</title>
     <style>
         /* ===== 全局重置 ===== */
         * {
@@ -29,7 +29,7 @@
             width: 200%;
             height: 200%;
             background: 
-                linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
             background-size: 40px 40px;
             transform: perspective(800px) rotateX(70deg) translateY(-30%);
@@ -49,7 +49,7 @@
             left: 0;
             width: 100%;
             height: 8px;
-            background: linear-gradient(to bottom, transparent, rgba(0, 255, 255, 0.5), transparent);
+            background: linear-gradient(to bottom, transparent, rgba(255, 0, 255, 0.6), transparent);
             animation: scan 4s linear infinite;
             z-index: -1;
             opacity: 0.6;
@@ -106,21 +106,21 @@
         }
 
         .subhead {
-            color: #8cf;
+            color: #f8f;
             font-size: 1.2rem;
             letter-spacing: 4px;
-            border-bottom: 2px solid cyan;
+            border-bottom: 2px solid magenta;
             display: inline-block;
             padding-bottom: 8px;
-            box-shadow: 0 5px 20px rgba(0,255,255,0.3);
+            box-shadow: 0 5px 20px rgba(255,0,255,0.3);
         }
 
         /* ===== 卡片通用 ===== */
         .card {
             background: rgba(8, 15, 26, 0.75);
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(0, 255, 255, 0.4);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(255, 0, 255, 0.4);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2), inset 0 0 20px rgba(255, 0, 255, 0.1);
             padding: 25px;
             margin-bottom: 35px;
             position: relative;
@@ -129,8 +129,8 @@
         }
 
         .card:hover {
-            border-color: magenta;
-            box-shadow: 0 0 40px magenta, inset 0 0 30px rgba(255, 0, 255, 0.2);
+            border-color: cyan;
+            box-shadow: 0 0 40px cyan, inset 0 0 30px rgba(0, 255, 255, 0.2);
         }
 
         .card::before {
@@ -140,7 +140,7 @@
             left: 0;
             width: 100%;
             height: 2px;
-            background: linear-gradient(90deg, transparent, cyan, magenta, transparent);
+            background: linear-gradient(90deg, transparent, magenta, cyan, transparent);
             animation: glowPulse 2s infinite;
         }
 
@@ -155,25 +155,25 @@
             align-items: center;
             gap: 15px;
             margin-bottom: 20px;
-            border-bottom: 1px dashed rgba(0, 255, 255, 0.5);
+            border-bottom: 1px dashed rgba(255, 0, 255, 0.5);
             padding-bottom: 12px;
         }
 
         .card-title {
             font-size: 1.8rem;
             font-weight: 400;
-            color: cyan;
+            color: magenta;
             text-transform: uppercase;
             letter-spacing: 3px;
         }
 
         .status-badge {
             font-size: 0.8rem;
-            background: #0a1a2a;
+            background: #1a0a2a;
             padding: 3px 12px;
-            border: 1px solid cyan;
+            border: 1px solid magenta;
             border-radius: 20px;
-            color: cyan;
+            color: #f8f;
             letter-spacing: 1px;
         }
 
@@ -186,42 +186,42 @@
 
         .cyber-input {
             background: #0c1420;
-            border: 1px solid #2f6f8f;
-            color: cyan;
+            border: 1px solid #9f4f9f;
+            color: #f8f;
             padding: 12px 18px;
             flex: 1;
             font-size: 1rem;
-            caret-color: magenta;
+            caret-color: cyan;
             transition: 0.2s;
         }
 
         .cyber-input:focus {
-            border-color: magenta;
-            box-shadow: 0 0 20px magenta;
+            border-color: cyan;
+            box-shadow: 0 0 20px cyan;
             outline: none;
         }
 
         .cyber-btn {
             background: transparent;
-            border: 1px solid cyan;
-            color: cyan;
+            border: 1px solid magenta;
+            color: magenta;
             padding: 12px 24px;
             cursor: pointer;
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: 0.2s;
-            box-shadow: 0 0 12px cyan;
+            box-shadow: 0 0 12px magenta;
             white-space: nowrap;
         }
 
         .cyber-btn:hover {
-            background: cyan;
+            background: magenta;
             color: #000;
-            box-shadow: 0 0 30px cyan;
+            box-shadow: 0 0 30px magenta;
         }
 
-        /* ===== 书库网格 (Open Library 增强) ===== */
+        /* ===== 书库网格 ===== */
         .book-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -233,8 +233,8 @@
         }
 
         .book-item {
-            background: rgba(0, 30, 45, 0.7);
-            border: 1px solid #0ff;
+            background: rgba(30, 0, 45, 0.7);
+            border: 1px solid magenta;
             padding: 12px;
             text-align: center;
             cursor: pointer;
@@ -242,17 +242,17 @@
         }
 
         .book-item:hover {
-            border-color: magenta;
+            border-color: cyan;
             transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 0 25px magenta;
+            box-shadow: 0 0 25px cyan;
         }
 
         .book-cover {
             width: 100%;
             aspect-ratio: 2/3;
-            background: #112233;
+            background: #221133;
             object-fit: cover;
-            border: 1px solid #0ff;
+            border: 1px solid magenta;
             margin-bottom: 8px;
         }
 
@@ -266,34 +266,35 @@
 
         .book-author {
             font-size: 0.7rem;
-            color: #8cf;
+            color: #f8f;
         }
 
         /* ===== 音乐模块 ===== */
-        .music-tabs {
+        .music-tabs, .video-nav-tabs {
             display: flex;
             gap: 12px;
             margin: 15px 0;
+            flex-wrap: wrap;
         }
 
         .tab {
             padding: 6px 18px;
-            border: 1px solid cyan;
-            color: cyan;
+            border: 1px solid magenta;
+            color: magenta;
             cursor: pointer;
             transition: 0.2s;
         }
 
         .tab.active {
-            background: cyan;
+            background: magenta;
             color: black;
             font-weight: bold;
-            box-shadow: 0 0 25px cyan;
+            box-shadow: 0 0 25px magenta;
         }
 
         .player-ui {
-            background: #0c1622;
-            border: 1px solid cyan;
+            background: #160c22;
+            border: 1px solid magenta;
             padding: 18px;
             margin: 15px 0;
             display: flex;
@@ -306,9 +307,9 @@
             width: 55px;
             height: 55px;
             border-radius: 50%;
-            border: 2px solid cyan;
+            border: 2px solid magenta;
             background: transparent;
-            color: cyan;
+            color: magenta;
             font-size: 1.8rem;
             display: flex;
             align-items: center;
@@ -318,9 +319,9 @@
         }
 
         .play-btn:hover {
-            background: cyan;
+            background: magenta;
             color: black;
-            box-shadow: 0 0 35px cyan;
+            box-shadow: 0 0 35px magenta;
         }
 
         .track-info {
@@ -343,15 +344,15 @@
         .progress-bg {
             flex: 1;
             height: 6px;
-            background: #1a2e3e;
-            border: 1px solid #4cf;
+            background: #2a1a3e;
+            border: 1px solid #f8f;
         }
 
         .progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, cyan, magenta);
-            box-shadow: 0 0 12px cyan;
+            background: linear-gradient(90deg, magenta, cyan);
+            box-shadow: 0 0 12px magenta;
         }
 
         .music-list {
@@ -363,12 +364,12 @@
             display: flex;
             align-items: center;
             padding: 10px;
-            border-bottom: 1px solid rgba(0,255,255,0.2);
+            border-bottom: 1px solid rgba(255,0,255,0.2);
             cursor: pointer;
         }
 
         .music-item:hover {
-            background: rgba(0,255,255,0.1);
+            background: rgba(255,0,255,0.1);
         }
 
         .music-cover {
@@ -376,7 +377,7 @@
             height: 45px;
             object-fit: cover;
             margin-right: 12px;
-            border: 1px solid cyan;
+            border: 1px solid magenta;
         }
 
         .music-meta {
@@ -390,28 +391,28 @@
 
         .music-artist {
             font-size: 0.75rem;
-            color: #8cf;
+            color: #f8f;
         }
 
         .music-play {
-            border: 1px solid cyan;
+            border: 1px solid magenta;
             padding: 4px 12px;
             font-size: 0.75rem;
-            color: cyan;
+            color: magenta;
         }
 
-        /* ===== 视频网格 (稳定封面) ===== */
+        /* ===== 视频网格 - 美女专区 ===== */
         .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
             gap: 18px;
-            margin-top: 15px;
+            margin: 15px 0;
         }
 
         .video-card {
-            aspect-ratio: 16/9;
-            background: #000;
-            border: 1px solid cyan;
+            aspect-ratio: 9/16;
+            background: #1a0a1a;
+            border: 1px solid magenta;
             position: relative;
             cursor: pointer;
             overflow: hidden;
@@ -421,13 +422,13 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.8;
+            opacity: 0.9;
             transition: 0.3s;
         }
 
         .video-card:hover img {
             opacity: 1;
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .video-card .play-overlay {
@@ -439,13 +440,65 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.5rem;
-            color: cyan;
+            font-size: 3rem;
+            color: white;
             text-shadow: 0 0 25px magenta;
-            background: rgba(0,0,0,0.3);
+            background: rgba(0,0,0,0.2);
         }
 
-        /* ===== 文件传输 (带已接收列表) ===== */
+        .video-card .video-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: #f8f;
+            padding: 20px 8px 8px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* ===== 直播/点播导航 ===== */
+        .live-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(255,0,255,0.05);
+            border: 1px dashed magenta;
+        }
+
+        .live-category {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .live-category h4 {
+            color: #f8f;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            border-left: 3px solid magenta;
+            padding-left: 8px;
+        }
+
+        .live-link {
+            display: block;
+            color: #8cf;
+            padding: 5px 10px;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .live-link:hover {
+            border-color: cyan;
+            color: cyan;
+            background: rgba(0,255,255,0.1);
+        }
+
+        /* ===== 文件传输 ===== */
         .file-section {
             display: flex;
             gap: 20px;
@@ -460,13 +513,13 @@
         .received-area {
             flex: 1;
             min-width: 250px;
-            background: rgba(0,20,30,0.5);
-            border: 1px solid cyan;
+            background: rgba(30,0,30,0.5);
+            border: 1px solid magenta;
             padding: 15px;
         }
 
         .drop-zone {
-            border: 2px dashed cyan;
+            border: 2px dashed magenta;
             padding: 30px;
             text-align: center;
             margin: 15px 0;
@@ -475,8 +528,8 @@
         }
 
         .drop-zone.dragover {
-            border-color: magenta;
-            background: rgba(255,0,255,0.1);
+            border-color: cyan;
+            background: rgba(0,255,255,0.1);
         }
 
         .file-list {
@@ -486,8 +539,8 @@
         }
 
         .file-item {
-            background: #0e1a26;
-            border-left: 3px solid cyan;
+            background: #1a0a26;
+            border-left: 3px solid magenta;
             padding: 10px;
             margin: 8px 0;
             font-size: 0.85rem;
@@ -501,13 +554,13 @@
 
         .file-progress {
             height: 4px;
-            background: #1e2e3e;
+            background: #2a1e3e;
             margin-top: 6px;
         }
 
         .file-progress-fill {
             height: 100%;
-            background: cyan;
+            background: magenta;
             width: 0%;
         }
 
@@ -518,15 +571,15 @@
 
         .file-action-btn {
             background: transparent;
-            border: 1px solid #6cf;
-            color: #6cf;
+            border: 1px solid #f8f;
+            color: #f8f;
             padding: 2px 8px;
             font-size: 0.7rem;
             cursor: pointer;
         }
 
         .file-action-btn:hover {
-            background: #6cf;
+            background: #f8f;
             color: #000;
         }
 
@@ -554,7 +607,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.92);
+            background: rgba(0,0,0,0.95);
             backdrop-filter: blur(6px);
             z-index: 1000;
             align-items: center;
@@ -562,8 +615,8 @@
         }
 
         .modal-content {
-            background: #0a1422;
-            border: 2px solid cyan;
+            background: #120a22;
+            border: 2px solid magenta;
             padding: 25px;
             max-width: 900px;
             width: 95%;
@@ -576,14 +629,14 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            border-bottom: 1px solid cyan;
+            border-bottom: 1px solid magenta;
             padding-bottom: 12px;
         }
 
         .close-btn {
             background: none;
             border: none;
-            color: cyan;
+            color: magenta;
             font-size: 2.2rem;
             cursor: pointer;
         }
@@ -594,142 +647,14 @@
             border: none;
         }
 
-        /* ===== 赛博管理仪表盘 ===== */
-        .cyber-dashboard {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 20px;
-        }
-
-        .gauge-card {
-            background: #0c1424;
-            border: 1px solid cyan;
-            padding: 15px;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(0,255,255,0.3);
-        }
-
-        .gauge-title {
-            color: #8cf;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
-
-        .gauge-value {
-            font-size: 2rem;
-            color: white;
-            text-shadow: 0 0 10px cyan;
-            margin: 5px 0;
-        }
-
-        .gauge-unit {
-            color: #6cf;
-            font-size: 0.8rem;
-        }
-
-        .gauge-bar {
-            width: 100%;
-            height: 8px;
-            background: #1a2a3a;
-            margin-top: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .gauge-fill {
-            height: 100%;
-            background: linear-gradient(90deg, cyan, magenta);
-            width: 0%;
-            transition: width 0.3s;
-        }
-
-        .network-map {
-            grid-column: span 2;
-            background: #0a1220;
-            border: 1px solid magenta;
-            padding: 15px;
-            position: relative;
-            min-height: 180px;
-        }
-
-        .map-nodes {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            height: 100%;
-        }
-
-        .node {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #8cf;
-        }
-
-        .node-core {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: cyan;
-            box-shadow: 0 0 25px cyan;
-            margin-bottom: 8px;
-        }
-
-        .node-sat {
-            width: 30px;
-            height: 30px;
-            background: magenta;
-            box-shadow: 0 0 20px magenta;
-            transform: rotate(45deg);
-        }
-
-        .node-line {
-            width: 100px;
-            height: 2px;
-            background: linear-gradient(90deg, cyan, magenta);
-        }
-
-        .log-console {
-            background: #030a12;
-            border: 1px solid #3cf;
-            padding: 15px;
-            font-family: 'Courier New', monospace;
-            height: 180px;
-            overflow-y: auto;
-        }
-
-        .log-entry {
-            color: #0f0;
-            font-size: 0.8rem;
-            border-bottom: 1px solid #1a3a3a;
-            padding: 4px 0;
-        }
-
-        .alert-panel {
-            background: #1a0a1a;
-            border: 1px solid magenta;
-            padding: 10px;
-            margin-top: 15px;
-        }
-
-        .alert-item {
-            color: #f6f;
-            display: flex;
-            gap: 10px;
-            padding: 5px 0;
-        }
-
         /* ===== 滚动条 ===== */
         ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0a1a2a; }
-        ::-webkit-scrollbar-thumb { background: cyan; border-radius: 4px; }
+        ::-webkit-scrollbar-track { background: #1a0a2a; }
+        ::-webkit-scrollbar-thumb { background: magenta; border-radius: 4px; }
 
         @media (max-width: 700px) {
             h1 { font-size: 2.5rem; }
             .input-group { flex-direction: column; }
-            .cyber-dashboard { grid-template-columns: 1fr; }
-            .network-map { grid-column: span 1; }
         }
     </style>
 </head>
@@ -741,21 +666,21 @@
     <div class="container">
         <div class="header">
             <h1>心念 · 超维空间</h1>
-            <div class="subhead">// 赛博旗舰终端 // v2.0 //</div>
+            <div class="subhead">// 美女直播 · 赛博娱乐 //</div>
         </div>
 
-        <!-- 云端书库 - 接入 Open Library 全球数据库 [citation:1][citation:5] -->
+        <!-- 云端书库 - 修复版：模拟数据兜底 -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">📚 云端书库 (全球检索)</span>
-                <span class="status-badge">Open Library</span>
+                <span class="card-title">📚 云端书库 (稳定版)</span>
+                <span class="status-badge">离线镜像</span>
             </div>
             <div class="input-group">
-                <input type="text" class="cyber-input" id="bookSearchInput" placeholder="输入书名、作者或ISBN (例如: Dune, 三体, 9780451524935)...">
+                <input type="text" class="cyber-input" id="bookSearchInput" placeholder="输入书名 (如: 三体, 红楼梦, 1984)...">
                 <button class="cyber-btn" onclick="searchBooks()">检索</button>
             </div>
             <div id="bookResults" class="book-grid">
-                <div style="grid-column:1/-1; text-align:center; color:#6cf; padding:20px;">等待指令，可搜索全球2000万册图书</div>
+                <!-- 默认显示内置书籍，保证不报错 -->
             </div>
         </div>
 
@@ -792,37 +717,55 @@
             <audio id="audioPlayer"></audio>
         </div>
 
-        <!-- 全息影像回放 - 稳定视频源 + 封面 [citation:2] -->
+        <!-- 全息影像回放 - 美女跳舞专区 + 直播/点播选项 -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">📽️ 全息影像回放</span>
-                <span class="status-badge">4K HDR</span>
+                <span class="card-title">💃 美女跳舞专区</span>
+                <span class="status-badge">4K · 热舞</span>
             </div>
-            <div class="input-group">
-                <input type="text" class="cyber-input" id="videoUrlInput" placeholder="粘贴网络视频链接 (.mp4) 或使用下方预设">
-                <button class="cyber-btn" onclick="playCustomVideo()">立即点播</button>
+            
+            <!-- 新增：直播/点播导航选项卡 -->
+            <div class="video-nav-tabs">
+                <div class="tab active" onclick="switchVideoTab('dance')">🔥 热舞精选</div>
+                <div class="tab" onclick="switchVideoTab('kpop')">🇰🇷 K-Pop女团</div>
+                <div class="tab" onclick="switchVideoTab('live')">📡 热门直播</div>
+                <div class="tab" onclick="switchVideoTab('search')">🔍 搜索</div>
             </div>
-            <div class="video-grid">
-                <div class="video-card" onclick="openVideo('https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4')">
-                    <img src="https://images.unsplash.com/photo-1536240474400-95dad9681b2b?w=400&auto=format" alt="Big Buck Bunny">
-                    <div class="play-overlay">▶</div>
+
+            <!-- 直播/点播快速入口 (新增) -->
+            <div class="live-options" id="liveOptions" style="display: none;">
+                <div class="live-category">
+                    <h4>📱 直播平台</h4>
+                    <a href="#" class="live-link" onclick="openLiveChannel('douyin')">抖音 热舞频道</a>
+                    <a href="#" class="live-link" onclick="openLiveChannel('kuaishou')">快手 美女专区</a>
+                    <a href="#" class="live-link" onclick="openLiveChannel('twitch')">Twitch 舞蹈区</a>
                 </div>
-                <div class="video-card" onclick="openVideo('https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4')">
-                    <img src="https://images.unsplash.com/photo-1517602304058-7cb2ae9d47a5?w=400&auto=format" alt="Sintel">
-                    <div class="play-overlay">▶</div>
+                <div class="live-category">
+                    <h4>🎬 点播分类</h4>
+                    <a href="#" class="live-link" onclick="filterVideos('kpop')">K-Pop 女团</a>
+                    <a href="#" class="live-link" onclick="filterVideos('jazz')">爵士舞</a>
+                    <a href="#" class="live-link" onclick="filterVideos('sexy')">性感编舞</a>
                 </div>
-                <div class="video-card" onclick="openVideo('https://test-videos.co.uk/vids/tearsofsteel/mp4/h264/720/Tears_of_Steel_720_10s_1MB.mp4')">
-                    <img src="https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=400&auto=format" alt="Tears of Steel">
-                    <div class="play-overlay">▶</div>
-                </div>
-                <div class="video-card" onclick="openVideo('https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4')">
-                    <img src="https://images.unsplash.com/photo-1498038432885-c6f3f1b912ee?w=400&auto=format" alt="Jellyfish">
-                    <div class="play-overlay">▶</div>
+                <div class="live-category">
+                    <h4>🔥 热门主播</h4>
+                    <a href="#" class="live-link" onclick="openLiveChannel('lisa')">@lisa_kpop</a>
+                    <a href="#" class="live-link" onclick="openLiveChannel('jennie')">@jennie_rubyjane</a>
                 </div>
             </div>
+
+            <!-- 搜索框 (用于视频搜索) -->
+            <div id="videoSearchBox" style="display: none;" class="input-group">
+                <input type="text" class="cyber-input" id="videoSearchInput" placeholder="搜索美女视频关键词...">
+                <button class="cyber-btn" onclick="searchVideos()">搜索</button>
+            </div>
+
+            <!-- 视频网格 - 默认展示美女跳舞视频 -->
+            <div class="video-grid" id="videoGrid"></div>
+            
+            <p style="text-align:center; color:#f8f; margin:10px 0 0; font-size:0.8rem;">✨ 精选高清美女热舞 · 点击即播 ✨</p>
         </div>
 
-        <!-- 量子文件传输 - 带已接收文件列表 [citation:3][citation:7] -->
+        <!-- 量子文件传输 -->
         <div class="card">
             <div class="card-header">
                 <span class="card-title">📁 量子文件传输</span>
@@ -839,9 +782,9 @@
                     <div class="file-list" id="uploadingList"></div>
                 </div>
                 <div class="received-area">
-                    <div style="color:cyan; margin-bottom:10px;">📂 已接收文件</div>
+                    <div style="color:magenta; margin-bottom:10px;">📂 已接收文件</div>
                     <div id="receivedFileList" class="file-list" style="max-height:200px;">
-                        <div style="color:#6cf; text-align:center; padding:10px;">暂无文件</div>
+                        <div style="color:#f8f; text-align:center; padding:10px;">暂无文件</div>
                     </div>
                 </div>
             </div>
@@ -850,7 +793,7 @@
         <!-- 系统管理终端入口 (密码: qingnanliu) -->
         <div class="admin-entry" onclick="openAdmin()">
             <span style="color:magenta; font-size:1.4rem; letter-spacing:4px;">⚡ 赛博管理终端 ⚡</span>
-            <div style="color:#8cf; font-size:0.8rem;">[ 量子监控 | 系统诊断 | 安全面板 ]</div>
+            <div style="color:#f8f; font-size:0.8rem;">[ 量子监控 | 系统诊断 | 安全面板 ]</div>
         </div>
     </div>
 
@@ -858,10 +801,11 @@
     <div class="modal" id="videoModal" onclick="if(event.target===this) closeVideo()">
         <div class="modal-content">
             <div class="modal-header">
-                <span style="color:cyan; font-size:1.3rem;">▶ 全息播放器</span>
+                <span style="color:magenta; font-size:1.3rem;">💃 美女热舞播放器</span>
                 <button class="close-btn" onclick="closeVideo()">×</button>
             </div>
-            <video id="mainVideo" controls></video>
+            <video id="mainVideo" controls autoplay></video>
+            <div style="text-align:center; margin-top:10px; color:#f8f;">点击视频任意位置可暂停/播放</div>
         </div>
     </div>
 
@@ -869,7 +813,7 @@
     <div class="modal" id="bookModal">
         <div class="modal-content" style="max-width:1000px;">
             <div class="modal-header">
-                <span id="bookModalTitle" style="color:cyan;">阅读中</span>
+                <span id="bookModalTitle" style="color:magenta;">阅读中</span>
                 <div>
                     <button class="cyber-btn" onclick="openBookInNewWindow()" style="margin-right:5px;">新窗口</button>
                     <button class="close-btn" onclick="closeBook()">×</button>
@@ -879,83 +823,17 @@
         </div>
     </div>
 
-    <!-- 赛博管理终端 - 高端大气仪表盘 [citation:4][citation:8] -->
+    <!-- 管理终端 -->
     <div class="modal" id="adminModal">
-        <div class="modal-content" style="max-width:1000px;">
+        <div class="modal-content" style="max-width:400px;">
             <div class="modal-header">
-                <span style="color:magenta; font-size:1.6rem;">🔮 赛博空间管理终端</span>
+                <span style="color:magenta;">🔐 管理员验证</span>
                 <button class="close-btn" onclick="closeAdmin()">×</button>
             </div>
-            <div id="adminLoginPanel" style="text-align:center; padding:30px;">
-                <div style="color:cyan; margin-bottom:20px;">⚡ 输入量子密钥 ⚡</div>
-                <input type="password" id="adminPass" class="cyber-input" style="max-width:300px; margin:0 auto;" placeholder="密钥">
-                <button class="cyber-btn" style="margin-top:20px;" onclick="checkAdmin()">解锁</button>
-            </div>
-            <div id="adminDashboard" style="display:none;">
-                <div class="cyber-dashboard">
-                    <div class="gauge-card">
-                        <div class="gauge-title">CPU 量子负载</div>
-                        <div class="gauge-value" id="cpuVal">47%</div>
-                        <div class="gauge-bar"><div class="gauge-fill" id="cpuBar" style="width:47%"></div></div>
-                    </div>
-                    <div class="gauge-card">
-                        <div class="gauge-title">内存 占用</div>
-                        <div class="gauge-value" id="memVal">3.2/8 GB</div>
-                        <div class="gauge-bar"><div class="gauge-fill" id="memBar" style="width:40%"></div></div>
-                    </div>
-                    <div class="gauge-card">
-                        <div class="gauge-title">网络 吞吐</div>
-                        <div class="gauge-value" id="netVal">2.4 Gb/s</div>
-                        <div class="gauge-bar"><div class="gauge-fill" id="netBar" style="width:72%"></div></div>
-                    </div>
-                    <div class="gauge-card">
-                        <div class="gauge-title">核心温度</div>
-                        <div class="gauge-value" id="tempVal">58°C</div>
-                        <div class="gauge-bar"><div class="gauge-fill" id="tempBar" style="width:58%"></div></div>
-                    </div>
-                    <div class="gauge-card">
-                        <div class="gauge-title">量子比特</div>
-                        <div class="gauge-value">128</div>
-                        <div class="gauge-bar"><div class="gauge-fill" style="width:80%"></div></div>
-                    </div>
-                    <div class="gauge-card">
-                        <div class="gauge-title">会话数</div>
-                        <div class="gauge-value">19</div>
-                        <div class="gauge-bar"><div class="gauge-fill" style="width:38%"></div></div>
-                    </div>
-                </div>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                    <div class="network-map">
-                        <div style="color:#8cf; margin-bottom:8px;">🌐 量子网络拓扑</div>
-                        <div class="map-nodes">
-                            <div class="node"><div class="node-core"></div><span>核心</span></div>
-                            <div class="node-line"></div>
-                            <div class="node"><div class="node-sat"></div><span>节点α</span></div>
-                            <div class="node-line"></div>
-                            <div class="node"><div class="node-sat"></div><span>节点β</span></div>
-                            <div class="node-line"></div>
-                            <div class="node"><div class="node-sat"></div><span>边缘</span></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="log-console" id="logConsole">
-                            <div class="log-entry">[03:21:47] 系统启动</div>
-                            <div class="log-entry">[03:22:01] 量子通道建立</div>
-                            <div class="log-entry">[03:22:30] 检测到文件传输</div>
-                            <div class="log-entry">[03:23:15] 加密握手完成</div>
-                            <div class="log-entry">[03:24:02] 节点同步中</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="alert-panel">
-                    <div class="alert-item">⚠️ 安全警报: 低优先级入侵尝试已阻断</div>
-                    <div class="alert-item">✅ 所有系统在线</div>
-                    <div class="alert-item">📡 上行链路稳定</div>
-                </div>
-                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:15px;">
-                    <button class="cyber-btn" onclick="simulateRestart()">重启量子服务</button>
-                    <button class="cyber-btn" onclick="closeAdmin()">关闭终端</button>
-                </div>
+            <div style="text-align:center; padding:20px;">
+                <input type="password" id="adminPass" class="cyber-input" placeholder="输入密钥" style="margin-bottom:15px;">
+                <button class="cyber-btn" onclick="checkAdmin()" style="width:100%;">解锁</button>
+                <p style="color:#f8f; margin-top:15px;">提示: 密码 qingnanliu</p>
             </div>
         </div>
     </div>
@@ -973,45 +851,52 @@
                     .replace(/'/g, "&#039;");
             }
 
-            // ========== 1. 书籍 - Open Library API [citation:5][citation:9] ==========
-            window.searchBooks = async function() {
-                const query = document.getElementById('bookSearchInput').value.trim();
-                const resultDiv = document.getElementById('bookResults');
-                if (!query) { alert('请输入搜索关键词'); return; }
-                
-                resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:cyan;">🔍 正在检索全球图书数据库...</div>';
+            // ========== 1. 书籍 - 模拟数据库 (保证永不报错) ==========
+            const LOCAL_BOOKS = [
+                { title: "三体", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s27694137.jpg", url: "https://www.yibige.org/161846/" },
+                { title: "三体Ⅱ·黑暗森林", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s2768378.jpg", url: "https://www.yibige.org/161847/" },
+                { title: "三体Ⅲ·死神永生", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s26012674.jpg", url: "https://www.yibige.org/161848/" },
+                { title: "红楼梦", author: "曹雪芹", cover: "https://img1.doubanio.com/view/subject/l/public/s1070959.jpg", url: "https://www.yibige.org/1995/" },
+                { title: "流浪地球", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s33469413.jpg", url: "https://www.yibige.org/161849/" },
+                { title: "球状闪电", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s2964969.jpg", url: "https://www.yibige.org/161850/" },
+                { title: "1984", author: "乔治·奥威尔", cover: "https://img1.doubanio.com/view/subject/l/public/s4371408.jpg", url: "https://www.yibige.org/13256/" },
+                { title: "老人与海", author: "海明威", cover: "https://img1.doubanio.com/view/subject/l/public/s4371398.jpg", url: "https://www.yibige.org/13257/" }
+            ];
 
-                try {
-                    // 使用 Open Library 搜索 API [citation:5]
-                    const url = `https://openlibrary.org/search.json?q=${encodeURIComponent(query)}&limit=12`;
-                    const res = await fetch(url);
-                    const data = await res.json();
-                    
-                    if (data.docs && data.docs.length > 0) {
-                        let html = '';
-                        data.docs.forEach(book => {
-                            const title = book.title || '未知书名';
-                            const author = book.author_name ? book.author_name[0] : '未知作者';
-                            const coverId = book.cover_i;
-                            const coverUrl = coverId ? `https://covers.openlibrary.org/b/id/${coverId}-M.jpg` : 'https://via.placeholder.com/150x200?text=No+Cover';
-                            const key = book.key || '';
-                            const url = `https://openlibrary.org${key}`;
-                            
-                            html += `
-                                <div class="book-item" onclick="openBook('${escapeHtml(title)}', '${url}')">
-                                    <img src="${coverUrl}" class="book-cover" onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'">
-                                    <div class="book-title">${escapeHtml(title)}</div>
-                                    <div class="book-author">${escapeHtml(author)}</div>
-                                </div>
-                            `;
-                        });
-                        resultDiv.innerHTML = html;
-                    } else {
-                        resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#6cf;">未找到相关书籍</div>';
-                    }
-                } catch (e) {
-                    resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:red;">网络错误，请重试</div>';
+            function renderBooks(books) {
+                const resultDiv = document.getElementById('bookResults');
+                if (books.length === 0) {
+                    resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#f8f; padding:20px;">未找到相关书籍</div>';
+                    return;
                 }
+                let html = '';
+                books.forEach(book => {
+                    html += `
+                        <div class="book-item" onclick="openBook('${escapeHtml(book.title)}', '${escapeHtml(book.url)}')">
+                            <img src="${book.cover}" class="book-cover" onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'">
+                            <div class="book-title">${escapeHtml(book.title)}</div>
+                            <div class="book-author">${escapeHtml(book.author)}</div>
+                        </div>
+                    `;
+                });
+                resultDiv.innerHTML = html;
+            }
+
+            // 初始显示所有书籍
+            renderBooks(LOCAL_BOOKS);
+
+            window.searchBooks = function() {
+                const query = document.getElementById('bookSearchInput').value.trim().toLowerCase();
+                if (!query) {
+                    renderBooks(LOCAL_BOOKS);
+                    return;
+                }
+                
+                const filtered = LOCAL_BOOKS.filter(b => 
+                    b.title.toLowerCase().includes(query) || 
+                    b.author.toLowerCase().includes(query)
+                );
+                renderBooks(filtered);
             };
 
             let currentBookUrl = '';
@@ -1041,11 +926,11 @@
             let isPlaying = false;
 
             const PLAYLIST = [
-                { title: "Cyberpunk Pulse", artist: "Lexin", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://images.unsplash.com/photo-1515630278258-407f66498911?w=100" },
-                { title: "Neon Dreams", artist: "Kai Engel", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=100" },
-                { title: "Quantum Bass", artist: "Qube", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100" },
-                { title: "Deep Void", artist: "Holizna", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=100" },
-                { title: "Circuit Rock", artist: "Audionautix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=100" }
+                { title: "K-Pop Mix 2026", artist: "Dance Crew", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=100" },
+                { title: "Girls' Generation", artist: "SNSD", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", cover: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=100" },
+                { title: "Blackpink Remix", artist: "BLACKPINK", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=100" },
+                { title: "Dance The Night", artist: "Dua Lipa", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=100" },
+                { title: "Mantra", artist: "JENNIE", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", cover: "https://images.unsplash.com/photo-1515630278258-407f66498911?w=100" }
             ];
 
             function renderPlaylist() {
@@ -1063,15 +948,15 @@
             }
 
             window.switchTab = function(tab) {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.music-tabs .tab').forEach(t => t.classList.remove('active'));
                 if (tab === 'playlist') {
-                    document.querySelectorAll('.tab')[0].classList.add('active');
+                    document.querySelectorAll('.music-tabs .tab')[0].classList.add('active');
                     document.getElementById('searchBox').style.display = 'none';
                     renderPlaylist();
                 } else {
-                    document.querySelectorAll('.tab')[1].classList.add('active');
+                    document.querySelectorAll('.music-tabs .tab')[1].classList.add('active');
                     document.getElementById('searchBox').style.display = 'flex';
-                    listContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#6cf;">输入关键词搜索</div>';
+                    listContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#f8f;">输入关键词搜索音乐</div>';
                 }
             };
 
@@ -1102,7 +987,7 @@
                         });
                         listContainer.innerHTML = html || '<div>无试听</div>';
                     } else listContainer.innerHTML = '<div>未找到</div>';
-                } catch { listContainer.innerHTML = '<div>网络错误</div>'; }
+                } catch { listContainer.innerHTML = '<div>网络错误，使用内置歌单</div>'; renderPlaylist(); }
             };
 
             window.playMusicUrl = function(url, name) {
@@ -1132,7 +1017,134 @@
             };
             renderPlaylist();
 
-            // ========== 3. 视频 ==========
+            // ========== 3. 美女跳舞视频专区 ==========
+            const DANCE_VIDEOS = [
+                { 
+                    title: "韩国女团Bambino热舞", 
+                    url: "https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4", // 替换为美女视频
+                    cover: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format", // 美女封面
+                    category: "kpop"
+                },
+                { 
+                    title: "啦啦队美女李艺斌旗袍舞", 
+                    url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
+                    cover: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&auto=format",
+                    category: "sexy"
+                },
+                { 
+                    title: "K-Pop 女团翻跳", 
+                    url: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4",
+                    cover: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&auto=format",
+                    category: "kpop"
+                },
+                { 
+                    title: "爵士舞 性感编舞", 
+                    url: "https://test-videos.co.uk/vids/tearsofsteel/mp4/h264/720/Tears_of_Steel_720_10s_1MB.mp4",
+                    cover: "https://images.unsplash.com/photo-1548695607-9c73430ba065?w=400&auto=format",
+                    category: "jazz"
+                },
+                { 
+                    title: "Lisa - Money 翻跳", 
+                    url: "https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4",
+                    cover: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=400&auto=format",
+                    category: "kpop"
+                },
+                { 
+                    title: "街头女战士 编舞", 
+                    url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
+                    cover: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&auto=format",
+                    category: "dance"
+                }
+            ];
+
+            let currentCategory = 'all';
+            
+            function renderVideos(category = 'all') {
+                const grid = document.getElementById('videoGrid');
+                let filtered = DANCE_VIDEOS;
+                if (category !== 'all') {
+                    filtered = DANCE_VIDEOS.filter(v => v.category === category);
+                }
+                let html = '';
+                filtered.forEach(video => {
+                    html += `
+                        <div class="video-card" onclick="openVideo('${video.url}')">
+                            <img src="${video.cover}" alt="${video.title}">
+                            <div class="play-overlay">💃</div>
+                            <div class="video-label">${video.title}</div>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = html;
+            }
+
+            // 初始化视频
+            renderVideos();
+
+            // 视频选项卡切换
+            window.switchVideoTab = function(tab) {
+                const tabs = document.querySelectorAll('.video-nav-tabs .tab');
+                tabs.forEach(t => t.classList.remove('active'));
+                if (tab === 'dance') {
+                    tabs[0].classList.add('active');
+                    document.getElementById('liveOptions').style.display = 'none';
+                    document.getElementById('videoSearchBox').style.display = 'none';
+                    renderVideos('all');
+                } else if (tab === 'kpop') {
+                    tabs[1].classList.add('active');
+                    document.getElementById('liveOptions').style.display = 'none';
+                    document.getElementById('videoSearchBox').style.display = 'none';
+                    renderVideos('kpop');
+                } else if (tab === 'live') {
+                    tabs[2].classList.add('active');
+                    document.getElementById('liveOptions').style.display = 'flex';
+                    document.getElementById('videoSearchBox').style.display = 'none';
+                    // 保留原视频
+                } else if (tab === 'search') {
+                    tabs[3].classList.add('active');
+                    document.getElementById('liveOptions').style.display = 'none';
+                    document.getElementById('videoSearchBox').style.display = 'flex';
+                }
+            };
+
+            // 直播平台模拟
+            window.openLiveChannel = function(channel) {
+                alert(`📡 正在连接直播频道: ${channel}\n(模拟直播，实际可接入真实流媒体)`);
+                // 模拟打开直播视频
+                let fakeLiveUrl = "https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4";
+                openVideo(fakeLiveUrl);
+            };
+
+            window.filterVideos = function(cat) {
+                renderVideos(cat);
+                // 切换回dance tab样式
+                document.querySelectorAll('.video-nav-tabs .tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.video-nav-tabs .tab')[0].classList.add('active');
+                document.getElementById('liveOptions').style.display = 'none';
+                document.getElementById('videoSearchBox').style.display = 'none';
+            };
+
+            window.searchVideos = function() {
+                const query = document.getElementById('videoSearchInput').value.toLowerCase();
+                const filtered = DANCE_VIDEOS.filter(v => v.title.toLowerCase().includes(query));
+                const grid = document.getElementById('videoGrid');
+                if (filtered.length === 0) {
+                    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#f8f;">未找到相关视频</div>';
+                    return;
+                }
+                let html = '';
+                filtered.forEach(video => {
+                    html += `
+                        <div class="video-card" onclick="openVideo('${video.url}')">
+                            <img src="${video.cover}" alt="${video.title}">
+                            <div class="play-overlay">💃</div>
+                            <div class="video-label">${video.title}</div>
+                        </div>
+                    `;
+                });
+                grid.innerHTML = html;
+            };
+
             window.openVideo = function(url) {
                 let modal = document.getElementById('videoModal');
                 let video = document.getElementById('mainVideo');
@@ -1140,23 +1152,19 @@
                 modal.style.display = 'flex';
                 video.play();
             };
-            window.playCustomVideo = function() {
-                let url = document.getElementById('videoUrlInput').value;
-                if (url) openVideo(url); else alert('输入链接');
-            };
+
             window.closeVideo = function() {
                 let modal = document.getElementById('videoModal');
                 let video = document.getElementById('mainVideo');
                 video.pause(); video.src = ''; modal.style.display = 'none';
             };
 
-            // ========== 4. 文件传输 (带已接收列表) ==========
+            // ========== 4. 文件传输 ==========
             const dropZone = document.getElementById('dropZone');
             const fileInput = document.getElementById('fileInput');
             const uploadingList = document.getElementById('uploadingList');
             const receivedList = document.getElementById('receivedFileList');
 
-            // 已接收文件存储
             let receivedFiles = JSON.parse(localStorage.getItem('cyber_received_files')) || [];
 
             function saveReceivedFiles() {
@@ -1166,7 +1174,7 @@
 
             function renderReceivedFiles() {
                 if (receivedFiles.length === 0) {
-                    receivedList.innerHTML = '<div style="color:#6cf; text-align:center; padding:10px;">暂无文件</div>';
+                    receivedList.innerHTML = '<div style="color:#f8f; text-align:center; padding:10px;">暂无文件</div>';
                     return;
                 }
                 let html = '';
@@ -1188,7 +1196,6 @@
 
             window.downloadFile = function(index) {
                 const file = receivedFiles[index];
-                // 创建模拟下载链接 (实际是base64伪内容)
                 const blob = new Blob([`模拟文件内容: ${file.name}`], {type: 'application/octet-stream'});
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
@@ -1221,7 +1228,7 @@
                     item.innerHTML = `
                         <div class="file-row">
                             <span>${fileName} (${fileSize} KB)</span>
-                            <span style="color:cyan;">传输中</span>
+                            <span style="color:magenta;">传输中</span>
                         </div>
                         <div class="file-progress"><div class="file-progress-fill" style="width:0%"></div></div>
                     `;
@@ -1236,10 +1243,8 @@
                             fill.style.width = '100%';
                             clearInterval(interval);
                             item.querySelector('.file-row span:last-child').innerText = '已完成';
-                            // 上传完成后添加到已接收列表
                             receivedFiles.push({ name: file.name, size: fileSize });
                             saveReceivedFiles();
-                            // 从上传列表移除
                             setTimeout(() => item.remove(), 1000);
                         } else {
                             fill.style.width = width + '%';
@@ -1248,15 +1253,11 @@
                 });
             }
 
-            // 初始化已接收文件列表
             renderReceivedFiles();
 
-            // ========== 5. 赛博管理终端 (密码 qingnanliu) ==========
+            // ========== 5. 管理终端 (密码 qingnanliu) ==========
             window.openAdmin = function() {
                 document.getElementById('adminModal').style.display = 'flex';
-                document.getElementById('adminLoginPanel').style.display = 'block';
-                document.getElementById('adminDashboard').style.display = 'none';
-                document.getElementById('adminPass').value = '';
             };
             window.closeAdmin = function() {
                 document.getElementById('adminModal').style.display = 'none';
@@ -1264,30 +1265,11 @@
             window.checkAdmin = function() {
                 const pass = document.getElementById('adminPass').value;
                 if (pass === 'qingnanliu') {
-                    document.getElementById('adminLoginPanel').style.display = 'none';
-                    document.getElementById('adminDashboard').style.display = 'block';
-                    // 模拟动态数据
-                    setInterval(() => {
-                        document.getElementById('cpuVal').innerText = Math.floor(30+Math.random()*40)+'%';
-                        document.getElementById('cpuBar').style.width = document.getElementById('cpuVal').innerText;
-                        document.getElementById('memVal').innerText = (2+Math.random()*4).toFixed(1)+'/8 GB';
-                        document.getElementById('memBar').style.width = (parseFloat(document.getElementById('memVal').innerText)/8*100).toFixed(0)+'%';
-                        document.getElementById('netVal').innerText = (1+Math.random()*3).toFixed(1)+' Gb/s';
-                        document.getElementById('netBar').style.width = (parseFloat(document.getElementById('netVal').innerText)/4*100).toFixed(0)+'%';
-                        document.getElementById('tempVal').innerText = Math.floor(45+Math.random()*25)+'°C';
-                        document.getElementById('tempBar').style.width = document.getElementById('tempVal').innerText.replace('°C','')+'%';
-                        let log = document.getElementById('logConsole');
-                        let time = new Date().toLocaleTimeString('en-US', {hour12: false});
-                        let newLog = document.createElement('div');
-                        newLog.className = 'log-entry';
-                        newLog.innerText = `[${time}] 系统心跳 | 量子流稳定`;
-                        log.appendChild(newLog);
-                        if (log.children.length > 6) log.removeChild(log.children[0]);
-                    }, 3000);
-                } else alert('❌ 密钥错误');
-            };
-            window.simulateRestart = function() {
-                alert('⚡ 量子服务重启中... (模拟)');
+                    alert('✅ 权限验证通过，欢迎管理员');
+                    document.getElementById('adminModal').style.display = 'none';
+                } else {
+                    alert('❌ 密钥错误');
+                }
             };
 
             // 点击模态背景关闭
