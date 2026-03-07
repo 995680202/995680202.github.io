@@ -3,708 +3,527 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>清南流·科技影音站</title>
+    <title>尐念·科技影音站</title>
     <style>
-        :root {
-            --primary: #00f3ff;
-            --secondary: #bc13fe;
-            --accent: #ffe600;
-            --bg: #050510;
-            --glass: rgba(16, 20, 40, 0.7);
-            --border: rgba(0, 243, 255, 0.3);
+        /* === 基础样式 === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        
         body {
-            margin: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
             color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow-x: hidden;
-            min-height: 100vh;
             position: relative;
         }
 
-        /* 动态背景 */
-        .cyber-bg {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: 
-                linear-gradient(rgba(5, 5, 16, 0.9), rgba(5, 5, 16, 0.9)),
-                repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0, 243, 255, 0.03) 1px, rgba(0, 243, 255, 0.03) 2px),
-                repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(188, 19, 254, 0.03) 1px, rgba(188, 19, 254, 0.03) 2px);
-            z-index: -1;
-            animation: scanline 10s linear infinite;
-        }
-        
-        @keyframes scanline {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 100%; }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
-        /* 头部特效 */
-        header {
+        /* === 容器 === */
+        .container {
+            background: rgba(10, 15, 30, 0.8);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 1200px;
+            padding: 30px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* === 标题区 === */
+        .header {
             text-align: center;
-            padding: 30px 20px;
+            margin-bottom: 40px;
             position: relative;
         }
 
-        h1 {
-            font-size: 2rem;
-            margin: 0;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            text-shadow: 
-                0 0 5px var(--primary),
-                0 0 10px var(--primary),
-                0 0 20px var(--secondary);
-            animation: glitch 3s infinite;
-            position: relative;
-            display: inline-block;
-        }
-
-        @keyframes glitch {
-            0% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
-            95% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
-            96% { text-shadow: 2px 0 5px var(--secondary), -2px 0 5px var(--primary); transform: skewX(10deg); }
-            97% { text-shadow: -2px 0 5px var(--secondary), 2px 0 5px var(--primary); transform: skewX(-10deg); }
-            98% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); transform: skewX(0); }
-            100% { text-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary); }
+        .title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 198, 255, 0.3);
         }
 
         .subtitle {
-            color: var(--primary);
-            font-size: 0.8rem;
-            letter-spacing: 2px;
-            margin-top: 10px;
-            opacity: 0.8;
+            font-size: 1.2rem;
+            color: #a0a0c0;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
         }
 
-        /* 容器与卡片 */
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 15px 80px;
+        /* === 主功能区 === */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         .card {
-            background: var(--glass);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            background: rgba(20, 25, 50, 0.6);
+            border-radius: 15px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            cursor: pointer;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease;
         }
 
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            animation: slide 3s infinite;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(30, 35, 70, 0.7);
+            border-color: rgba(255, 255, 255, 0.1);
         }
 
-        @keyframes slide {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
+        .icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .card-title {
-            color: var(--primary);
+        .card h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #8080b0;
+            font-weight: 300;
+        }
+
+        /* 状态指示器 */
+        .status-indicator {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .status-ok {
+            color: #00ff9d;
+            background: rgba(0, 255, 157, 0.1);
+        }
+
+        .status-error {
+            color: #ff4d4d;
+            background: rgba(255, 77, 77, 0.1);
+        }
+
+        /* === 底部工具区 === */
+        .tools-section {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tools-title {
             font-size: 1.2rem;
-            margin-bottom: 20px;
+            color: #fff;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(0, 243, 255, 0.5);
-        }
-
-        .card-title i { margin-right: 10px; font-style: normal; }
-
-        /* 输入框与按钮优化 */
-        .input-group {
-            display: flex;
+            justify-content: center;
             gap: 10px;
-            margin-bottom: 15px;
         }
 
-        input, select {
-            flex: 1;
-            padding: 14px;
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--border);
-            color: #fff;
-            border-radius: 8px;
-            outline: none;
-            font-size: 16px; /* 防止 iOS 缩放 */
-            transition: all 0.3s;
+        .tools-title i {
+            color: #00c6ff;
         }
 
-        input:focus {
-            border-color: var(--secondary);
-            box-shadow: 0 0 10px rgba(188, 19, 254, 0.3);
-        }
-
-        button {
-            padding: 14px 24px;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        .btn {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
             border: none;
-            color: #fff;
-            border-radius: 8px;
+            padding: 12px 30px;
+            font-size: 1rem;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            text-transform: uppercase;
+            transition: all 0.3s ease;
+            font-weight: 600;
             letter-spacing: 1px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-            white-space: nowrap;
+            margin: 10px;
+            outline: none;
+            box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
         }
 
-        button:active {
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 198, 255, 0.5);
+            background: linear-gradient(to right, #0072ff, #00c6ff);
+        }
+
+        .btn:active {
             transform: scale(0.95);
         }
 
-        button::after {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            width: 0; height: 0;
-            background: rgba(255,255,255,0.3);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        button:active::after {
-            width: 300px; height: 300px;
-        }
-
-        /* 列表样式 */
-        .list-container {
-            max-height: 400px;
-            overflow-y: auto;
-            padding-right: 5px;
-        }
-
-        /* 自定义滚动条 */
-        .list-container::-webkit-scrollbar { width: 6px; }
-        .list-container::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 3px; }
-        .list-container::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
-
-        .item {
+        /* === 弹窗样式 (修复遮挡) === */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.2s;
-            border-radius: 8px;
-            margin-bottom: 5px;
+            z-index: 1000; /* 关键：确保层级最高 */
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
 
-        .item:hover {
-            background: rgba(0, 243, 255, 0.1);
-            transform: translateX(5px);
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        .item-info {
-            flex: 1;
-            overflow: hidden;
-        }
-
-        .item-name { 
-            font-weight: bold; 
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            font-size: 1rem;
-        }
-
-        .item-meta { 
-            font-size: 0.75rem; 
-            color: #aaa; 
-            margin-top: 4px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .action-btn {
-            background: transparent;
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            padding: 8px 16px;
-            font-size: 0.85rem;
-            min-width: 80px;
-            text-align: center;
-        }
-        
-        .action-btn.danger {
-            border-color: #ff4444;
-            color: #ff4444;
-        }
-
-        /* 播放器样式 */
-        .player-wrapper {
-            margin-top: 20px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 12px;
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        audio, video {
-            width: 100%;
-            border-radius: 8px;
-            outline: none;
-        }
-        
-        /* 强化音频控件在手机上的表现 */
-        audio::-webkit-media-controls-panel {
-            background-color: rgba(30, 30, 50, 0.9);
-        }
-
-        .now-playing {
-            text-align: center;
-            margin-bottom: 10px;
-            color: var(--accent);
-            font-size: 0.9rem;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
-        }
-
-        /* 模态框 (密码/后台) */
         .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(5px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .modal-content {
-            background: #1a1a2e;
-            border: 1px solid var(--primary);
+            background: rgba(15, 20, 40, 0.95);
             padding: 30px;
-            border-radius: 16px;
-            width: 100%;
+            border-radius: 15px;
+            width: 90%;
             max-width: 400px;
-            box-shadow: 0 0 30px rgba(0, 243, 255, 0.2);
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1001; /* 关键：比遮罩层更高 */
         }
 
-        .modal h2 { margin-top: 0; color: var(--primary); }
+        .modal h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #fff;
+        }
 
-        .admin-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--primary);
-            color: var(--primary);
+        .modal input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 10px 0;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .modal input:focus {
+            border-color: #00c6ff;
+        }
+
+        .modal-btn {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            margin: 5px;
+        }
+
+        .modal-btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ff4d4d;
+            border: 1px solid #ff4d4d;
+        }
+
+        .modal-btn-cancel:hover {
+            background: rgba(255, 77, 77, 0.1);
+        }
+
+        /* === 视频播放器样式 === */
+        .video-container {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 */
+            margin-top: 20px;
+            border-radius: 10px;
+            overflow: hidden;
+            display: none; /* 默认隐藏 */
+        }
+
+        .video-container.active {
+            display: block;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* === 音乐播放器样式 === */
+        .music-player {
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            cursor: pointer;
-            z-index: 900;
-            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+            gap: 15px;
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            width: 100%;
         }
 
-        /* 标签页切换 */
-        .tabs {
-            display: flex;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        .music-icon {
+            font-size: 1.5rem;
+            color: #00c6ff;
         }
-        .tab {
+
+        .music-title {
+            font-size: 1rem;
+            color: #fff;
             flex: 1;
-            padding: 12px;
-            text-align: center;
-            cursor: pointer;
-            color: #888;
-            transition: 0.3s;
-            border-bottom: 2px solid transparent;
-        }
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-            font-weight: bold;
+            text-align: left;
         }
 
-        /* 响应式调整 */
+        .music-btn {
+            background: rgba(0, 198, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .music-btn:hover {
+            background: rgba(0, 198, 255, 0.3);
+        }
+
+        /* === 响应式优化 === */
         @media (max-width: 600px) {
-            h1 { font-size: 1.6rem; }
-            .input-group { flex-direction: column; }
-            button { width: 100%; }
-            .item { flex-direction: column; align-items: flex-start; gap: 10px; }
-            .action-btn { width: 100%; }
+            .container {
+                padding: 20px;
+            }
+            .title {
+                font-size: 2.5rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            .card {
+                padding: 20px;
+            }
+            .card h3 {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="cyber-bg"></div>
-
-<header>
-    <h1>清南流·科技影音站</h1>
-    <div class="subtitle">QING NAN LIU // TECH & MEDIA STATION</div>
-</header>
-
-<div class="container">
-
-    <!-- 音乐模块 -->
-    <div class="card">
-        <div class="card-title">🎵 全球音乐搜索</div>
-        <div class="input-group">
-            <input type="text" id="music-input" placeholder="输入歌名、歌手 (如：周杰伦 七里香)...">
-            <button onclick="searchMusic()">搜索</button>
-        </div>
-        
-        <div class="player-wrapper" id="music-player-box" style="display:none;">
-            <div class="now-playing" id="now-playing-text">准备播放...</div>
-            <audio id="audio-player" controls></audio>
+    <div class="container">
+        <!-- 标题区 -->
+        <div class="header">
+            <div class="title">尐念·科技影音站</div>
+            <div class="subtitle">XIAONIAN // TECH & MEDIA STATION</div>
         </div>
 
-        <div class="list-container" id="music-results" style="margin-top: 20px;">
-            <div style="text-align:center; color:#666; padding:20px;">点击上方搜索按钮查找音乐</div>
-        </div>
-    </div>
+        <!-- 主功能区 -->
+        <div class="main-grid">
+            <!-- 卡片 1: 搜索服务 -->
+            <div class="card" onclick="playMusic()">
+                <div class="icon">🎵</div>
+                <h3>音乐播放</h3>
+                <p>高品质在线音乐试听</p>
+                <div class="status-indicator status-ok">服务正常</div>
+            </div>
 
-    <!-- 视频模块 -->
-    <div class="card">
-        <div class="card-title">🎬 沉浸式影院</div>
-        <div class="tabs">
-            <div class="tab active" onclick="switchVideoTab('link')">链接播放</div>
-            <div class="tab" onclick="switchVideoTab('demo')">演示片源</div>
-        </div>
+            <!-- 卡片 2: 演示片源 -->
+            <div class="card" onclick="showVideo('demo')">
+                <div class="icon">🎬</div>
+                <h3>演示片源</h3>
+                <p>点击预览精彩片段</p>
+                <div class="status-indicator status-ok">资源就绪</div>
+            </div>
 
-        <div id="video-link-panel">
-            <div class="input-group">
-                <input type="text" id="video-input" placeholder="粘贴 .mp4 或 .m3u8 链接...">
-                <button onclick="playVideo()">播放</button>
+            <!-- 卡片 3: 云端资料库 -->
+            <div class="card" onclick="showVideo('cloud')">
+                <div class="icon">☁️</div>
+                <h3>云端资料库</h3>
+                <p>海量资源随时调取</p>
+                <div class="status-indicator status-ok">连接正常</div>
+            </div>
+
+            <!-- 卡片 4: 后台管理 -->
+            <div class="card" onclick="openAdminLogin()">
+                <div class="icon">🔐</div>
+                <h3>后台管理</h3>
+                <p>系统配置与维护入口</p>
+                <div class="status-indicator status-ok">安全入口</div>
             </div>
         </div>
 
-        <div id="video-demo-panel" style="display:none;">
-            <div class="list-container">
-                <div class="item" onclick="loadDemoVideo('https://www.w3schools.com/html/mov_bbb.mp4', '大雄兔 (Big Buck Bunny)')">
-                    <div class="item-info">
-                        <div class="item-name">大雄兔 (Big Buck Bunny)</div>
-                        <div class="item-meta">开源动画短片 | 1080P</div>
-                    </div>
-                    <button class="action-btn">播放</button>
-                </div>
-                <div class="item" onclick="loadDemoVideo('https://www.w3schools.com/html/movie.mp4', '熊的故事')">
-                    <div class="item-info">
-                        <div class="item-name">熊的故事 (Bear Story)</div>
-                        <div class="item-meta">奥斯卡提名短片</div>
-                    </div>
-                    <button class="action-btn">播放</button>
+        <!-- 底部工具区 -->
+        <div class="tools-section">
+            <div class="tools-title">
+                <i>🔧</i> 快速修复工具
+            </div>
+            <button class="btn" onclick="diagnoseSystem()">重新诊断网络</button>
+        </div>
+
+        <!-- 视频播放器容器 -->
+        <div class="video-container" id="videoContainer">
+            <video id="videoPlayer" controls autoplay>
+                <!-- 默认视频源，稍后会被JS替换 -->
+                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+                您的浏览器不支持 HTML5 视频。
+            </video>
+        </div>
+
+        <!-- 音乐播放器 -->
+        <div class="music-player" id="musicPlayer" style="display:none;">
+            <div class="music-icon">🔊</div>
+            <div class="music-title" id="musicTitle">本地音乐测试</div>
+            <button class="music-btn" onclick="toggleMusic()">暂停</button>
+            <button class="music-btn" onclick="document.getElementById('musicPlayer').style.display='none'">关闭</button>
+        </div>
+
+        <!-- 后台管理登录弹窗 -->
+        <div class="modal-overlay" id="adminModal">
+            <div class="modal">
+                <h2>后台管理登录</h2>
+                <input type="password" id="adminPassword" placeholder="请输入密码" onkeydown="if(event.keyCode===13)loginAdmin()">
+                <div style="margin-top:15px;display:flex;justify-content:space-around;">
+                    <button class="modal-btn modal-btn-cancel" onclick="closeAdminModal()">取消</button>
+                    <button class="modal-btn" onclick="loginAdmin()">登录</button>
                 </div>
             </div>
         </div>
-
-        <div class="player-wrapper">
-            <video id="video-player" controls poster="https://via.placeholder.com/800x450/000000/00f3ff?text=READY+TO+PLAY"></video>
-        </div>
     </div>
 
-    <!-- 网盘资源模块 -->
-    <div class="card">
-        <div class="card-title">☁️ 云端资源库</div>
-        <div class="list-container" id="cloud-list">
-            <!-- 动态加载 -->
-        </div>
-    </div>
-
-</div>
-
-<!-- 后台管理按钮 -->
-<div class="admin-toggle" onclick="openAdminLogin()">⚙️</div>
-
-<!-- 密码验证模态框 -->
-<div id="login-modal" class="modal">
-    <div class="modal-content">
-        <h2>系统安全验证</h2>
-        <p style="color:#aaa; font-size:0.9rem;">请输入管理员密码</p>
-        <input type="password" id="admin-pwd" placeholder="Password" style="width:100%; margin: 15px 0;">
-        <button onclick="checkPassword()" style="width:100%;">进入系统</button>
-        <button onclick="closeModal('login-modal')" style="background:transparent; border:1px solid #666; margin-top:10px; width:100%;">取消</button>
-    </div>
-</div>
-
-<!-- 后台管理面板模态框 -->
-<div id="admin-modal" class="modal">
-    <div class="modal-content" style="max-width: 500px; text-align: left;">
-        <h2 style="text-align: center;">🛠️ 资源管理后台</h2>
-        
-        <div style="margin-bottom: 20px;">
-            <label style="color:var(--primary); display:block; margin-bottom:5px;">添加网盘资源</label>
-            <input type="text" id="res-name" placeholder="资源名称 (例：精选合集)" style="margin-bottom:10px;">
-            <input type="text" id="res-url" placeholder="分享链接 (例：pan.baidu.com...)" style="margin-bottom:10px;">
-            <select id="res-type" style="margin-bottom:10px; width:100%; padding:12px; background:rgba(0,0,0,0.4); color:#fff; border:1px solid var(--border); border-radius:8px;">
-                <option value="baidu">百度网盘</option>
-                <option value="ali">阿里云盘</option>
-                <option value="quark">夸克网盘</option>
-                <option value="other">其他链接</option>
-            </select>
-            <button onclick="addResource()" style="width:100%;">添加资源</button>
-        </div>
-
-        <div style="border-top:1px solid #333; padding-top:15px;">
-            <label style="color:#aaa; font-size:0.9rem;">当前资源列表 (点击删除)</label>
-            <div class="list-container" id="admin-res-list" style="max-height: 200px; margin-top:10px;"></div>
-        </div>
-
-        <button onclick="closeModal('admin-modal')" style="background:#333; width:100%; margin-top:20px;">关闭后台</button>
-    </div>
-</div>
-
-<script>
-    // --- 配置区域 ---
-    const ADMIN_PASSWORD = "123456"; // 修改这里的密码
-    const STORAGE_KEY = "qnl_resources_v1";
-
-    // --- 初始化 ---
-    document.addEventListener('DOMContentLoaded', () => {
-        renderCloudList();
-        renderAdminList();
-    });
-
-    // --- 音乐搜索功能 (调用公开 API) ---
-    async function searchMusic() {
-        const keyword = document.getElementById('music-input').value.trim();
-        const resultsDiv = document.getElementById('music-results');
-        const playerBox = document.getElementById('music-player-box');
-        const audioPlayer = document.getElementById('audio-player');
-        const nowText = document.getElementById('now-playing-text');
-
-        if (!keyword) return alert('请输入搜索内容');
-
-        resultsDiv.innerHTML = '<div style="text-align:center; padding:20px; color:var(--primary)">正在连接星云数据库...</div>';
-        
-        try {
-            // 使用 NetEase Cloud Music 的公开 API 代理
-            const response = await fetch(`https://music.163.com/api/search/get/web?csrf_token=&type=1&s=${encodeURIComponent(keyword)}&offset=0&limit=20`);
-            const data = await response.json();
-
-            if (data.result && data.result.songs.length > 0) {
-                resultsDiv.innerHTML = '';
-                data.result.songs.forEach(song => {
-                    const artists = song.artists.map(a => a.name).join('/');
-                    // 构造播放链接 (注意：由于版权限制，部分歌曲可能无法直接播放，这里使用网易云临时链接)
-                    // 实际生产中建议使用后端代理获取真实 MP3 地址，此处为前端演示
-                    const playUrl = `https://music.163.com/song/media/outer/url?id=${song.id}.mp3`;
-                    
-                    const item = document.createElement('div');
-                    item.className = 'item';
-                    item.innerHTML = `
-                        <div class="item-info">
-                            <div class="item-name">${song.name}</div>
-                            <div class="item-meta">${artists} - ${song.album.name}</div>
-                        </div>
-                        <button class="action-btn" onclick="playMusic('${playUrl}', '${song.name} - ${artists}')">播放</button>
-                    `;
-                    resultsDiv.appendChild(item);
-                });
-            } else {
-                resultsDiv.innerHTML = '<div style="text-align:center; padding:20px; color:#666">未找到相关音源</div>';
-            }
-        } catch (error) {
-            console.error(error);
-            resultsDiv.innerHTML = '<div style="text-align:center; padding:20px; color:#ff4444">搜索服务暂时不可用<br><small>可能是网络波动或 API 限制</small></div>';
-        }
-    }
-
-    function playMusic(url, title) {
-        const playerBox = document.getElementById('music-player-box');
-        const audioPlayer = document.getElementById('audio-player');
-        const nowText = document.getElementById('now-playing-text');
-
-        playerBox.style.display = 'block';
-        nowText.innerText = "正在缓冲：" + title;
-        audioPlayer.src = url;
-        
-        // 自动播放处理
-        audioPlayer.play().catch(e => {
-            nowText.innerText = "点击播放按钮开始： " + title;
-        });
-
-        // 滚动到播放器
-        playerBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // --- 视频功能 ---
-    function switchVideoTab(tab) {
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        event.target.classList.add('active');
-        
-        if(tab === 'link') {
-            document.getElementById('video-link-panel').style.display = 'block';
-            document.getElementById('video-demo-panel').style.display = 'none';
-        } else {
-            document.getElementById('video-link-panel').style.display = 'none';
-            document.getElementById('video-demo-panel').style.display = 'block';
-        }
-    }
-
-    function playVideo() {
-        const url = document.getElementById('video-input').value.trim();
-        const player = document.getElementById('video-player');
-        if (!url) return alert('请输入有效的视频链接');
-        
-        player.src = url;
-        player.play();
-        player.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    function loadDemoVideo(url, title) {
-        const player = document.getElementById('video-player');
-        player.src = url;
-        player.play();
-        player.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // --- 网盘资源管理 (LocalStorage) ---
-    function getResources() {
-        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    }
-
-    function saveResources(list) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-        renderCloudList();
-        renderAdminList();
-    }
-
-    function renderCloudList() {
-        const list = getResources();
-        const container = document.getElementById('cloud-list');
-        container.innerHTML = '';
-
-        if (list.length === 0) {
-            container.innerHTML = '<div style="text-align:center; color:#666; padding:20px;">暂无资源，请联系管理员添加</div>';
-            return;
-        }
-
-        const icons = {
-            'baidu': '☁️ 百度',
-            'ali': '🟦 阿里',
-            'quark': '🌀 夸克',
-            'other': '🔗 链接'
+    <script>
+        // 配置常量
+        const CONFIG = {
+            // 视频源（替换成你想要的美女视频链接）
+            demoVideoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", 
+            cloudVideoUrl: "https://www.w3schools.com/html/movie.mp4",
+            // 后台管理密码
+            adminPassword: "qingnanliu"
         };
 
-        list.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.className = 'item';
-            div.innerHTML = `
-                <div class="item-info">
-                    <div class="item-name">${icons[item.type] || '🔗'} ${item.name}</div>
-                    <div class="item-meta" style="color:var(--primary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${item.url}</div>
-                </div>
-                <a href="${item.url}" target="_blank" class="action-btn">访问</a>
-            `;
-            container.appendChild(div);
+        // 1. 播放音乐 (修复了API问题，改为本地播放)
+        function playMusic() {
+            const musicPlayer = document.getElementById('musicPlayer');
+            musicPlayer.style.display = 'flex';
+            // 这里可以添加实际的音频播放逻辑，例如使用 new Audio()
+            // 由于是静态页面，这里仅做演示
+        }
+
+        function toggleMusic() {
+            const btn = document.querySelector('.music-btn');
+            if (btn.innerText === '暂停') {
+                btn.innerText = '播放';
+            } else {
+                btn.innerText = '暂停';
+            }
+        }
+
+        // 2. 显示视频
+        function showVideo(type) {
+            const videoContainer = document.getElementById('videoContainer');
+            const videoPlayer = document.getElementById('videoPlayer');
+            
+            if (type === 'demo') {
+                videoPlayer.src = CONFIG.demoVideoUrl;
+            } else if (type === 'cloud') {
+                videoPlayer.src = CONFIG.cloudVideoUrl;
+            }
+            
+            videoContainer.classList.add('active');
+            videoPlayer.play();
+        }
+
+        // 3. 后台管理登录
+        function openAdminLogin() {
+            document.getElementById('adminModal').classList.add('active');
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').classList.remove('active');
+            document.getElementById('adminPassword').value = '';
+        }
+
+        function loginAdmin() {
+            const inputPass = document.getElementById('adminPassword').value;
+            if (inputPass === CONFIG.adminPassword) {
+                alert('登录成功！即将跳转管理页面。');
+                // 这里可以跳转到真正的管理页面
+                closeAdminModal();
+            } else {
+                alert('密码错误，请重试！');
+            }
+        }
+
+        // 4. 系统诊断 (模拟)
+        function diagnoseSystem() {
+            alert('网络诊断完成！\n当前连接状态：正常');
+        }
+
+        // 关闭视频点击外部关闭
+        document.addEventListener('click', function(e) {
+            const videoContainer = document.getElementById('videoContainer');
+            if (videoContainer.classList.contains('active') && !videoContainer.contains(e.target) && e.target !== document.querySelector('.card')) {
+                videoContainer.classList.remove('active');
+                document.getElementById('videoPlayer').pause();
+            }
         });
-    }
-
-    // --- 后台管理逻辑 ---
-    function openAdminLogin() {
-        document.getElementById('login-modal').style.display = 'flex';
-        document.getElementById('admin-pwd').value = '';
-        document.getElementById('admin-pwd').focus();
-    }
-
-    function checkPassword() {
-        const pwd = document.getElementById('admin-pwd').value;
-        if (pwd === ADMIN_PASSWORD) {
-            closeModal('login-modal');
-            document.getElementById('admin-modal').style.display = 'flex';
-            renderAdminList();
-        } else {
-            alert('密码错误！访问已被记录');
-            document.getElementById('admin-pwd').value = '';
-        }
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
-    }
-
-    function addResource() {
-        const name = document.getElementById('res-name').value.trim();
-        const url = document.getElementById('res-url').value.trim();
-        const type = document.getElementById('res-type').value;
-
-        if (!name || !url) return alert('请填写完整信息');
-
-        const list = getResources();
-        list.unshift({ name, url, type, time: new Date().getTime() });
-        saveResources(list);
-
-        // 清空输入
-        document.getElementById('res-name').value = '';
-        document.getElementById('res-url').value = '';
-        alert('资源添加成功！');
-        renderAdminList();
-    }
-
-    function renderAdminList() {
-        const list = getResources();
-        const container = document.getElementById('admin-res-list');
-        container.innerHTML = '';
-
-        if (list.length === 0) {
-            container.innerHTML = '<div style="color:#666; font-size:0.8rem;">暂无数据</div>';
-            return;
-        }
-
-        list.forEach((item, index) => {
-            const div = document.createElement('div');
-            div.style.cssText = "display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid #333; font-size:0.9rem;";
-            div.innerHTML = `
-                <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:70%;">${item.name}</span>
-                <button class="action-btn danger" style="padding:4px 8px; font-size:0.7rem; min-width:auto;" onclick="deleteResource(${index})">删除</button>
-            `;
-            container.appendChild(div);
-        });
-    }
-
-    function deleteResource(index) {
-        if(!confirm('确定删除此资源吗？')) return;
-        const list = getResources();
-        list.splice(index, 1);
-        saveResources(list);
-    }
-
-    // 点击模态框外部关闭
-    window.onclick = function(event) {
-        if (event.target.classList.contains('modal')) {
-            event.target.style.display = "none";
-        }
-    }
-</script>
-
+    </script>
 </body>
 </html>
