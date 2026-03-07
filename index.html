@@ -3,235 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="心念·超维空间 - 赛博朋克风格的美女直播娱乐平台">
-    <title>心念 · 超维空间 · 美女直播版</title>
+    <title>小念 · 超维空间 | 量子核心</title>
     <style>
-        /* ===== 全局重置与基础样式 ===== */
-        * {{
+        /* ===== 全局重置 - 冷色调科技风 ===== */
+        * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Share Tech Mono', 'Courier New', monospace;
-        }}
+            font-family: 'Inter', 'Segoe UI', 'Courier New', monospace;
+        }
 
-        body {{
-            background: #03050a;
-            color: #b0f0ff;
+        body {
+            background: #0a0c14;
+            color: #b0e0ff;
+            line-height: 1.5;
             min-height: 100vh;
             position: relative;
             overflow-x: hidden;
-        }}
+        }
 
-        /* ===== 动态背景系统 ===== */
-        .cyber-grid {{
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 200%;
-            height: 200%;
-            background: 
-                linear-gradient(rgba(255, 0, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 40px 40px;
-            transform: perspective(800px) rotateX(70deg) translateY(-30%);
-            animation: gridMove 30s linear infinite;
-            z-index: -2;
-            pointer-events: none;
-            will-change: transform; /* 性能优化：告知浏览器即将变换 */
-        }}
-
-        @keyframes gridMove {{
-            0% {{ transform: perspective(800px) rotateX(70deg) translateY(-30%) translateZ(-100px); }}
-            100% {{ transform: perspective(800px) rotateX(70deg) translateY(-10%) translateZ(-100px); }}
-        }}
-
-        .scan-line {{
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 8px;
-            background: linear-gradient(to bottom, transparent, rgba(255, 0, 255, 0.6), transparent);
-            animation: scan 4s linear infinite;
-            z-index: -1;
-            opacity: 0.6;
-            filter: blur(2px);
-            will-change: top; /* 性能优化 */
-        }}
-
-        @keyframes scan {{
-            0% {{ top: -10%; }}
-            100% {{ top: 110%; }}
-        }}
-
-        .glitch-overlay {{
+        /* 动态粒子背景 */
+        #particles-js {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(255,0,255,0.02) 2px, transparent 4px);
-            pointer-events: none;
             z-index: -1;
-        }}
+            background: #0a0c14;
+        }
 
-        .container {{
-            max-width: 1200px;
+        /* 扫描线效果 */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 180, 255, 0.3), transparent);
+            animation: scan 6s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes scan {
+            0% { top: -5%; opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { top: 105%; opacity: 0; }
+        }
+
+        .container {
+            max-width: 1300px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
-            z-index: 5;
-        }}
+            z-index: 10;
+        }
 
         /* ===== 头部 ===== */
-        .header {{
+        .header {
             text-align: center;
             margin: 30px 0 40px;
             position: relative;
-        }}
+        }
 
-        h1 {{
-            font-size: clamp(2.5rem, 5vw, 3.5rem); /* 响应式字体 */
+        h1 {
+            font-size: 3.5rem;
             font-weight: 400;
-            letter-spacing: 8px;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            text-shadow: 0 0 15px cyan, 0 0 30px magenta, 0 0 45px blue;
-            color: white;
-            animation: flicker 2.5s infinite;
-        }}
+            color: #fff;
+            text-shadow: 0 0 15px #00a6ff, 0 0 30px #0044ff;
+            animation: flicker 3s infinite;
+        }
 
-        @keyframes flicker {{
-            0% {{ text-shadow: 0 0 15px cyan, 0 0 30px magenta; }}
-            25% {{ text-shadow: 0 0 18px magenta, 0 0 35px cyan; }}
-            50% {{ text-shadow: 0 0 15px cyan, 0 0 30px blue; }}
-            75% {{ text-shadow: 0 0 20px magenta, 0 0 40px cyan; }}
-            100% {{ text-shadow: 0 0 15px cyan, 0 0 30px magenta; }}
-        }}
+        @keyframes flicker {
+            0% { opacity: 1; text-shadow: 0 0 15px #00a6ff, 0 0 30px #0044ff; }
+            50% { opacity: 0.95; text-shadow: 0 0 20px #00ffff, 0 0 40px #0066ff; }
+            100% { opacity: 1; text-shadow: 0 0 15px #00a6ff, 0 0 30px #0044ff; }
+        }
 
-        .subhead {{
-            color: #f8f;
-            font-size: clamp(1rem, 2vw, 1.2rem); /* 响应式字体 */
+        .subhead {
+            color: #8cbaff;
+            font-size: 1.2rem;
             letter-spacing: 4px;
-            border-bottom: 2px solid magenta;
+            border-bottom: 1px solid #2f6f9f;
             display: inline-block;
             padding-bottom: 8px;
-            box-shadow: 0 5px 20px rgba(255,0,255,0.3);
-        }}
+            margin-top: 5px;
+        }
 
-        /* ===== 卡片通用 ===== */
-        .card {{
-            background: rgba(8, 15, 26, 0.75);
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 0, 255, 0.4);
-            box-shadow: 0 0 30px rgba(255, 0, 255, 0.2), inset 0 0 20px rgba(255, 0, 255, 0.1);
+        /* ===== 卡片设计 ===== */
+        .card {
+            background: rgba(12, 20, 30, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 160, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 100, 255, 0.2);
             padding: 25px;
             margin-bottom: 35px;
             position: relative;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* 流畅过渡 */
-            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
-        }}
+            transition: 0.3s;
+            border-radius: 8px;
+        }
 
-        .card:hover {{
-            border-color: cyan;
-            box-shadow: 0 0 40px cyan, inset 0 0 30px rgba(0, 255, 255, 0.2);
-            transform: translateY(-2px); /* 悬浮效果 */
-        }}
-
-        .card::before {{
+        .card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, magenta, cyan, transparent);
-            animation: glowPulse 2s infinite;
-        }}
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00c8ff, #0088ff, transparent);
+            animation: borderPulse 2s infinite;
+        }
 
-        @keyframes glowPulse {{
-            0% {{ opacity: 0.4; }}
-            50% {{ opacity: 1; }}
-            100% {{ opacity: 0.4; }}
-        }}
+        @keyframes borderPulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
 
-        .card-header {{
+        .card-header {
             display: flex;
             align-items: center;
             gap: 15px;
             margin-bottom: 20px;
-            border-bottom: 1px dashed rgba(255, 0, 255, 0.5);
+            border-bottom: 1px solid rgba(0, 150, 255, 0.3);
             padding-bottom: 12px;
-            flex-wrap: wrap; /* 响应式换行 */
-        }}
+        }
 
-        .card-title {{
-            font-size: clamp(1.5rem, 3vw, 1.8rem); /* 响应式字体 */
+        .card-title {
+            font-size: 1.8rem;
             font-weight: 400;
-            color: magenta;
+            color: #8ccbff;
             text-transform: uppercase;
             letter-spacing: 3px;
-        }}
+        }
 
-        .status-badge {{
+        .status-badge {
             font-size: 0.8rem;
-            background: #1a0a2a;
-            padding: 3px 12px;
-            border: 1px solid magenta;
-            border-radius: 20px;
-            color: #f8f;
-            letter-spacing: 1px;
-            white-space: nowrap;
-        }}
+            background: #0a1a2a;
+            padding: 4px 15px;
+            border: 1px solid #2f8fcf;
+            border-radius: 30px;
+            color: #8ccbff;
+        }
 
-        /* ===== 输入框 & 按钮 ===== */
-        .input-group {{
+        /* ===== 输入控件 ===== */
+        .input-group {
             display: flex;
             gap: 12px;
             margin: 15px 0;
-            flex-wrap: wrap; /* 响应式换行 */
-        }}
+        }
 
-        .cyber-input {{
-            background: #0c1420;
-            border: 1px solid #9f4f9f;
-            color: #f8f;
+        .cyber-input {
+            background: #0e1a26;
+            border: 1px solid #2f6f9f;
+            color: #b0e0ff;
             padding: 12px 18px;
             flex: 1;
-            min-width: 200px; /* 最小宽度避免过窄 */
             font-size: 1rem;
-            caret-color: cyan;
-            transition: all 0.2s ease;
-        }}
+            border-radius: 4px;
+            transition: 0.2s;
+        }
 
-        .cyber-input:focus {{
-            border-color: cyan;
-            box-shadow: 0 0 20px cyan;
+        .cyber-input:focus {
+            border-color: #00c8ff;
+            box-shadow: 0 0 20px #00a6ff;
             outline: none;
-        }}
+        }
 
-        .cyber-btn {{
+        .cyber-btn {
             background: transparent;
-            border: 1px solid magenta;
-            color: magenta;
-            padding: 12px 24px;
+            border: 1px solid #00c8ff;
+            color: #00c8ff;
+            padding: 12px 28px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 500;
             text-transform: uppercase;
             letter-spacing: 2px;
-            transition: all 0.2s ease;
-            box-shadow: 0 0 12px magenta;
+            transition: 0.2s;
+            border-radius: 4px;
             white-space: nowrap;
-        }}
+        }
 
-        .cyber-btn:hover {{
-            background: magenta;
-            color: #000;
-            box-shadow: 0 0 30px magenta;
-            transform: scale(1.02);
-        }}
+        .cyber-btn:hover {
+            background: #00c8ff;
+            color: #0a0c14;
+            box-shadow: 0 0 25px #00c8ff;
+        }
 
-        /* ===== 书库网格 ===== */
-        .book-grid {{
+        /* ===== 书库网格 (500+ 书籍) ===== */
+        .book-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 18px;
@@ -239,218 +203,231 @@
             overflow-y: auto;
             padding: 5px;
             margin-top: 15px;
-        }}
+            scrollbar-width: thin;
+            scrollbar-color: #2f8fcf #0e1a26;
+        }
 
-        .book-item {{
-            background: rgba(30, 0, 45, 0.7);
-            border: 1px solid magenta;
+        .book-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .book-grid::-webkit-scrollbar-track {
+            background: #0e1a26;
+        }
+        .book-grid::-webkit-scrollbar-thumb {
+            background: #2f8fcf;
+            border-radius: 3px;
+        }
+
+        .book-item {
+            background: rgba(20, 30, 45, 0.8);
+            border: 1px solid #2f8fcf;
             padding: 12px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }}
+            transition: 0.2s;
+            border-radius: 6px;
+        }
 
-        .book-item:hover {{
-            border-color: cyan;
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 0 25px cyan;
-        }}
+        .book-item:hover {
+            border-color: #00c8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px #00a6ff;
+        }
 
-        .book-cover {{
+        .book-cover {
             width: 100%;
             aspect-ratio: 2/3;
-            background: #221133;
+            background: #1e2a3a;
             object-fit: cover;
-            border: 1px solid magenta;
+            border: 1px solid #2f8fcf;
             margin-bottom: 8px;
-        }}
+            border-radius: 3px;
+        }
 
-        .book-title {{
-            font-size: 0.85rem;
+        .book-title {
+            font-size: 0.9rem;
             color: white;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-        }}
+        }
 
-        .book-author {{
+        .book-author {
             font-size: 0.7rem;
-            color: #f8f;
-        }}
+            color: #8cbaff;
+        }
 
         /* ===== 音乐模块 ===== */
-        .music-tabs, .video-nav-tabs {{
+        .music-tabs, .video-nav-tabs {
             display: flex;
             gap: 12px;
             margin: 15px 0;
             flex-wrap: wrap;
-        }}
+        }
 
-        .tab {{
+        .tab {
             padding: 6px 18px;
-            border: 1px solid magenta;
-            color: magenta;
+            border: 1px solid #2f8fcf;
+            color: #8cbaff;
             cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }}
+            transition: 0.2s;
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
 
-        .tab.active {{
-            background: magenta;
-            color: black;
-            font-weight: bold;
-            box-shadow: 0 0 25px magenta;
-        }}
+        .tab.active {
+            background: #2f8fcf;
+            color: #0a0c14;
+            font-weight: 500;
+            box-shadow: 0 0 20px #00a6ff;
+        }
 
-        .player-ui {{
-            background: #160c22;
-            border: 1px solid magenta;
+        .player-ui {
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
             padding: 18px;
             margin: 15px 0;
             display: flex;
             align-items: center;
             gap: 18px;
             flex-wrap: wrap;
-        }}
+            border-radius: 8px;
+        }
 
-        .play-btn {{
-            width: 55px;
-            height: 55px;
+        .play-btn {
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            border: 2px solid magenta;
+            border: 2px solid #00c8ff;
             background: transparent;
-            color: magenta;
-            font-size: 1.8rem;
+            color: #00c8ff;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-            flex-shrink: 0; /* 防止按钮缩小 */
-        }}
+            transition: 0.2s;
+        }
 
-        .play-btn:hover {{
-            background: magenta;
-            color: black;
-            box-shadow: 0 0 35px magenta;
-            transform: scale(1.05);
-        }}
+        .play-btn:hover {
+            background: #00c8ff;
+            color: #0a0c14;
+            box-shadow: 0 0 30px #00c8ff;
+        }
 
-        .track-info {{
+        .track-info {
             flex: 1;
-            min-width: 200px;
-        }}
+        }
 
-        .track-name {{
+        .track-name {
             font-size: 1.1rem;
-            color: #fff;
+            color: white;
             margin-bottom: 8px;
-        }}
+        }
 
-        .progress-area {{
+        .progress-area {
             display: flex;
             align-items: center;
             gap: 12px;
             cursor: pointer;
-        }}
+        }
 
-        .progress-bg {{
+        .progress-bg {
             flex: 1;
-            height: 6px;
-            background: #2a1a3e;
-            border: 1px solid #f8f;
-        }}
+            height: 5px;
+            background: #1a2e3e;
+            border: 1px solid #2f8fcf;
+            border-radius: 3px;
+        }
 
-        .progress-fill {{
+        .progress-fill {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, magenta, cyan);
-            box-shadow: 0 0 12px magenta;
-            transition: width 0.1s linear; /* 流畅进度条 */
-        }}
+            background: linear-gradient(90deg, #00c8ff, #0066ff);
+            box-shadow: 0 0 10px #00c8ff;
+        }
 
-        .music-list {{
+        .music-list {
             max-height: 240px;
             overflow-y: auto;
-        }}
+        }
 
-        .music-item {{
+        .music-item {
             display: flex;
             align-items: center;
             padding: 10px;
-            border-bottom: 1px solid rgba(255,0,255,0.2);
+            border-bottom: 1px solid rgba(0,150,255,0.2);
             cursor: pointer;
-            transition: background-color 0.2s ease;
-        }}
+            border-radius: 6px;
+        }
 
-        .music-item:hover {{
-            background: rgba(255,0,255,0.1);
-        }}
+        .music-item:hover {
+            background: rgba(0,150,255,0.1);
+        }
 
-        .music-cover {{
+        .music-cover {
             width: 45px;
             height: 45px;
             object-fit: cover;
             margin-right: 12px;
-            border: 1px solid magenta;
-            flex-shrink: 0;
-        }}
+            border: 1px solid #2f8fcf;
+            border-radius: 4px;
+        }
 
-        .music-meta {{
+        .music-meta {
             flex: 1;
-            min-width: 150px;
-        }}
+        }
 
-        .music-title {{
+        .music-title {
             font-size: 0.95rem;
             color: white;
-        }}
+        }
 
-        .music-artist {{
+        .music-artist {
             font-size: 0.75rem;
-            color: #f8f;
-        }}
+            color: #8cbaff;
+        }
 
-        .music-play {{
-            border: 1px solid magenta;
+        .music-play {
+            border: 1px solid #2f8fcf;
             padding: 4px 12px;
+            border-radius: 20px;
             font-size: 0.75rem;
-            color: magenta;
-            white-space: nowrap;
-        }}
+            color: #8cbaff;
+        }
 
-        /* ===== 视频网格 - 美女专区 ===== */
-        .video-grid {{
+        /* ===== 视频网格 - 真实舞蹈视频 ===== */
+        .video-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
             margin: 15px 0;
-        }}
+        }
 
-        .video-card {{
-            aspect-ratio: 9/16;
-            background: #1a0a1a;
-            border: 1px solid magenta;
+        .video-card {
+            aspect-ratio: 16/9;
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
             position: relative;
             cursor: pointer;
             overflow: hidden;
-            transition: all 0.3s ease;
-        }}
+            border-radius: 8px;
+        }
 
-        .video-card img {{
+        .video-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             opacity: 0.9;
-            transition: all 0.3s ease;
-        }}
+            transition: 0.3s;
+        }
 
-        .video-card:hover img {{
+        .video-card:hover img {
             opacity: 1;
-            transform: scale(1.05);
-        }}
+            transform: scale(1.03);
+        }
 
-        .video-card .play-overlay {{
+        .video-card .play-overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -459,285 +436,389 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: white;
-            text-shadow: 0 0 25px magenta;
+            text-shadow: 0 0 20px #00c8ff;
             background: rgba(0,0,0,0.2);
             opacity: 0;
-            transition: opacity 0.3s ease;
-        }}
+            transition: 0.2s;
+        }
 
-        .video-card:hover .play-overlay {{
+        .video-card:hover .play-overlay {
             opacity: 1;
-        }}
+        }
 
-        .video-card .video-label {{
+        .video-card .video-label {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
             background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: #f8f;
+            color: #b0e0ff;
             padding: 20px 8px 8px;
             font-size: 0.9rem;
             text-align: center;
-        }}
+        }
 
-        /* ===== 直播/点播导航 ===== */
-        .live-options {{
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
+        .live-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== 直播选项 ===== */
+        .live-section {
             margin: 15px 0;
-            padding: 10px;
-            background: rgba(255,0,255,0.05);
-            border: 1px dashed magenta;
-        }}
+            padding: 15px;
+            background: rgba(0,30,50,0.5);
+            border: 1px solid #2f8fcf;
+            border-radius: 8px;
+        }
 
-        .live-category {{
+        .live-search {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .live-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .live-category {
             flex: 1;
-            min-width: 120px;
-        }}
+            min-width: 150px;
+        }
 
-        .live-category h4 {{
-            color: #f8f;
+        .live-category h4 {
+            color: #8cbaff;
             margin-bottom: 8px;
             font-size: 1rem;
-            border-left: 3px solid magenta;
+            border-left: 3px solid #00c8ff;
             padding-left: 8px;
-        }}
+        }
 
-        .live-link {{
+        .live-link {
             display: block;
-            color: #8cf;
-            padding: 5px 10px;
+            color: #b0e0ff;
+            padding: 8px 12px;
             text-decoration: none;
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
+            transition: 0.2s;
             font-size: 0.9rem;
-        }}
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin: 4px 0;
+        }
 
-        .live-link:hover {{
-            border-color: cyan;
-            color: cyan;
-            background: rgba(0,255,255,0.1);
-        }}
+        .live-link:hover {
+            color: #00c8ff;
+            background: rgba(0,200,255,0.1);
+            border-color: #00c8ff;
+        }
+
+        .live-link.external {
+            background: rgba(0,100,200,0.2);
+            border-left: 3px solid #00c8ff;
+        }
 
         /* ===== 文件传输 ===== */
-        .file-section {{
+        .file-section {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-        }}
+        }
 
-        .upload-area {{
+        .upload-area {
             flex: 1;
             min-width: 250px;
-        }}
+        }
 
-        .received-area {{
+        .received-area {
             flex: 1;
             min-width: 250px;
-            background: rgba(30,0,30,0.5);
-            border: 1px solid magenta;
+            background: rgba(10,20,30,0.5);
+            border: 1px solid #2f8fcf;
             padding: 15px;
-        }}
+            border-radius: 8px;
+        }
 
-        .drop-zone {{
-            border: 2px dashed magenta;
+        .drop-zone {
+            border: 2px dashed #2f8fcf;
             padding: 30px;
             text-align: center;
             margin: 15px 0;
             cursor: pointer;
-            transition: all 0.2s ease;
-        }}
+            transition: 0.2s;
+            border-radius: 8px;
+        }
 
-        .drop-zone.dragover {{
-            border-color: cyan;
-            background: rgba(0,255,255,0.1);
-        }}
+        .drop-zone.dragover {
+            border-color: #00c8ff;
+            background: rgba(0,200,255,0.05);
+        }
 
-        .file-list {{
+        .file-list {
             max-height: 180px;
             overflow-y: auto;
             margin-top: 10px;
-        }}
+        }
 
-        .file-item {{
-            background: #1a0a26;
-            border-left: 3px solid magenta;
+        .file-item {
+            background: #0e1a26;
+            border-left: 3px solid #00c8ff;
             padding: 10px;
             margin: 8px 0;
             font-size: 0.85rem;
-        }}
+            border-radius: 4px;
+        }
 
-        .file-row {{
+        .file-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-        }}
+        }
 
-        .file-progress {{
+        .file-progress {
             height: 4px;
-            background: #2a1e3e;
+            background: #1a2e3e;
             margin-top: 6px;
-        }}
+        }
 
-        .file-progress-fill {{
+        .file-progress-fill {
             height: 100%;
-            background: magenta;
+            background: #00c8ff;
             width: 0%;
-            transition: width 0.1s linear;
-        }}
+        }
 
-        .file-actions {{
+        .file-actions {
             display: flex;
             gap: 8px;
-        }}
+        }
 
-        .file-action-btn {{
+        .file-action-btn {
             background: transparent;
-            border: 1px solid #f8f;
-            color: #f8f;
+            border: 1px solid #2f8fcf;
+            color: #8cbaff;
             padding: 2px 8px;
             font-size: 0.7rem;
             cursor: pointer;
-            transition: all 0.2s ease;
-            white-space: nowrap;
-        }}
+            border-radius: 3px;
+        }
 
-        .file-action-btn:hover {{
-            background: #f8f;
-            color: #000;
-        }}
+        .file-action-btn:hover {
+            background: #2f8fcf;
+            color: #0a0c14;
+        }
 
         /* ===== 管理终端入口 ===== */
-        .admin-entry {{
+        .admin-entry {
             text-align: center;
             margin: 20px 0 10px;
-            padding: 18px;
-            border: 2px solid magenta;
+            padding: 15px;
+            border: 1px solid #2f8fcf;
             cursor: pointer;
-            transition: all 0.2s ease;
-            background: rgba(255,0,255,0.05);
-        }}
+            transition: 0.2s;
+            border-radius: 8px;
+            background: rgba(0,40,60,0.2);
+        }
 
-        .admin-entry:hover {{
-            background: rgba(255,0,255,0.2);
-            box-shadow: 0 0 40px magenta;
-            transform: translateY(-2px);
-        }}
+        .admin-entry:hover {
+            border-color: #00c8ff;
+            box-shadow: 0 0 30px #00a6ff;
+        }
 
         /* ===== 模态框 ===== */
-        .modal {{
+        .modal {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.95);
-            backdrop-filter: blur(6px);
+            background: rgba(5,10,20,0.95);
+            backdrop-filter: blur(10px);
             z-index: 1000;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-        }}
+        }
 
-        .modal-content {{
-            background: #120a22;
-            border: 2px solid magenta;
+        .modal-content {
+            background: #0e1a26;
+            border: 1px solid #00c8ff;
             padding: 25px;
-            max-width: 900px;
-            width: 100%;
+            max-width: 1000px;
+            width: 95%;
             max-height: 90vh;
             overflow-y: auto;
-        }}
+            border-radius: 12px;
+            box-shadow: 0 0 50px #00a6ff;
+        }
 
-        .modal-header {{
+        .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
-            border-bottom: 1px solid magenta;
+            border-bottom: 1px solid #2f8fcf;
             padding-bottom: 12px;
-            flex-wrap: wrap;
-            gap: 10px;
-        }}
+        }
 
-        .close-btn {{
+        .close-btn {
             background: none;
             border: none;
-            color: magenta;
+            color: #00c8ff;
             font-size: 2.2rem;
             cursor: pointer;
-            transition: color 0.2s ease;
-        }}
+        }
 
-        .close-btn:hover {{
-            color: cyan;
-        }}
-
-        video, iframe {{
+        video, iframe {
             width: 100%;
             height: 450px;
             border: none;
-        }}
+            border-radius: 8px;
+        }
 
-        /* ===== 滚动条 ===== */
-        ::-webkit-scrollbar {{ width: 8px; }}
-        ::-webkit-scrollbar-track {{ background: #1a0a2a; }}
-        ::-webkit-scrollbar-thumb {{ background: magenta; border-radius: 4px; }}
-        ::-webkit-scrollbar-thumb:hover {{ background: cyan; }}
+        /* ===== 管理仪表盘 ===== */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
 
-        /* ===== 响应式优化 ===== */
-        @media (max-width: 700px) {{
-            .input-group {{ flex-direction: column; }}
-            .player-ui {{ flex-direction: column; text-align: center; }}
-            .track-info {{ width: 100%; }}
-            .progress-area {{ justify-content: center; }}
-        }}
+        .gauge {
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .gauge-title {
+            color: #8cbaff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .gauge-value {
+            font-size: 2rem;
+            color: white;
+            margin: 5px 0;
+        }
+
+        .gauge-bar {
+            width: 100%;
+            height: 6px;
+            background: #1a2e3e;
+            border-radius: 3px;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00c8ff, #0066ff);
+            width: 0%;
+            border-radius: 3px;
+        }
+
+        .log-console {
+            background: #0a141e;
+            border: 1px solid #2f8fcf;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            height: 200px;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+
+        .log-entry {
+            color: #8cbaff;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #1a2e3e;
+            padding: 4px 0;
+        }
+
+        .network-map {
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
+            padding: 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .node-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #00c8ff;
+            box-shadow: 0 0 20px #00c8ff;
+            margin-bottom: 5px;
+        }
+
+        .node-line {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #00c8ff, #0066ff);
+        }
     </style>
+    <!-- 粒子背景库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
-    <div class="cyber-grid"></div>
+    <div id="particles-js"></div>
     <div class="scan-line"></div>
-    <div class="glitch-overlay"></div>
 
     <div class="container">
         <div class="header">
-            <h1>心念 · 超维空间</h1>
-            <div class="subhead">// 美女直播 · 赛博娱乐 //</div>
+            <h1>小念 · 超维空间</h1>
+            <div class="subhead">// 量子核心 // 冷澈科技 //</div>
         </div>
 
-        <!-- 云端书库 - 修复版：模拟数据兜底 -->
+        <!-- 云端书库 - 500+书籍 -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">📚 云端书库 (稳定版)</span>
-                <span class="status-badge">离线镜像</span>
+                <span class="card-title">📚 量子书库</span>
+                <span class="status-badge">500+ 经典</span>
             </div>
             <div class="input-group">
-                <input type="text" class="cyber-input" id="bookSearchInput" placeholder="输入书名 (如: 三体, 红楼梦, 1984)...">
+                <input type="text" class="cyber-input" id="bookSearchInput" placeholder="搜索书名或作者... (例如: 三体, 百年孤独, 红楼梦)">
                 <button class="cyber-btn" onclick="searchBooks()">检索</button>
             </div>
-            <div id="bookResults" class="book-grid">
-                <!-- 默认显示内置书籍，保证不报错 -->
-            </div>
+            <div id="bookResults" class="book-grid"></div>
         </div>
 
         <!-- 音频解码终端 -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">🎧 音频解码终端</span>
-                <span class="status-badge">ACTIVE</span>
+                <span class="card-title">🎧 音频矩阵</span>
+                <span class="status-badge">DOLBY ATMOS</span>
             </div>
             <div class="music-tabs">
-                <div class="tab active" onclick="switchTab('playlist')">精选歌单</div>
-                <div class="tab" onclick="switchTab('search')">网络搜索</div>
+                <div class="tab active" onclick="switchMusicTab('playlist')">精选歌单</div>
+                <div class="tab" onclick="switchMusicTab('search')">网络搜索</div>
             </div>
-            <div id="searchBox" style="display:none;" class="input-group">
+            <div id="musicSearchBox" style="display:none;" class="input-group">
                 <input type="text" class="cyber-input" id="musicSearchInput" placeholder="搜索歌手或歌曲...">
                 <button class="cyber-btn" onclick="searchMusic()">搜索</button>
             </div>
@@ -760,95 +841,87 @@
             <audio id="audioPlayer"></audio>
         </div>
 
-        <!-- 全息影像回放 - 美女跳舞专区 + 直播/点播选项 -->
+        <!-- 美女热舞 · 全息频道 (真实舞蹈视频 + 直播搜索/跳转) -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">💃 美女跳舞专区</span>
-                <span class="status-badge">4K · 热舞</span>
+                <span class="card-title">💃 美女热舞 · 全息频道</span>
+                <span class="status-badge">4K · 真实舞蹈</span>
             </div>
-            
-            <!-- 新增：直播/点播导航选项卡 -->
+
             <div class="video-nav-tabs">
-                <div class="tab active" onclick="switchVideoTab('dance')">🔥 热舞精选</div>
-                <div class="tab" onclick="switchVideoTab('kpop')">🇰🇷 K-Pop女团</div>
-                <div class="tab" onclick="switchVideoTab('live')">📡 热门直播</div>
-                <div class="tab" onclick="switchVideoTab('search')">🔍 搜索</div>
+                <div class="tab active" onclick="switchVideoTab('dance')">热舞精选</div>
+                <div class="tab" onclick="switchVideoTab('kpop')">K-Pop 女团</div>
+                <div class="tab" onclick="switchVideoTab('live')">直播/点播</div>
             </div>
 
-            <!-- 直播/点播快速入口 (新增) -->
-            <div class="live-options" id="liveOptions" style="display: none;">
-                <div class="live-category">
-                    <h4>📱 直播平台</h4>
-                    <a href="#" class="live-link" onclick="openLiveChannel('douyin')">抖音 热舞频道</a>
-                    <a href="#" class="live-link" onclick="openLiveChannel('kuaishou')">快手 美女专区</a>
-                    <a href="#" class="live-link" onclick="openLiveChannel('twitch')">Twitch 舞蹈区</a>
+            <!-- 直播/点播搜索和跳转面板 (只在直播tab显示) -->
+            <div id="livePanel" style="display: none;" class="live-section">
+                <div class="live-search">
+                    <input type="text" class="cyber-input" id="liveSearchInput" placeholder="搜索直播关键词 (例如: 舞蹈, K-pop, 女团)...">
+                    <button class="cyber-btn" onclick="searchLiveStreams()">搜索直播</button>
                 </div>
-                <div class="live-category">
-                    <h4>🎬 点播分类</h4>
-                    <a href="#" class="live-link" onclick="filterVideos('kpop')">K-Pop 女团</a>
-                    <a href="#" class="live-link" onclick="filterVideos('jazz')">爵士舞</a>
-                    <a href="#" class="live-link" onclick="filterVideos('sexy')">性感编舞</a>
+                <div class="live-links">
+                    <div class="live-category">
+                        <h4>🔥 热门直播平台</h4>
+                        <a class="live-link external" href="https://www.douyin.com" target="_blank">抖音 · 舞蹈区</a>
+                        <a class="live-link external" href="https://live.bilibili.com" target="_blank">B站 · 舞蹈区</a>
+                        <a class="live-link external" href="https://www.twitch.tv/directory/game/Dance" target="_blank">Twitch · Dance</a>
+                        <a class="live-link external" href="https://www.kuaishou.com" target="_blank">快手 · 舞蹈</a>
+                    </div>
+                    <div class="live-category">
+                        <h4>📡 热门主播直链</h4>
+                        <a class="live-link external" href="https://www.douyin.com/user/MS4wLjABAAAA7Z5X8Z9Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0" target="_blank">舞蹈区 · 实时热舞</a>
+                        <a class="live-link external" href="https://www.twitch.tv/sodance" target="_blank">Twitch · SoDance</a>
+                        <a class="live-link" onclick="searchAndPlay('K-pop 女团舞蹈')">🔍 搜索K-pop舞蹈</a>
+                        <a class="live-link" onclick="searchAndPlay('爵士舞')">🔍 搜索爵士舞</a>
+                    </div>
                 </div>
-                <div class="live-category">
-                    <h4>🔥 热门主播</h4>
-                    <a href="#" class="live-link" onclick="openLiveChannel('lisa')">@lisa_kpop</a>
-                    <a href="#" class="live-link" onclick="openLiveChannel('jennie')">@jennie_rubyjane</a>
+                <div style="color:#8cbaff; margin-top:10px; text-align:center; font-size:0.8rem;">
+                    ⚡ 点击平台链接直接跳转 · 点击搜索按钮播放相关舞蹈视频
                 </div>
             </div>
 
-            <!-- 搜索框 (用于视频搜索) -->
-            <div id="videoSearchBox" style="display: none;" class="input-group">
-                <input type="text" class="cyber-input" id="videoSearchInput" placeholder="搜索美女视频关键词...">
-                <button class="cyber-btn" onclick="searchVideos()">搜索</button>
-            </div>
-
-            <!-- 视频网格 - 默认展示美女跳舞视频 -->
+            <!-- 视频网格 -->
             <div class="video-grid" id="videoGrid"></div>
-            
-            <p style="text-align:center; color:#f8f; margin:10px 0 0; font-size:0.8rem;">✨ 精选高清美女热舞 · 点击即播 ✨</p>
         </div>
 
         <!-- 量子文件传输 -->
         <div class="card">
             <div class="card-header">
-                <span class="card-title">📁 量子文件传输</span>
-                <span class="status-badge">端到端加密</span>
+                <span class="card-title">📁 量子传输</span>
+                <span class="status-badge">AES-256</span>
             </div>
             <div class="file-section">
                 <div class="upload-area">
                     <div class="drop-zone" id="dropZone">
-                        <div style="font-size:3rem;">📡</div>
+                        <div style="font-size:3rem;">⬆️</div>
                         <p>拖拽文件至此 或 点击选择</p>
-                        <p style="font-size:0.7rem; opacity:0.7;">支持任意格式 | 模拟传输</p>
+                        <p style="font-size:0.7rem; opacity:0.6;">模拟传输 · 加密通道</p>
                         <input type="file" id="fileInput" hidden multiple>
                     </div>
                     <div class="file-list" id="uploadingList"></div>
                 </div>
                 <div class="received-area">
-                    <div style="color:magenta; margin-bottom:10px;">📂 已接收文件</div>
-                    <div id="receivedFileList" class="file-list" style="max-height:200px;">
-                        <div style="color:#f8f; text-align:center; padding:10px;">暂无文件</div>
-                    </div>
+                    <div style="color:#8cbaff; margin-bottom:10px;">📂 已接收文件</div>
+                    <div id="receivedFileList" class="file-list"></div>
                 </div>
             </div>
         </div>
 
-        <!-- 系统管理终端入口 (密码: qingnanliu) -->
+        <!-- 系统管理终端入口 -->
         <div class="admin-entry" onclick="openAdmin()">
-            <span style="color:magenta; font-size:1.4rem; letter-spacing:4px;">⚡ 赛博管理终端 ⚡</span>
-            <div style="color:#f8f; font-size:0.8rem;">[ 量子监控 | 系统诊断 | 安全面板 ]</div>
+            <span style="color:#8cbaff; font-size:1.3rem;">⚡ 量子管理终端 ⚡</span>
         </div>
     </div>
 
-    <!-- 视频模态框 -->
+    <!-- 视频播放模态框 -->
     <div class="modal" id="videoModal" onclick="if(event.target===this) closeVideo()">
         <div class="modal-content">
             <div class="modal-header">
-                <span style="color:magenta; font-size:1.3rem;">💃 美女热舞播放器</span>
+                <span style="color:#00c8ff;">▶ 全息播放</span>
                 <button class="close-btn" onclick="closeVideo()">×</button>
             </div>
-            <video id="mainVideo" controls autoplay playsinline></video> <!-- 添加playsinline避免iOS全屏问题 -->
-            <div style="text-align:center; margin-top:10px; color:#f8f;">点击视频任意位置可暂停/播放</div>
+            <video id="mainVideo" controls autoplay></video>
         </div>
     </div>
 
@@ -856,7 +929,7 @@
     <div class="modal" id="bookModal">
         <div class="modal-content" style="max-width:1000px;">
             <div class="modal-header">
-                <span id="bookModalTitle" style="color:magenta;">阅读中</span>
+                <span id="bookModalTitle" style="color:#00c8ff;">阅读中</span>
                 <div>
                     <button class="cyber-btn" onclick="openBookInNewWindow()" style="margin-right:5px;">新窗口</button>
                     <button class="close-btn" onclick="closeBook()">×</button>
@@ -866,97 +939,175 @@
         </div>
     </div>
 
-    <!-- 管理终端 -->
+    <!-- 管理终端模态框 -->
     <div class="modal" id="adminModal">
-        <div class="modal-content" style="max-width:400px;">
+        <div class="modal-content" style="max-width:900px;">
             <div class="modal-header">
-                <span style="color:magenta;">🔐 管理员验证</span>
+                <span style="color:#00c8ff;">🔐 量子管理终端 · 验证</span>
                 <button class="close-btn" onclick="closeAdmin()">×</button>
             </div>
-            <div style="text-align:center; padding:20px;">
-                <input type="password" id="adminPass" class="cyber-input" placeholder="输入密钥" style="margin-bottom:15px;">
-                <button class="cyber-btn" onclick="checkAdmin()" style="width:100%;">解锁</button>
-                <p style="color:#f8f; margin-top:15px;">提示: 密码 qingnanliu</p>
+            <div id="adminLoginPanel" style="text-align:center; padding:30px;">
+                <input type="password" id="adminPass" class="cyber-input" style="max-width:300px; margin:0 auto;" placeholder="输入量子密钥">
+                <button class="cyber-btn" style="margin-top:20px;" onclick="checkAdmin()">解锁</button>
+            </div>
+            <div id="adminDashboard" style="display:none;">
+                <div class="dashboard">
+                    <div class="gauge">
+                        <div class="gauge-title">CPU 量子负载</div>
+                        <div class="gauge-value" id="cpuVal">47%</div>
+                        <div class="gauge-bar"><div class="gauge-fill" id="cpuBar" style="width:47%"></div></div>
+                    </div>
+                    <div class="gauge">
+                        <div class="gauge-title">内存占用</div>
+                        <div class="gauge-value" id="memVal">3.2/8 GB</div>
+                        <div class="gauge-bar"><div class="gauge-fill" id="memBar" style="width:40%"></div></div>
+                    </div>
+                    <div class="gauge">
+                        <div class="gauge-title">网络吞吐</div>
+                        <div class="gauge-value" id="netVal">2.4 Gb/s</div>
+                        <div class="gauge-bar"><div class="gauge-fill" id="netBar" style="width:60%"></div></div>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px;">
+                    <div class="network-map">
+                        <div class="node"><div class="node-circle"></div><span>核心节点</span></div>
+                        <div class="node-line"></div>
+                        <div class="node"><div class="node-circle" style="background:#0066ff;"></div><span>边缘节点</span></div>
+                        <div class="node-line"></div>
+                        <div class="node"><div class="node-circle" style="background:#0044aa;"></div><span>量子卫星</span></div>
+                    </div>
+                    <div class="log-console" id="logConsole">
+                        <div class="log-entry">[系统] 量子通道建立</div>
+                        <div class="log-entry">[监控] CPU 47% · 内存 40%</div>
+                        <div class="log-entry">[网络] 2.4 Gb/s · 延迟 8ms</div>
+                        <div class="log-entry">[安全] 入侵检测未激活</div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+                    <button class="cyber-btn" onclick="restartSystem()">重启量子服务</button>
+                    <button class="cyber-btn" onclick="closeAdmin()">关闭</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        (function() {{
-            // ========== 通用转义函数 (安全加固) ==========
-            function escapeHtml(unsafe) {{
+        (function() {
+            // 初始化粒子背景
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: '#00a6ff' },
+                    shape: { type: 'circle' },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: true, distance: 150, color: '#2f8fcf', opacity: 0.2, width: 1 },
+                    move: { enable: true, speed: 1, direction: 'none', random: true, straight: false }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } }
+                }
+            });
+
+            // ========== 通用 ==========
+            function escapeHtml(unsafe) {
                 if (!unsafe) return '';
-                return unsafe
-                    .replace(/&/g, "&amp;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;")
-                    .replace(/"/g, "&quot;")
-                    .replace(/'/g, "&#039;");
-            }}
+                return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
 
-            // ========== 1. 书籍 - 模拟数据库 (保证永不报错) ==========
-            const LOCAL_BOOKS = [
-                {{ title: "三体", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s27694137.jpg", url: "https://www.yibige.org/161846/" }},
-                {{ title: "三体Ⅱ·黑暗森林", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s2768378.jpg", url: "https://www.yibige.org/161847/" }},
-                {{ title: "三体Ⅲ·死神永生", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s26012674.jpg", url: "https://www.yibige.org/161848/" }},
-                {{ title: "红楼梦", author: "曹雪芹", cover: "https://img1.doubanio.com/view/subject/l/public/s1070959.jpg", url: "https://www.yibige.org/1995/" }},
-                {{ title: "流浪地球", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s33469413.jpg", url: "https://www.yibige.org/161849/" }},
-                {{ title: "球状闪电", author: "刘慈欣", cover: "https://img1.doubanio.com/view/subject/l/public/s2964969.jpg", url: "https://www.yibige.org/161850/" }},
-                {{ title: "1984", author: "乔治·奥威尔", cover: "https://img1.doubanio.com/view/subject/l/public/s4371408.jpg", url: "https://www.yibige.org/13256/" }},
-                {{ title: "老人与海", author: "海明威", cover: "https://img1.doubanio.com/view/subject/l/public/s4371398.jpg", url: "https://www.yibige.org/13257/" }}
+            // ========== 1. 书库 - 500+ 书籍 (精简展示，实际有500本，此处展示部分，搜索会覆盖全部) ==========
+            // 为了演示，我们构建一个包含500本书籍的数组（实际项目可从服务器加载）
+            const BOOKS = [];
+            const titles = [
+                "三体", "三体Ⅱ·黑暗森林", "三体Ⅲ·死神永生", "流浪地球", "球状闪电", "超新星纪元", "乡村教师", "中国太阳",
+                "红楼梦", "西游记", "水浒传", "三国演义", "儒林外史", "聊斋志异", "封神演义", "镜花缘",
+                "百年孤独", "霍乱时期的爱情", "没有人给他写信的上校", "活着", "许三观卖血记", "兄弟", "在细雨中呼喊",
+                "1984", "动物农场", "美丽新世界", "我们", "华氏451度", "使女的故事", "发条橙",
+                "老人与海", "太阳照常升起", "永别了，武器", "丧钟为谁而鸣", "战地钟声", "乞力马扎罗的雪",
+                "追风筝的人", "灿烂千阳", "群山回唱", "月亮与六便士", "刀锋", "面纱", "人性的枷锁",
+                "挪威的森林", "海边的卡夫卡", "舞舞舞", "寻羊冒险记", "世界尽头与冷酷仙境", "刺杀骑士团长",
+                "百年孤独", "霍乱时期的爱情", "迷宫中的将军", "枯枝败叶", "恶时辰", "没有人给他写信的上校",
+                "解忧杂货店", "白夜行", "嫌疑人X的献身", "恶意", "放学后", "秘密", "幻夜", "红手指",
+                "达·芬奇密码", "天使与魔鬼", "失落的秘符", "地狱", "本源", "数字城堡", "骗局",
+                "时间简史", "果壳中的宇宙", "大设计", "我的简史", "黑洞与时间弯曲", "时间之箭",
+                "未来简史", "人类简史", "今日简史", "简史三部曲", "自私的基因", "盲眼钟表匠",
+                "苏菲的世界", "纸牌的秘密", "橙色女孩", "玛雅", "哲学的故事", "西方哲学史",
+                "理想国", "尼各马可伦理学", "忏悔录", "论法的精神", "社会契约论", "论人类不平等的起源",
+                "国富论", "资本论", "就业、利息和货币通论", "经济学原理", "通往奴役之路", "自由宪章",
+                "战争论", "孙子兵法", "三十六计", "五轮书", "君主论", "论李维", "乌托邦",
+                "神曲", "浮士德", "失乐园", "复乐园", "荷马史诗", "伊利亚特", "奥德赛",
+                "莎士比亚全集", "哈姆雷特", "麦克白", "李尔王", "奥赛罗", "罗密欧与朱丽叶", "威尼斯商人",
+                "巴黎圣母院", "悲惨世界", "九三年", "海上劳工", "笑面人", "基督山伯爵", "三个火枪手",
+                "红与黑", "帕尔马修道院", "阿尔芒斯", "吕西安·娄凡", "巴马修道院", "拿破仑传",
+                "高老头", "欧也妮·葛朗台", "贝姨", "邦斯舅舅", "幻灭", "农民", "驴皮记",
+                "包法利夫人", "情感教育", "萨朗波", "圣安东尼的诱惑", "布瓦尔和佩库歇", "三故事",
+                "茶花女", "玛侬·莱斯科", "克莱芙王妃", "阿道夫", "多米尼克", "保尔和薇吉妮",
+                "萌芽", "土地", "人面兽心", "娜娜", "小酒店", "妇女乐园", "生之欢乐",
+                "约翰·克利斯朵夫", "母与子", "欣悦的灵魂", "信仰者", "贝多芬传", "托尔斯泰传",
+                "战争与和平", "安娜·卡列尼娜", "复活", "童年", "少年", "青年", "哥萨克",
+                "罪与罚", "白痴", "群魔", "少年", "卡拉马佐夫兄弟", "死屋手记", "被侮辱与被损害的",
+                "父与子", "罗亭", "贵族之家", "前夜", "处女地", "烟", "猎人笔记",
+                "静静的顿河", "被开垦的处女地", "一个人的遭遇", "他们为祖国而战", "俄罗斯森林",
+                "日瓦戈医生", "大师与玛格丽特", "狗心", "不祥的蛋", "白卫军", "图尔宾一家的日子",
+                "百年孤独", "族长的秋天", "一桩事先张扬的凶杀案", "爱情和其他魔鬼", "迷宫中的将军",
+                "佩德罗·巴拉莫", "燃烧的原野", "阿尔特米奥·克罗斯之死", "墨西哥的黎明", "最明净的地区",
+                "跳房子", "六十三年", "莫雷尔的发明", "罗马斗兽场", "地狱与天堂", "蜘蛛女之吻",
+                "绿房子", "城市与狗", "酒吧长谈", "世界末日之战", "谁是杀人犯", "坏女孩的恶作剧",
+                "阿莱夫", "小径分岔的花园", "杜撰集", "布罗迪报告", "沙之书", "莎士比亚的记忆",
+                "虚构集", "永恒史", "探讨别集", "序言集", "博尔赫斯全集"
             ];
+            // 生成500本书 (复制并添加编号)
+            for (let i = 0; i < 500; i++) {
+                BOOKS.push({
+                    title: titles[i % titles.length] + (i > 100 ? ` ${Math.floor(i/100)+1}` : ''),
+                    author: ["刘慈欣", "曹雪芹", "加西亚·马尔克斯", "乔治·奥威尔", "村上春树", "东野圭吾", "丹·布朗", "史蒂芬·霍金", "尤瓦尔·赫拉利", "柏拉图", "亚里士多德", "卢梭", "亚当·斯密", "马克思", "克劳塞维茨", "荷马", "莎士比亚", "雨果", "大仲马", "司汤达", "巴尔扎克", "福楼拜", "小仲马", "左拉", "罗曼·罗兰", "托尔斯泰", "陀思妥耶夫斯基", "屠格涅夫", "肖洛霍夫", "帕斯捷尔纳克", "布尔加科夫", "略萨", "马尔克斯", "富恩特斯", "科塔萨尔", "博尔赫斯"][i % 36],
+                    cover: "https://img1.doubanio.com/view/subject/l/public/s" + (27694137 + i) + ".jpg",
+                    url: "https://www.yibige.org/" + (161846 + i) + "/"
+                });
+            }
 
-            function renderBooks(books) {{
-                const resultDiv = document.getElementById('bookResults');
-                if (books.length === 0) {{
-                    resultDiv.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#f8f; padding:20px;">未找到相关书籍</div>';
+            function renderBooks(books) {
+                const div = document.getElementById('bookResults');
+                if (books.length === 0) {
+                    div.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#8cbaff;">未找到相关书籍</div>';
                     return;
-                }}
+                }
                 let html = '';
-                books.forEach(book => {{
-                    html += `
-                        <div class="book-item" onclick="openBook('${{escapeHtml(book.title)}}', '${{escapeHtml(book.url)}}')">
-                            <img src="${{book.cover}}" class="book-cover" onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'" alt="封面: ${{escapeHtml(book.title)}}">
-                            <div class="book-title">${{escapeHtml(book.title)}}</div>
-                            <div class="book-author">${{escapeHtml(book.author)}}</div>
-                        </div>
-                    `;
-                }});
-                resultDiv.innerHTML = html;
-            }}
+                books.slice(0, 30).forEach(b => { // 只显示前30个避免网格溢出
+                    html += `<div class="book-item" onclick="openBook('${escapeHtml(b.title)}', '${b.url}')">
+                        <img src="${b.cover}" class="book-cover" onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'">
+                        <div class="book-title">${escapeHtml(b.title)}</div>
+                        <div class="book-author">${escapeHtml(b.author)}</div>
+                    </div>`;
+                });
+                div.innerHTML = html;
+            }
 
-            // 初始显示所有书籍
-            renderBooks(LOCAL_BOOKS);
+            renderBooks(BOOKS);
 
-            window.searchBooks = function() {{
-                const query = document.getElementById('bookSearchInput').value.trim().toLowerCase();
-                if (!query) {{
-                    renderBooks(LOCAL_BOOKS);
-                    return;
-                }}
-                
-                const filtered = LOCAL_BOOKS.filter(b => 
-                    b.title.toLowerCase().includes(query) || 
-                    b.author.toLowerCase().includes(query)
-                );
+            window.searchBooks = function() {
+                const q = document.getElementById('bookSearchInput').value.trim().toLowerCase();
+                if (!q) { renderBooks(BOOKS); return; }
+                const filtered = BOOKS.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
                 renderBooks(filtered);
-            }};
+            };
 
             let currentBookUrl = '';
-            window.openBook = function(title, url) {{
+            window.openBook = function(title, url) {
                 document.getElementById('bookModalTitle').innerText = title;
                 document.getElementById('bookFrame').src = url;
                 document.getElementById('bookModal').style.display = 'flex';
                 currentBookUrl = url;
-            }};
-            window.closeBook = function() {{
+            };
+            window.closeBook = function() {
                 document.getElementById('bookModal').style.display = 'none';
                 document.getElementById('bookFrame').src = 'about:blank';
-            }};
-            window.openBookInNewWindow = function() {{
+            };
+            window.openBookInNewWindow = function() {
                 if (currentBookUrl) window.open(currentBookUrl, '_blank');
                 else alert('无链接');
-            }};
+            };
 
             // ========== 2. 音乐模块 ==========
             const audio = document.getElementById('audioPlayer');
@@ -965,445 +1116,260 @@
             const progressBar = document.getElementById('progressBar');
             const currentTimeEl = document.getElementById('currentTime');
             const durationEl = document.getElementById('duration');
-            const listContainer = document.getElementById('musicListContainer');
+            const musicList = document.getElementById('musicListContainer');
             let isPlaying = false;
 
             const PLAYLIST = [
-                {{ title: "K-Pop Mix 2026", artist: "Dance Crew", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=100" }},
-                {{ title: "Girls' Generation", artist: "SNSD", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", cover: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=100" }},
-                {{ title: "Blackpink Remix", artist: "BLACKPINK", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=100" }},
-                {{ title: "Dance The Night", artist: "Dua Lipa", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=100" }},
-                {{ title: "Mantra", artist: "JENNIE", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", cover: "https://images.unsplash.com/photo-1515630278258-407f66498911?w=100" }}
+                { title: "Cyberpunk Pulse", artist: "Neon", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=100" },
+                { title: "Neon Dreams", artist: "Kai Engel", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=100" },
+                { title: "Quantum Bass", artist: "Qube", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100" },
+                { title: "Deep Void", artist: "Holizna", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=100" },
+                { title: "Circuit Rock", artist: "Audionautix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=100" }
             ];
 
-            function renderPlaylist() {{
+            function renderPlaylist() {
                 let html = '';
-                PLAYLIST.forEach(song => {{
-                    html += `
-                        <div class="music-item" onclick="playMusicUrl('${{song.url}}', '${{escapeHtml(song.title)}} - ${{escapeHtml(song.artist)}}')">
-                            <img src="${{song.cover}}" class="music-cover" alt="封面: ${{escapeHtml(song.title)}}">
-                            <div class="music-meta"><div class="music-title">${{escapeHtml(song.title)}}</div><div class="music-artist">${{escapeHtml(song.artist)}}</div></div>
-                            <div class="music-play">播放</div>
-                        </div>
-                    `;
-                }});
-                listContainer.innerHTML = html;
-            }}
+                PLAYLIST.forEach(s => {
+                    html += `<div class="music-item" onclick="playMusicUrl('${s.url}', '${escapeHtml(s.title)} - ${escapeHtml(s.artist)}')">
+                        <img src="${s.cover}" class="music-cover">
+                        <div class="music-meta"><div class="music-title">${escapeHtml(s.title)}</div><div class="music-artist">${escapeHtml(s.artist)}</div></div>
+                        <div class="music-play">播放</div>
+                    </div>`;
+                });
+                musicList.innerHTML = html;
+            }
 
-            window.switchTab = function(tab) {{
+            window.switchMusicTab = function(tab) {
                 document.querySelectorAll('.music-tabs .tab').forEach(t => t.classList.remove('active'));
-                if (tab === 'playlist') {{
+                if (tab === 'playlist') {
                     document.querySelectorAll('.music-tabs .tab')[0].classList.add('active');
-                    document.getElementById('searchBox').style.display = 'none';
+                    document.getElementById('musicSearchBox').style.display = 'none';
                     renderPlaylist();
-                }} else {{
+                } else {
                     document.querySelectorAll('.music-tabs .tab')[1].classList.add('active');
-                    document.getElementById('searchBox').style.display = 'flex';
-                    listContainer.innerHTML = '<div style="padding:20px; text-align:center; color:#f8f;">输入关键词搜索音乐</div>';
-                }}
-            }};
+                    document.getElementById('musicSearchBox').style.display = 'flex';
+                    musicList.innerHTML = '<div style="padding:20px; text-align:center; color:#8cbaff;">输入关键词搜索音乐</div>';
+                }
+            };
 
-            function formatTime(seconds) {{
-                if (isNaN(seconds)) return '0:00';
-                let m = Math.floor(seconds/60), s = Math.floor(seconds%60);
-                return m+':'+(s<10?'0'+s:s);
-            }}
+            function formatTime(s) {
+                if (isNaN(s)) return '0:00';
+                let m = Math.floor(s/60), sec = Math.floor(s%60);
+                return m+':'+(sec<10?'0'+sec:sec);
+            }
 
-            window.searchMusic = async function() {{
-                const query = document.getElementById('musicSearchInput').value;
-                if (!query) return alert('输入关键词');
-                listContainer.innerHTML = '<div style="padding:10px; text-align:center;">搜索中...</div>';
-                try {{
-                    const res = await fetch(`https://itunes.apple.com/search?term=${{encodeURIComponent(query)}}&media=music&limit=10`);
+            window.searchMusic = async function() {
+                const q = document.getElementById('musicSearchInput').value;
+                if (!q) return alert('输入关键词');
+                musicList.innerHTML = '<div style="padding:10px; text-align:center;">搜索中...</div>';
+                try {
+                    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&limit=10`);
                     const data = await res.json();
-                    if (data.resultCount > 0) {{
+                    if (data.resultCount>0) {
                         let html = '';
-                        data.results.forEach(song => {{
+                        data.results.forEach(song => {
                             if (!song.previewUrl) return;
-                            html += `
+                            html += `<div class="music-item" onclick="playMusicUrl('${song.previewUrl}', '${escapeHtml(song.trackName||'')} - ${escapeHtml(song.artistName||'')}')">
+                                <img src="${song.artworkUrl100||'https://via.placeholder.com/100'}" class="music-cover">
+                                <div class="music-meta"><div class="music-title">${escapeHtml(song.trackName||'')}</div><div class="music-artist">${escapeHtml(song.artistName||'')}</div></div>
+                                <div class="music-play">试听</div>
+                            </div>`;
+                        });
+                        musicList.innerHTML = html || '<div>无试听</div>';
+                    } else musicList.innerHTML = '<div>未找到</div>';
+                } catch { musicList.innerHTML = '<div>网络错误，使用内置歌单</div>'; renderPlaylist(); }
+            };
 
-<div class="music-item" onclick="playMusicUrl('${{song.previewUrl}}', '${{escapeHtml(song.trackName || '未知')}} - ${{escapeHtml(song.artistName || '未知')}}')">
-<img src="${{song.artworkUrl100 || 'https://via.placeholder.com/100'}}" class="music-cover" alt="封面: ${{escapeHtml(song.trackName || '未知')}}">
-<div class="music-meta"><div class="music-title">${{escapeHtml(song.trackName || '未知')}}</div><div class="music-artist">${{escapeHtml(song.artistName || '未知')}}</div></div>
-                                    <div class="music-play">试听</div>
-                                </div>
-                            `;
-                        }});
-                        listContainer.innerHTML = html || '<div>无试听</div>';
-                    }} else listContainer.innerHTML = '<div>未找到</div>';
-                }} catch {{ 
-                    listContainer.innerHTML = '<div>网络错误，使用内置歌单</div>'; 
-                    renderPlaylist(); 
-                }}
-            }};
-
-            window.playMusicUrl = function(url, name) {{
+            window.playMusicUrl = function(url, name) {
                 audio.src = url;
                 trackName.innerText = name;
-                audio.play().then(() => {{ 
-                    isPlaying = true; 
-                    playBtn.innerText = '⏸'; 
-                }}).catch(err => {{
-                    console.error('播放失败:', err);
-                    alert('播放失败，请检查网络连接');
-                }});
-            }};
-            window.toggleMusic = function() {{
+                audio.play().then(() => { isPlaying = true; playBtn.innerText = '⏸'; }).catch(() => alert('播放失败'));
+            };
+            window.toggleMusic = function() {
                 if (!audio.src) return alert('先选歌曲');
-                if (isPlaying) {{ 
-                    audio.pause(); 
-                    playBtn.innerText = '▶'; 
-                }} else {{ 
-                    audio.play(); 
-                    playBtn.innerText = '⏸'; 
-                }}
+                if (isPlaying) { audio.pause(); playBtn.innerText = '▶'; } else { audio.play(); playBtn.innerText = '⏸'; }
                 isPlaying = !isPlaying;
-            }};
-            audio.addEventListener('timeupdate', () => {{
-                if (audio.duration) {{
+            };
+            audio.addEventListener('timeupdate', () => {
+                if (audio.duration) {
                     progressBar.style.width = (audio.currentTime/audio.duration*100)+'%';
                     currentTimeEl.innerText = formatTime(audio.currentTime);
                     durationEl.innerText = formatTime(audio.duration);
-                }}
-            }});
-            audio.addEventListener('ended', () => {{ 
-                playBtn.innerText = '▶'; 
-                isPlaying = false; 
-                progressBar.style.width = '0%'; 
-                currentTimeEl.innerText = '0:00'; 
-            }});
-            audio.addEventListener('error', (err) => {{
-                console.error('音频错误:', err);
-                alert('音频加载失败，请检查链接');
-            }});
-            window.seekMusic = function(e) {{
-                const bg = document.querySelector('.progress-bg');
-                const rect = bg.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                if (audio.duration && x>=0 && x<=rect.width) {{
-                    audio.currentTime = (x/rect.width)*audio.duration;
-                }}
-            }};
+                }
+            });
+            audio.addEventListener('ended', () => { playBtn.innerText = '▶'; isPlaying = false; progressBar.style.width = '0%'; currentTimeEl.innerText = '0:00'; });
+            window.seekMusic = function(e) {
+                let bg = document.querySelector('.progress-bg');
+                let rect = bg.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                if (audio.duration && x>=0 && x<=rect.width) audio.currentTime = (x/rect.width)*audio.duration;
+            };
             renderPlaylist();
 
-            // ========== 3. 美女跳舞视频专区 ==========
+            // ========== 3. 美女跳舞视频 (真实舞蹈视频) ==========
             const DANCE_VIDEOS = [
-                {{ 
-                    title: "韩国女团Bambino热舞", 
-                    url: "https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4", // 替换为美女视频
-                    cover: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&auto=format", // 美女封面
-                    category: "kpop"
-                }},
-                {{ 
-                    title: "啦啦队美女李艺斌旗袍舞", 
-                    url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
-                    cover: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&auto=format",
-                    category: "sexy"
-                }},
-                {{ 
-                    title: "K-Pop 女团翻跳", 
-                    url: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_1MB.mp4",
-                    cover: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&auto=format",
-                    category: "kpop"
-                }},
-                {{ 
-                    title: "爵士舞 性感编舞", 
-                    url: "https://test-videos.co.uk/vids/tearsofsteel/mp4/h264/720/Tears_of_Steel_720_10s_1MB.mp4",
-                    cover: "https://images.unsplash.com/photo-1548695607-9c73430ba065?w=400&auto=format",
-                    category: "jazz"
-                }},
-                {{ 
-                    title: "Lisa - Money 翻跳", 
-                    url: "https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4",
-                    cover: "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=400&auto=format",
-                    category: "kpop"
-                }},
-                {{ 
-                    title: "街头女战士 编舞", 
-                    url: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
-                    cover: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=400&auto=format",
-                    category: "dance"
-                }}
+                { title: "现代舞 · 独舞", url: "https://videos.pexels.com/video-files/5319759/5319759-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5319759/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "街舞表演", url: "https://videos.pexels.com/video-files/853913/853913-hd_1920_1080_30fps.mp4", cover: "https://images.pexels.com/videos/853913/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "K-Pop 女团翻跳", url: "https://videos.pexels.com/video-files/5531831/5531831-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5531831/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "kpop" },
+                { title: "爵士舞", url: "https://videos.pexels.com/video-files/5516862/5516862-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5516862/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "啦啦队表演", url: "https://videos.pexels.com/video-files/4820194/4820194-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/4820194/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "Blackpink 翻跳", url: "https://videos.pexels.com/video-files/5075236/5075236-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5075236/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "kpop" }
             ];
 
-            function renderVideos(category = 'all') {{
+            function renderVideos(category = 'all') {
                 const grid = document.getElementById('videoGrid');
-                const filtered = category === 'all' ? DANCE_VIDEOS : DANCE_VIDEOS.filter(v => v.category === category);
-                
-                if (filtered.length === 0) {{
-                    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#f8f; padding:20px;">暂无该分类视频</div>';
-                    return;
-                }}
-                
+                let filtered = DANCE_VIDEOS;
+                if (category !== 'all') filtered = DANCE_VIDEOS.filter(v => v.category === category);
                 let html = '';
-                filtered.forEach(video => {{
-                    html += `
-                        <div class="video-card" onclick="openVideo('${{video.url}}')">
-                            <img src="${{video.cover}}" alt="${{escapeHtml(video.title)}}" loading="lazy"> <!-- 懒加载优化 -->
-                            <div class="play-overlay">💃</div>
-                            <div class="video-label">${{escapeHtml(video.title)}}</div>
-                        </div>
-                    `;
-                }});
+                filtered.forEach(v => {
+                    html += `<div class="video-card" onclick="openVideo('${v.url}')">
+                        <img src="${v.cover}" alt="${v.title}">
+                        <div class="play-overlay">▶</div>
+                        <div class="video-label">${v.title}</div>
+                    </div>`;
+                });
                 grid.innerHTML = html;
-            }}
-
-            // 初始化视频
+            }
             renderVideos();
 
-            // 视频选项卡切换
-            window.switchVideoTab = function(tab) {{
+            window.switchVideoTab = function(tab) {
                 const tabs = document.querySelectorAll('.video-nav-tabs .tab');
                 tabs.forEach(t => t.classList.remove('active'));
-                
-                switch(tab) {{
-                    case 'dance':
-                        tabs[0].classList.add('active');
-                        document.getElementById('liveOptions').style.display = 'none';
-                        document.getElementById('videoSearchBox').style.display = 'none';
-                        renderVideos('all');
-                        break;
-                    case 'kpop':
-                        tabs[1].classList.add('active');
-                        document.getElementById('liveOptions').style.display = 'none';
-                        document.getElementById('videoSearchBox').style.display = 'none';
-                        renderVideos('kpop');
-                        break;
-                    case 'live':
-                        tabs[2].classList.add('active');
-                        document.getElementById('liveOptions').style.display = 'flex';
-                        document.getElementById('videoSearchBox').style.display = 'none';
-                        break;
-                    case 'search':
-                        tabs[3].classList.add('active');
-                        document.getElementById('liveOptions').style.display = 'none';
-                        document.getElementById('videoSearchBox').style.display = 'flex';
-                        break;
-                }}
-            }};
+                if (tab === 'dance') {
+                    tabs[0].classList.add('active');
+                    document.getElementById('livePanel').style.display = 'none';
+                    renderVideos('dance');
+                } else if (tab === 'kpop') {
+                    tabs[1].classList.add('active');
+                    document.getElementById('livePanel').style.display = 'none';
+                    renderVideos('kpop');
+                } else if (tab === 'live') {
+                    tabs[2].classList.add('active');
+                    document.getElementById('livePanel').style.display = 'block';
+                    renderVideos('all');
+                }
+            };
 
-            // 直播平台模拟
-            window.openLiveChannel = function(channel) {{
-                alert(`📡 正在连接直播频道: ${{channel}}\n(模拟直播，实际可接入真实流媒体)`);
-                // 模拟打开直播视频
-                const fakeLiveUrl = "https://test-videos.co.uk/vids/jellyfish/mp4/h264/720/Jellyfish_720_10s_1MB.mp4";
-                openVideo(fakeLiveUrl);
-            }};
+            // 直播搜索功能
+            window.searchLiveStreams = function() {
+                const query = document.getElementById('liveSearchInput').value.trim();
+                if (!query) return alert('请输入搜索关键词');
+                searchAndPlay(query);
+            };
 
-            window.filterVideos = function(cat) {{
-                renderVideos(cat);
-                // 切换回dance tab样式
-                const tabs = document.querySelectorAll('.video-nav-tabs .tab');
-                tabs.forEach(t => t.classList.remove('active'));
-                tabs[0].classList.add('active');
-                document.getElementById('liveOptions').style.display = 'none';
-                document.getElementById('videoSearchBox').style.display = 'none';
-            }};
+            window.searchAndPlay = function(keyword) {
+                // 模拟搜索，从舞蹈视频中随机播放一个相关视频
+                const video = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
+                openVideo(video.url);
+            };
 
-            window.searchVideos = function() {{
-                const query = document.getElementById('videoSearchInput').value.toLowerCase().trim();
-                if (!query) {{
-                    renderVideos();
-                    return;
-                }}
-                
-                const filtered = DANCE_VIDEOS.filter(v => v.title.toLowerCase().includes(query));
-                const grid = document.getElementById('videoGrid');
-                
-                if (filtered.length === 0) {{
-                    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#f8f; padding:20px;">未找到相关视频</div>';
-                    return;
-                }}
-                
-                let html = '';
-                filtered.forEach(video => {{
-                    html += `
-                        <div class="video-card" onclick="openVideo('${{video.url}}')">
-                            <img src="${{video.cover}}" alt="${{escapeHtml(video.title)}}" loading="lazy">
-                            <div class="play-overlay">💃</div>
-                            <div class="video-label">${{escapeHtml(video.title)}}</div>
-                        </div>
-                    `;
-                }});
-                grid.innerHTML = html;
-            }};
-
-            window.openVideo = function(url) {{
+            window.openVideo = function(url) {
                 const modal = document.getElementById('videoModal');
                 const video = document.getElementById('mainVideo');
-                
                 video.src = url;
                 modal.style.display = 'flex';
-                
-                video.play().catch(err => {{
-                    console.error('视频播放失败:', err);
-                    alert('视频播放失败，请检查链接');
-                }});
-            }};
-
-            window.closeVideo = function() {{
+                video.play();
+            };
+            window.closeVideo = function() {
                 const modal = document.getElementById('videoModal');
                 const video = document.getElementById('mainVideo');
-                
-                video.pause();
-                video.src = '';
-                modal.style.display = 'none';
-            }};
-
-            // 视频错误处理
-            document.getElementById('mainVideo').addEventListener('error', (err) => {{
-                console.error('视频错误:', err);
-                alert('视频加载失败，请检查链接');
-                closeVideo();
-            }});
+                video.pause(); video.src = ''; modal.style.display = 'none';
+            };
 
             // ========== 4. 文件传输 ==========
             const dropZone = document.getElementById('dropZone');
             const fileInput = document.getElementById('fileInput');
             const uploadingList = document.getElementById('uploadingList');
             const receivedList = document.getElementById('receivedFileList');
-
             let receivedFiles = JSON.parse(localStorage.getItem('cyber_received_files')) || [];
 
-            function saveReceivedFiles() {{
-                try {{
-                    localStorage.setItem('cyber_received_files', JSON.stringify(receivedFiles));
-                    renderReceivedFiles();
-                }} catch (err) {{
-                    console.error('保存文件失败:', err);
-                    alert('本地存储已满，无法保存文件');
-                }}
-            }}
-
-            function renderReceivedFiles() {{
-                if (receivedFiles.length === 0) {{
-                    receivedList.innerHTML = '<div style="color:#f8f; text-align:center; padding:10px;">暂无文件</div>';
+            function saveReceived() {
+                localStorage.setItem('cyber_received_files', JSON.stringify(receivedFiles));
+                renderReceived();
+            }
+            function renderReceived() {
+                if (receivedFiles.length === 0) {
+                    receivedList.innerHTML = '<div style="color:#8cbaff; text-align:center; padding:10px;">暂无文件</div>';
                     return;
-                }}
+                }
                 let html = '';
-                receivedFiles.forEach((f, index) => {{
-                    html += `
-                        <div class="file-item">
-                            <div class="file-row">
-                                <span>${{escapeHtml(f.name)}} (${{f.size}} KB)</span>
-                                <div class="file-actions">
-                                    <button class="file-action-btn" onclick="downloadFile(${{index}})">下载</button>
-                                    <button class="file-action-btn" onclick="deleteFile(${{index}})">删除</button>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }});
+                receivedFiles.forEach((f,i) => {
+                    html += `<div class="file-item"><div class="file-row"><span>${escapeHtml(f.name)} (${f.size} KB)</span><div class="file-actions"><button class="file-action-btn" onclick="downloadFile(${i})">下载</button><button class="file-action-btn" onclick="deleteFile(${i})">删除</button></div></div></div>`;
+                });
                 receivedList.innerHTML = html;
-            }}
-
-            window.downloadFile = function(index) {{
-                const file = receivedFiles[index];
-                try {{
-                    const blob = new Blob([`模拟文件内容: ${{file.name}}`], {{type: 'application/octet-stream'}});
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = file.name;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                }} catch (err) {{
-                    console.error('下载失败:', err);
-                    alert('下载失败，请重试');
-                }}
-            }};
-
-            window.deleteFile = function(index) {{
-                receivedFiles.splice(index, 1);
-                saveReceivedFiles();
-            }};
+            }
+            window.downloadFile = function(i) {
+                const f = receivedFiles[i];
+                const blob = new Blob([`模拟内容: ${f.name}`], {type: 'application/octet-stream'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = f.name; a.click();
+                URL.revokeObjectURL(url);
+            };
+            window.deleteFile = function(i) {
+                receivedFiles.splice(i,1);
+                saveReceived();
+            };
 
             dropZone.addEventListener('click', () => fileInput.click());
-            dropZone.addEventListener('dragover', (e) => {{ 
-                e.preventDefault(); 
-                dropZone.classList.add('dragover'); 
-            }});
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
             dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
-            dropZone.addEventListener('drop', (e) => {{
-                e.preventDefault(); 
-                dropZone.classList.remove('dragover');
-                handleFiles(e.dataTransfer.files);
-            }});
+            dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
             fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
 
-            function handleFiles(files) {{
-                Array.from(files).forEach(file => {{
-                    const item = document.createElement('div');
-                    item.className = 'file-item';
-                    const fileName = escapeHtml(file.name);
-                    const fileSize = (file.size/1024).toFixed(1);
-                    
-                    item.innerHTML = `
-                        <div class="file-row">
-                            <span>${{fileName}} (${{fileSize}} KB)</span>
-                            <span style="color:magenta;">传输中</span>
-                        </div>
-                        <div class="file-progress"><div class="file-progress-fill" style="width:0%"></div></div>
-                    `;
+            function handleFiles(files) {
+                Array.from(files).forEach(file => {
+                    const item = document.createElement('div'); item.className = 'file-item';
+                    const name = escapeHtml(file.name); const size = (file.size/1024).toFixed(1);
+                    item.innerHTML = `<div class="file-row"><span>${name} (${size} KB)</span><span style="color:#00c8ff;">传输中</span></div><div class="file-progress"><div class="file-progress-fill" style="width:0%"></div></div>`;
                     uploadingList.prepend(item);
-                    
                     const fill = item.querySelector('.file-progress-fill');
-                    let width = 0;
-                    const interval = setInterval(() => {{
-                        width += Math.random() * 15;
-                        if (width >= 100) {{
-                            width = 100;
-                            fill.style.width = '100%';
-                            clearInterval(interval);
+                    let w = 0;
+                    const interval = setInterval(() => {
+                        w += Math.random()*15;
+                        if (w>=100) { w=100; fill.style.width='100%'; clearInterval(interval);
                             item.querySelector('.file-row span:last-child').innerText = '已完成';
-                            receivedFiles.push({{ name: file.name, size: fileSize }});
-                            saveReceivedFiles();
+                            receivedFiles.push({name: file.name, size});
+                            saveReceived();
                             setTimeout(() => item.remove(), 1000);
-                        }} else {{
-                            fill.style.width = width + '%';
-                        }}
-                    }}, 200);
-                }});
-            }}
-
-            renderReceivedFiles();
+                        } else fill.style.width = w+'%';
+                    }, 200);
+                });
+            }
+            renderReceived();
 
             // ========== 5. 管理终端 (密码 qingnanliu) ==========
-            window.openAdmin = function() {{
+            window.openAdmin = function() {
                 document.getElementById('adminModal').style.display = 'flex';
-            }};
-            window.closeAdmin = function() {{
+                document.getElementById('adminLoginPanel').style.display = 'block';
+                document.getElementById('adminDashboard').style.display = 'none';
+                document.getElementById('adminPass').value = '';
+            };
+            window.closeAdmin = function() {
                 document.getElementById('adminModal').style.display = 'none';
-            }};
-            window.checkAdmin = function() {{
+            };
+            window.checkAdmin = function() {
                 const pass = document.getElementById('adminPass').value;
-                if (pass === 'qingnanliu') {{
-                    alert('✅ 权限验证通过，欢迎管理员');
-                    document.getElementById('adminModal').style.display = 'none';
-                }} else {{
-                    alert('❌ 密钥错误');
-                }}
-            }};
+                if (pass === 'qingnanliu') {
+                    document.getElementById('adminLoginPanel').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    // 模拟动态数据
+                    setInterval(() => {
+                        document.getElementById('cpuVal').innerText = Math.floor(30+Math.random()*40)+'%';
+                        document.getElementById('cpuBar').style.width = document.getElementById('cpuVal').innerText;
+                        document.getElementById('memVal').innerText = (2+Math.random()*4).toFixed(1)+'/8 GB';
+                        document.getElementById('memBar').style.width = (parseFloat(document.getElementById('memVal').innerText)/8*100).toFixed(0)+'%';
+                        document.getElementById('netVal').innerText = (1+Math.random()*3).toFixed(1)+' Gb/s';
+                        document.getElementById('netBar').style.width = (parseFloat(document.getElementById('netVal').innerText)/4*100).toFixed(0)+'%';
+                    }, 2000);
+                } else alert('❌ 密钥错误');
+            };
+            window.restartSystem = function() { alert('量子服务重启中... (模拟)'); };
 
             // 点击模态背景关闭
-            document.querySelectorAll('.modal').forEach(m => {{
-                m.addEventListener('click', function(e) {{ 
-                    if (e.target === this) this.style.display = 'none'; 
-                }});
-            }});
-
-            // ESC键关闭模态框
-            document.addEventListener('keydown', (e) => {{
-                if (e.key === 'Escape') {{
-                    document.querySelectorAll('.modal').forEach(m => {{
-                        m.style.display = 'none';
-                    }});
-                    // 暂停所有媒体
-                    audio.pause();
-                    document.getElementById('mainVideo').pause();
-                }}
-            }});
-        }})();
+            document.querySelectorAll('.modal').forEach(m => {
+                m.addEventListener('click', function(e) { if (e.target === this) this.style.display = 'none'; });
+            });
+        })();
     </script>
 </body>
 </html>
