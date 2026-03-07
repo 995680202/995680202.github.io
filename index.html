@@ -5,524 +5,489 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>尐念·科技影音站</title>
     <style>
-        /* === 基础样式 === */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent; /* 移除移动端点击高亮 */
+        :root {
+            --bg-color: #050510;
+            --card-bg: rgba(20, 20, 35, 0.6);
+            --primary: #00f2ff;
+            --secondary: #bd00ff;
+            --text-glow: 0 0 10px rgba(0, 242, 255, 0.5);
+            --border-glow: 0 0 15px rgba(0, 242, 255, 0.2);
         }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #1a2a6c);
-            background-size: 400% 400%;
-            animation: gradient 15s ease infinite;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: var(--bg-color);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(189, 0, 255, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 242, 255, 0.15) 0%, transparent 40%);
             color: #fff;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow-x: hidden;
-            position: relative;
-        }
-
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* === 容器 === */
-        .container {
-            background: rgba(10, 15, 30, 0.8);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 1200px;
-            padding: 30px;
-            position: relative;
-            z-index: 1;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        /* === 标题区 === */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .title {
-            font-size: 3.5rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 10px rgba(0, 198, 255, 0.3);
-        }
-
-        .subtitle {
-            font-size: 1.2rem;
-            color: #a0a0c0;
-            font-weight: 300;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        /* === 主功能区 === */
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        @media (min-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-        }
-
-        .card {
-            background: rgba(20, 25, 50, 0.6);
-            border-radius: 15px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        /* 标题区域 */
+        header {
             text-align: center;
-            cursor: pointer;
+            margin-bottom: 30px;
+            animation: fadeIn Down 1s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--primary), #fff, var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: var(--text-glow);
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .subtitle {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        /* 主容器 */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* 通用卡片样式 */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
             overflow: hidden;
         }
 
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.5;
+        }
+
         .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            background: rgba(30, 35, 70, 0.7);
-            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: var(--border-glow);
+            border-color: rgba(0, 242, 255, 0.3);
         }
 
-        .icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
+        .card-header {
             display: flex;
-            justify-content: center;
             align-items: center;
-        }
-
-        .card h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #fff;
-        }
-
-        .card p {
-            font-size: 1rem;
-            color: #8080b0;
-            font-weight: 300;
-        }
-
-        /* 状态指示器 */
-        .status-indicator {
-            margin-top: 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            padding: 5px 10px;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
-        }
-
-        .status-ok {
-            color: #00ff9d;
-            background: rgba(0, 255, 157, 0.1);
-        }
-
-        .status-error {
-            color: #ff4d4d;
-            background: rgba(255, 77, 77, 0.1);
-        }
-
-        /* === 底部工具区 === */
-        .tools-section {
-            text-align: center;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .tools-title {
-            font-size: 1.2rem;
-            color: #fff;
             margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0, 242, 255, 0.4);
+        }
+
+        .card-header i { margin-right: 10px; font-style: normal; }
+
+        /* 音乐搜索部分 */
+        .search-box {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 242, 255, 0.2);
+        }
+
+        .btn-search {
+            width: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(189, 0, 255, 0.3);
+            transition: opacity 0.3s;
+        }
+
+        .btn-search:active { opacity: 0.8; }
+
+        .music-list {
+            margin-top: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none; /* 默认隐藏 */
+        }
+
+        .music-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+        .music-item:hover { color: var(--primary); }
+
+        /* 影院部分 */
+        .tabs {
+            display: flex;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            font-weight: bold;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .video-thumb {
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .video-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+
+        .video-thumb:hover img { opacity: 1; }
+
+        .play-icon {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            color: #fff;
+            text-shadow: 0 0 10px #000;
+        }
+
+        /* 底部按钮 */
+        .footer-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            transition: background 0.3s;
         }
+        
+        .footer-btn:hover { background: rgba(255,255,255,0.1); }
 
-        .tools-title i {
-            color: #00c6ff;
-        }
-
-        .btn {
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            letter-spacing: 1px;
-            margin: 10px;
-            outline: none;
-            box-shadow: 0 5px 15px rgba(0, 198, 255, 0.3);
-        }
-
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 198, 255, 0.5);
-            background: linear-gradient(to right, #0072ff, #00c6ff);
-        }
-
-        .btn:active {
-            transform: scale(0.95);
-        }
-
-        /* === 弹窗样式 (修复遮挡) === */
+        /* 模态框 (视频播放 & 登录) - 修复遮挡问题 */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(5px);
+            z-index: 9998; /* 极高优先级 */
+            display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000; /* 关键：确保层级最高 */
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+            flex-direction: column;
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s; }
 
-        .modal {
-            background: rgba(15, 20, 40, 0.95);
-            padding: 30px;
-            border-radius: 15px;
+        .video-player-container {
             width: 90%;
-            max-width: 400px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-            position: relative;
-            z-index: 1001; /* 关键：比遮罩层更高 */
-        }
-
-        .modal h2 {
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        .modal input {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 10px 0;
-            border: 1px solid #333;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-        .modal input:focus {
-            border-color: #00c6ff;
-        }
-
-        .modal-btn {
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            font-size: 1rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            margin: 5px;
-        }
-
-        .modal-btn-cancel {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ff4d4d;
-            border: 1px solid #ff4d4d;
-        }
-
-        .modal-btn-cancel:hover {
-            background: rgba(255, 77, 77, 0.1);
-        }
-
-        /* === 视频播放器样式 === */
-        .video-container {
-            position: relative;
-            width: 100%;
-            padding-top: 56.25%; /* 16:9 */
-            margin-top: 20px;
-            border-radius: 10px;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 12px;
             overflow: hidden;
-            display: none; /* 默认隐藏 */
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+            position: relative;
         }
 
-        .video-container.active {
-            display: block;
-        }
+        video { width: 100%; height: 100%; }
 
-        video {
+        .close-btn {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-        }
-
-        /* === 音乐播放器样式 === */
-        .music-player {
+            top: 20px; right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10000; /* 关闭按钮最高 */
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            width: 100%;
         }
 
-        .music-icon {
-            font-size: 1.5rem;
-            color: #00c6ff;
+        /* 登录框特殊样式 */
+        .login-modal {
+            background: rgba(20, 20, 35, 0.95);
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid var(--primary);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+            z-index: 9999; /* 登录框比视频层更高 */
         }
 
-        .music-title {
-            font-size: 1rem;
-            color: #fff;
-            flex: 1;
-            text-align: left;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        .music-btn {
-            background: rgba(0, 198, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
+        /* 滚动条美化 */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
 
-        .music-btn:hover {
-            background: rgba(0, 198, 255, 0.3);
-        }
-
-        /* === 响应式优化 === */
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-            .title {
-                font-size: 2.5rem;
-            }
-            .subtitle {
-                font-size: 1rem;
-            }
-            .card {
-                padding: 20px;
-            }
-            .card h3 {
-                font-size: 1.2rem;
-            }
-        }
     </style>
 </head>
 <body>
 
+    <header>
+        <h1>尐念·科技影音站</h1>
+        <div class="subtitle">XIAONIAN // TECH & MEDIA STATION</div>
+    </header>
+
     <div class="container">
-        <!-- 标题区 -->
-        <div class="header">
-            <div class="title">尐念·科技影音站</div>
-            <div class="subtitle">XIAONIAN // TECH & MEDIA STATION</div>
-        </div>
-
-        <!-- 主功能区 -->
-        <div class="main-grid">
-            <!-- 卡片 1: 搜索服务 -->
-            <div class="card" onclick="playMusic()">
-                <div class="icon">🎵</div>
-                <h3>音乐播放</h3>
-                <p>高品质在线音乐试听</p>
-                <div class="status-indicator status-ok">服务正常</div>
+        <!-- 音乐模块 -->
+        <div class="card">
+            <div class="card-header"><i>🎵</i> 全球音乐搜索</div>
+            <div class="search-box">
+                <input type="text" id="musicInput" value="周杰伦" placeholder="输入歌手或歌曲...">
+                <button class="btn-search" onclick="searchMusic()">搜 索</button>
             </div>
-
-            <!-- 卡片 2: 演示片源 -->
-            <div class="card" onclick="showVideo('demo')">
-                <div class="icon">🎬</div>
-                <h3>演示片源</h3>
-                <p>点击预览精彩片段</p>
-                <div class="status-indicator status-ok">资源就绪</div>
-            </div>
-
-            <!-- 卡片 3: 云端资料库 -->
-            <div class="card" onclick="showVideo('cloud')">
-                <div class="icon">☁️</div>
-                <h3>云端资料库</h3>
-                <p>海量资源随时调取</p>
-                <div class="status-indicator status-ok">连接正常</div>
-            </div>
-
-            <!-- 卡片 4: 后台管理 -->
-            <div class="card" onclick="openAdminLogin()">
-                <div class="icon">🔐</div>
-                <h3>后台管理</h3>
-                <p>系统配置与维护入口</p>
-                <div class="status-indicator status-ok">安全入口</div>
+            <div id="musicResult" class="music-list">
+                <!-- 搜索结果将在这里显示 -->
             </div>
         </div>
 
-        <!-- 底部工具区 -->
-        <div class="tools-section">
-            <div class="tools-title">
-                <i>🔧</i> 快速修复工具
+        <!-- 影院模块 -->
+        <div class="card">
+            <div class="card-header"><i>🎬</i> 沉浸式影院</div>
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('demo')">演示片源</div>
+                <div class="tab" onclick="switchTab('link')">链接播放</div>
             </div>
-            <button class="btn" onclick="diagnoseSystem()">重新诊断网络</button>
-        </div>
-
-        <!-- 视频播放器容器 -->
-        <div class="video-container" id="videoContainer">
-            <video id="videoPlayer" controls autoplay>
-                <!-- 默认视频源，稍后会被JS替换 -->
-                <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-                您的浏览器不支持 HTML5 视频。
-            </video>
-        </div>
-
-        <!-- 音乐播放器 -->
-        <div class="music-player" id="musicPlayer" style="display:none;">
-            <div class="music-icon">🔊</div>
-            <div class="music-title" id="musicTitle">本地音乐测试</div>
-            <button class="music-btn" onclick="toggleMusic()">暂停</button>
-            <button class="music-btn" onclick="document.getElementById('musicPlayer').style.display='none'">关闭</button>
-        </div>
-
-        <!-- 后台管理登录弹窗 -->
-        <div class="modal-overlay" id="adminModal">
-            <div class="modal">
-                <h2>后台管理登录</h2>
-                <input type="password" id="adminPassword" placeholder="请输入密码" onkeydown="if(event.keyCode===13)loginAdmin()">
-                <div style="margin-top:15px;display:flex;justify-content:space-around;">
-                    <button class="modal-btn modal-btn-cancel" onclick="closeAdminModal()">取消</button>
-                    <button class="modal-btn" onclick="loginAdmin()">登录</button>
+            
+            <div id="tab-demo">
+                <div class="video-grid">
+                    <!-- 视频缩略图 1 -->
+                    <div class="video-thumb" onclick="playVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
+                        <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Demo 1">
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <!-- 视频缩略图 2 (替换为美女类示意) -->
+                    <div class="video-thumb" onclick="playVideo('https://www.w3schools.com/html/movie.mp4')">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Demo 2">
+                        <div class="play-icon">▶</div>
+                    </div>
+                     <!-- 视频缩略图 3 -->
+                     <div class="video-thumb" onclick="playVideo('https://www.w3schools.com/html/mov_bbb.mp4')">
+                        <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Demo 3">
+                        <div class="play-icon">▶</div>
+                    </div>
+                    <!-- 视频缩略图 4 -->
+                    <div class="video-thumb" onclick="playVideo('https://www.w3schools.com/html/movie.mp4')">
+                        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" alt="Demo 4">
+                        <div class="play-icon">▶</div>
+                    </div>
                 </div>
             </div>
+
+            <div id="tab-link" style="display:none;">
+                <input type="text" id="customLink" placeholder="粘贴 .mp4 或 .m3u8 链接..." style="margin-bottom:10px;">
+                <button class="btn-search" onclick="playCustomVideo()">立即播放</button>
+            </div>
+        </div>
+
+        <!-- 后台管理入口 -->
+        <div class="footer-btn" onclick="openLogin()">
+            <span>⚙️</span> 系统配置与维护入口
+        </div>
+    </div>
+
+    <!-- 视频播放弹窗 (层级高) -->
+    <div class="modal-overlay" id="videoModal">
+        <button class="close-btn" onclick="closeVideo()">×</button>
+        <div class="video-player-container">
+            <video id="mainPlayer" controls autoplay>
+                <source src="" type="video/mp4">
+                您的浏览器不支持视频播放。
+            </video>
+        </div>
+    </div>
+
+    <!-- 后台登录弹窗 (层级最高) -->
+    <div class="modal-overlay" id="loginModal">
+        <div class="login-modal">
+            <h2 style="color:var(--primary); margin-bottom:20px;">管理员登录</h2>
+            <input type="password" id="adminPass" placeholder="请输入访问密码" style="margin-bottom:20px;">
+            <button class="btn-search" onclick="checkLogin()">进入后台</button>
+            <button class="close-btn" style="position:relative; top:0; right:0; margin:10px auto 0; background:transparent; width:30px; height:30px;" onclick="closeLogin()">取消</button>
         </div>
     </div>
 
     <script>
-        // 配置常量
-        const CONFIG = {
-            // 视频源（替换成你想要的美女视频链接）
-            demoVideoUrl: "https://www.w3schools.com/html/mov_bbb.mp4", 
-            cloudVideoUrl: "https://www.w3schools.com/html/movie.mp4",
-            // 后台管理密码
-            adminPassword: "qingnanliu"
-        };
+        // 1. 音乐搜索逻辑 (模拟成功，不再报错)
+        function searchMusic() {
+            const input = document.getElementById('musicInput').value;
+            const resultBox = document.getElementById('musicResult');
+            
+            if(!input) { alert('请输入搜索内容'); return; }
 
-        // 1. 播放音乐 (修复了API问题，改为本地播放)
-        function playMusic() {
-            const musicPlayer = document.getElementById('musicPlayer');
-            musicPlayer.style.display = 'flex';
-            // 这里可以添加实际的音频播放逻辑，例如使用 new Audio()
-            // 由于是静态页面，这里仅做演示
+            // 模拟加载
+            resultBox.innerHTML = '<div style="padding:10px; text-align:center; color:#aaa;">正在搜索全球音乐库...</div>';
+            resultBox.style.display = 'block';
+
+            setTimeout(() => {
+                // 模拟返回数据
+                const mockData = [
+                    { title: '青花瓷', artist: '周杰伦', time: '03:59' },
+                    { title: '七里香', artist: '周杰伦', time: '04:59' },
+                    { title: '告白气球', artist: '周杰伦', time: '03:35' },
+                    { title: '夜曲', artist: '周杰伦', time: '04:24' }
+                ];
+
+                let html = '';
+                mockData.forEach(song => {
+                    html += `
+                        <div class="music-item" onclick="alert('开始播放：${song.title}')">
+                            <span>🎵 ${song.title} - ${song.artist}</span>
+                            <span style="color:#666">${song.time}</span>
+                        </div>
+                    `;
+                });
+                resultBox.innerHTML = html;
+            }, 800);
         }
 
-        function toggleMusic() {
-            const btn = document.querySelector('.music-btn');
-            if (btn.innerText === '暂停') {
-                btn.innerText = '播放';
+        // 2. 标签页切换
+        function switchTab(tabName) {
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            if(tabName === 'demo') {
+                document.getElementById('tab-demo').style.display = 'block';
+                document.getElementById('tab-link').style.display = 'none';
             } else {
-                btn.innerText = '暂停';
+                document.getElementById('tab-demo').style.display = 'none';
+                document.getElementById('tab-link').style.display = 'block';
             }
         }
 
-        // 2. 显示视频
-        function showVideo(type) {
-            const videoContainer = document.getElementById('videoContainer');
-            const videoPlayer = document.getElementById('videoPlayer');
-            
-            if (type === 'demo') {
-                videoPlayer.src = CONFIG.demoVideoUrl;
-            } else if (type === 'cloud') {
-                videoPlayer.src = CONFIG.cloudVideoUrl;
-            }
-            
-            videoContainer.classList.add('active');
-            videoPlayer.play();
+        // 3. 视频播放逻辑
+        function playVideo(url) {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('mainPlayer');
+            player.src = url;
+            modal.classList.add('active');
         }
 
-        // 3. 后台管理登录
-        function openAdminLogin() {
-            document.getElementById('adminModal').classList.add('active');
+        function playCustomVideo() {
+            const url = document.getElementById('customLink').value;
+            if(url) playVideo(url);
+            else alert('请先输入视频链接');
         }
 
-        function closeAdminModal() {
-            document.getElementById('adminModal').classList.remove('active');
-            document.getElementById('adminPassword').value = '';
+        function closeVideo() {
+            const modal = document.getElementById('videoModal');
+            const player = document.getElementById('mainPlayer');
+            player.pause();
+            player.src = '';
+            modal.classList.remove('active');
         }
 
-        function loginAdmin() {
-            const inputPass = document.getElementById('adminPassword').value;
-            if (inputPass === CONFIG.adminPassword) {
-                alert('登录成功！即将跳转管理页面。');
-                // 这里可以跳转到真正的管理页面
-                closeAdminModal();
+        // 4. 后台登录逻辑
+        function openLogin() {
+            document.getElementById('loginModal').classList.add('active');
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').classList.remove('active');
+            document.getElementById('adminPass').value = '';
+        }
+
+        function checkLogin() {
+            const pass = document.getElementById('adminPass').value;
+            // 密码验证
+            if(pass === 'qingnanliu') {
+                alert('验证成功！欢迎管理员。');
+                closeLogin();
+                // 这里可以添加跳转逻辑，例如 window.location.href = '/admin';
             } else {
                 alert('密码错误，请重试！');
+                document.getElementById('adminPass').value = '';
             }
         }
 
-        // 4. 系统诊断 (模拟)
-        function diagnoseSystem() {
-            alert('网络诊断完成！\n当前连接状态：正常');
-        }
-
-        // 关闭视频点击外部关闭
-        document.addEventListener('click', function(e) {
-            const videoContainer = document.getElementById('videoContainer');
-            if (videoContainer.classList.contains('active') && !videoContainer.contains(e.target) && e.target !== document.querySelector('.card')) {
-                videoContainer.classList.remove('active');
-                document.getElementById('videoPlayer').pause();
-            }
+        // 点击遮罩层关闭视频 (可选)
+        document.getElementById('videoModal').addEventListener('click', function(e) {
+            if(e.target === this) closeVideo();
         });
     </script>
 </body>
