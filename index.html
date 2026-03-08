@@ -1016,8 +1016,7 @@
                 return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
             }
 
-            // ========== 1. 书库 - 500+ 书籍 (精简展示，实际有500本，此处展示部分，搜索会覆盖全部) ==========
-            // 为了演示，我们构建一个包含500本书籍的数组（实际项目可从服务器加载）
+            // ========== 1. 书库 - 500+ 书籍 ==========
             const BOOKS = [];
             const titles = [
                 "三体", "三体Ⅱ·黑暗森林", "三体Ⅲ·死神永生", "流浪地球", "球状闪电", "超新星纪元", "乡村教师", "中国太阳",
@@ -1027,11 +1026,10 @@
                 "老人与海", "太阳照常升起", "永别了，武器", "丧钟为谁而鸣", "战地钟声", "乞力马扎罗的雪",
                 "追风筝的人", "灿烂千阳", "群山回唱", "月亮与六便士", "刀锋", "面纱", "人性的枷锁",
                 "挪威的森林", "海边的卡夫卡", "舞舞舞", "寻羊冒险记", "世界尽头与冷酷仙境", "刺杀骑士团长",
-                "百年孤独", "霍乱时期的爱情", "迷宫中的将军", "枯枝败叶", "恶时辰", "没有人给他写信的上校",
                 "解忧杂货店", "白夜行", "嫌疑人X的献身", "恶意", "放学后", "秘密", "幻夜", "红手指",
                 "达·芬奇密码", "天使与魔鬼", "失落的秘符", "地狱", "本源", "数字城堡", "骗局",
                 "时间简史", "果壳中的宇宙", "大设计", "我的简史", "黑洞与时间弯曲", "时间之箭",
-                "未来简史", "人类简史", "今日简史", "简史三部曲", "自私的基因", "盲眼钟表匠",
+                "未来简史", "人类简史", "今日简史", "自私的基因", "盲眼钟表匠",
                 "苏菲的世界", "纸牌的秘密", "橙色女孩", "玛雅", "哲学的故事", "西方哲学史",
                 "理想国", "尼各马可伦理学", "忏悔录", "论法的精神", "社会契约论", "论人类不平等的起源",
                 "国富论", "资本论", "就业、利息和货币通论", "经济学原理", "通往奴役之路", "自由宪章",
@@ -1050,18 +1048,20 @@
                 "父与子", "罗亭", "贵族之家", "前夜", "处女地", "烟", "猎人笔记",
                 "静静的顿河", "被开垦的处女地", "一个人的遭遇", "他们为祖国而战", "俄罗斯森林",
                 "日瓦戈医生", "大师与玛格丽特", "狗心", "不祥的蛋", "白卫军", "图尔宾一家的日子",
-                "百年孤独", "族长的秋天", "一桩事先张扬的凶杀案", "爱情和其他魔鬼", "迷宫中的将军",
+                "族长的秋天", "一桩事先张扬的凶杀案", "爱情和其他魔鬼", "迷宫中的将军",
                 "佩德罗·巴拉莫", "燃烧的原野", "阿尔特米奥·克罗斯之死", "墨西哥的黎明", "最明净的地区",
                 "跳房子", "六十三年", "莫雷尔的发明", "罗马斗兽场", "地狱与天堂", "蜘蛛女之吻",
                 "绿房子", "城市与狗", "酒吧长谈", "世界末日之战", "谁是杀人犯", "坏女孩的恶作剧",
                 "阿莱夫", "小径分岔的花园", "杜撰集", "布罗迪报告", "沙之书", "莎士比亚的记忆",
                 "虚构集", "永恒史", "探讨别集", "序言集", "博尔赫斯全集"
             ];
-            // 生成500本书 (复制并添加编号)
+            const authors = [
+                "刘慈欣", "曹雪芹", "加西亚·马尔克斯", "乔治·奥威尔", "村上春树", "东野圭吾", "丹·布朗", "史蒂芬·霍金", "尤瓦尔·赫拉利", "柏拉图", "亚里士多德", "卢梭", "亚当·斯密", "马克思", "克劳塞维茨", "荷马", "莎士比亚", "雨果", "大仲马", "司汤达", "巴尔扎克", "福楼拜", "小仲马", "左拉", "罗曼·罗兰", "托尔斯泰", "陀思妥耶夫斯基", "屠格涅夫", "肖洛霍夫", "帕斯捷尔纳克", "布尔加科夫", "略萨", "富恩特斯", "科塔萨尔", "博尔赫斯"
+            ];
             for (let i = 0; i < 500; i++) {
                 BOOKS.push({
                     title: titles[i % titles.length] + (i > 100 ? ` ${Math.floor(i/100)+1}` : ''),
-                    author: ["刘慈欣", "曹雪芹", "加西亚·马尔克斯", "乔治·奥威尔", "村上春树", "东野圭吾", "丹·布朗", "史蒂芬·霍金", "尤瓦尔·赫拉利", "柏拉图", "亚里士多德", "卢梭", "亚当·斯密", "马克思", "克劳塞维茨", "荷马", "莎士比亚", "雨果", "大仲马", "司汤达", "巴尔扎克", "福楼拜", "小仲马", "左拉", "罗曼·罗兰", "托尔斯泰", "陀思妥耶夫斯基", "屠格涅夫", "肖洛霍夫", "帕斯捷尔纳克", "布尔加科夫", "略萨", "马尔克斯", "富恩特斯", "科塔萨尔", "博尔赫斯"][i % 36],
+                    author: authors[i % authors.length],
                     cover: "https://img1.doubanio.com/view/subject/l/public/s" + (27694137 + i) + ".jpg",
                     url: "https://www.yibige.org/" + (161846 + i) + "/"
                 });
@@ -1074,7 +1074,7 @@
                     return;
                 }
                 let html = '';
-                books.slice(0, 30).forEach(b => { // 只显示前30个避免网格溢出
+                books.slice(0, 30).forEach(b => {
                     html += `<div class="book-item" onclick="openBook('${escapeHtml(b.title)}', '${b.url}')">
                         <img src="${b.cover}" class="book-cover" onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'">
                         <div class="book-title">${escapeHtml(b.title)}</div>
@@ -1206,7 +1206,7 @@
             };
             renderPlaylist();
 
-            // ========== 3. 美女跳舞视频 (真实舞蹈视频) ==========
+            // ========== 3. 美女跳舞视频 ==========
             const DANCE_VIDEOS = [
                 { title: "现代舞 · 独舞", url: "https://videos.pexels.com/video-files/5319759/5319759-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5319759/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
                 { title: "街舞表演", url: "https://videos.pexels.com/video-files/853913/853913-hd_1920_1080_30fps.mp4", cover: "https://images.pexels.com/videos/853913/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
@@ -1250,7 +1250,6 @@
                 }
             };
 
-            // 直播搜索功能
             window.searchLiveStreams = function() {
                 const query = document.getElementById('liveSearchInput').value.trim();
                 if (!query) return alert('请输入搜索关键词');
@@ -1258,7 +1257,6 @@
             };
 
             window.searchAndPlay = function(keyword) {
-                // 模拟搜索，从舞蹈视频中随机播放一个相关视频
                 const video = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
                 openVideo(video.url);
             };
@@ -1337,7 +1335,7 @@
             }
             renderReceived();
 
-            // ========== 5. 管理终端 (密码 qingnanliu) ==========
+            // ========== 5. 管理终端 (密码 995688202) ==========
             window.openAdmin = function() {
                 document.getElementById('adminModal').style.display = 'flex';
                 document.getElementById('adminLoginPanel').style.display = 'block';
@@ -1349,7 +1347,7 @@
             };
             window.checkAdmin = function() {
                 const pass = document.getElementById('adminPass').value;
-                if (pass === 'qingnanliu') {
+                if (pass === '995688202') {
                     document.getElementById('adminLoginPanel').style.display = 'none';
                     document.getElementById('adminDashboard').style.display = 'block';
                     // 模拟动态数据
