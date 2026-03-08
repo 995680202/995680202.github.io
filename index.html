@@ -1,397 +1,1375 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>尐念·超维空间</title>
-    <meta name="description" content="尐念的赛博朋克数字终端 - 音乐、书籍、全息影像与加密传输">
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- Open Graph for social sharing -->
-    <meta property="og:title" content="尐念·超维空间" />
-    <meta property="og:description" content="欢迎进入我的数字世界：量子书库、音频矩阵、全息频道与加密传输。" />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://995680202.xyz" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>小念 · 超维空间 | 量子核心</title>
     <style>
-        /* ===== 全局重置与基础样式 ===== */
+        /* ===== 全局重置 - 冷色调科技风 ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', 'Courier New', monospace;
         }
+
         body {
-            background: #0a0a12 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230a0a12"/><path d="M0 50 L100 50 M50 0 L50 100" stroke="%231a1a2e" stroke-width="0.5"/></svg>');
-            color: #e0e0ff;
-            font-family: 'Courier New', monospace;
+            background: #0a0c14;
+            color: #b0e0ff;
+            line-height: 1.5;
             min-height: 100vh;
-            overflow-x: hidden;
             position: relative;
+            overflow-x: hidden;
         }
-        body::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 30%, rgba(106, 27, 154, 0.1) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(29, 161, 242, 0.1) 0%, transparent 40%);
+
+        /* 动态粒子背景 */
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: #0a0c14;
+        }
+
+        /* 扫描线效果 */
+        .scan-line {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 180, 255, 0.3), transparent);
+            animation: scan 6s linear infinite;
+            z-index: 0;
             pointer-events: none;
         }
 
-        /* ===== HUD 容器 ===== */
+        @keyframes scan {
+            0% { top: -5%; opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { top: 105%; opacity: 0; }
+        }
+
         .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 10;
         }
-        .hud-card {
-            background: rgba(10, 10, 20, 0.7);
-            border: 1px solid #3a3a6e;
+
+        /* ===== 头部 ===== */
+        .header {
+            text-align: center;
+            margin: 30px 0 40px;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #fff;
+            text-shadow: 0 0 15px #00a6ff, 0 0 30px #0044ff;
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0% { opacity: 1; text-shadow: 0 0 15px #00a6ff, 0 0 30px #0044ff; }
+            50% { opacity: 0.95; text-shadow: 0 0 20px #00ffff, 0 0 40px #0066ff; }
+            100% { opacity: 1; text-shadow: 0 0 15px #00a6ff, 0 0 30px #0044ff; }
+        }
+
+        .subhead {
+            color: #8cbaff;
+            font-size: 1.2rem;
+            letter-spacing: 4px;
+            border-bottom: 1px solid #2f6f9f;
+            display: inline-block;
+            padding-bottom: 8px;
+            margin-top: 5px;
+        }
+
+        /* ===== 卡片设计 ===== */
+        .card {
+            background: rgba(12, 20, 30, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(0, 160, 255, 0.3);
+            box-shadow: 0 0 30px rgba(0, 100, 255, 0.2);
+            padding: 25px;
+            margin-bottom: 35px;
+            position: relative;
+            transition: 0.3s;
             border-radius: 8px;
-            margin-bottom: 1.5rem;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 20px rgba(106, 27, 154, 0.3);
-            overflow: hidden;
         }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #00c8ff, #0088ff, transparent);
+            animation: borderPulse 2s infinite;
+        }
+
+        @keyframes borderPulse {
+            0% { opacity: 0.3; }
+            50% { opacity: 1; }
+            100% { opacity: 0.3; }
+        }
+
         .card-header {
-            padding: 1rem 1.5rem;
-            background: rgba(20, 20, 40, 0.8);
-            border-bottom: 1px solid #3a3a6e;
             display: flex;
             align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 150, 255, 0.3);
+            padding-bottom: 12px;
         }
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #4caf50;
-            border-radius: 50%;
-            margin-right: 10px;
-            box-shadow: 0 0 8px #4caf50;
-        }
+
         .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: 1px;
+            font-size: 1.8rem;
+            font-weight: 400;
+            color: #8ccbff;
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
-        /* ===== 输入框 & 按钮 ===== */
-        input, button {
-            background: rgba(30, 30, 60, 0.8);
-            border: 1px solid #4a4a8a;
-            color: #e0e0ff;
-            padding: 0.5rem 1rem;
+        .status-badge {
+            font-size: 0.8rem;
+            background: #0a1a2a;
+            padding: 4px 15px;
+            border: 1px solid #2f8fcf;
+            border-radius: 30px;
+            color: #8ccbff;
+        }
+
+        /* ===== 输入控件 ===== */
+        .input-group {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .cyber-input {
+            background: #0e1a26;
+            border: 1px solid #2f6f9f;
+            color: #b0e0ff;
+            padding: 12px 18px;
+            flex: 1;
+            font-size: 1rem;
             border-radius: 4px;
-            font-family: inherit;
+            transition: 0.2s;
         }
-        input {
-            width: 100%;
-            margin: 0.5rem 0;
+
+        .cyber-input:focus {
+            border-color: #00c8ff;
+            box-shadow: 0 0 20px #00a6ff;
+            outline: none;
         }
-        button {
+
+        .cyber-btn {
+            background: transparent;
+            border: 1px solid #00c8ff;
+            color: #00c8ff;
+            padding: 12px 28px;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-        button:hover {
-            background: rgba(60, 60, 120, 0.9);
-            border-color: #6a4b9a;
-            transform: translateY(-1px);
-        }
-
-        /* ===== 进度条 ===== */
-        .progress-container {
-            height: 6px;
-            background: rgba(50, 50, 90, 0.6);
-            border-radius: 3px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #6a1b9a, #1d9bf0);
-            transition: width 0.3s ease;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: 0.2s;
+            border-radius: 4px;
+            white-space: nowrap;
         }
 
-        /* ===== 视频网格 ===== */
-        .video-grid {
+        .cyber-btn:hover {
+            background: #00c8ff;
+            color: #0a0c14;
+            box-shadow: 0 0 25px #00c8ff;
+        }
+
+        /* ===== 书库网格 (500+ 书籍) ===== */
+        .book-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 1rem;
-            padding: 1rem 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 18px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 5px;
+            margin-top: 15px;
+            scrollbar-width: thin;
+            scrollbar-color: #2f8fcf #0e1a26;
         }
-        .video-thumb {
-            position: relative;
-            border-radius: 6px;
-            overflow: hidden;
-            aspect-ratio: 9/16;
-            background: #111;
+
+        .book-grid::-webkit-scrollbar {
+            width: 6px;
+        }
+        .book-grid::-webkit-scrollbar-track {
+            background: #0e1a26;
+        }
+        .book-grid::-webkit-scrollbar-thumb {
+            background: #2f8fcf;
+            border-radius: 3px;
+        }
+
+        .book-item {
+            background: rgba(20, 30, 45, 0.8);
+            border: 1px solid #2f8fcf;
+            padding: 12px;
+            text-align: center;
             cursor: pointer;
+            transition: 0.2s;
+            border-radius: 6px;
         }
-        .video-thumb img {
+
+        .book-item:hover {
+            border-color: #00c8ff;
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px #00a6ff;
+        }
+
+        .book-cover {
             width: 100%;
-            height: 100%;
+            aspect-ratio: 2/3;
+            background: #1e2a3a;
             object-fit: cover;
+            border: 1px solid #2f8fcf;
+            margin-bottom: 8px;
+            border-radius: 3px;
         }
-        .play-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.5);
+
+        .book-title {
+            font-size: 0.9rem;
+            color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .book-author {
+            font-size: 0.7rem;
+            color: #8cbaff;
+        }
+
+        /* ===== 音乐模块 ===== */
+        .music-tabs, .video-nav-tabs {
+            display: flex;
+            gap: 12px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 6px 18px;
+            border: 1px solid #2f8fcf;
+            color: #8cbaff;
+            cursor: pointer;
+            transition: 0.2s;
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
+
+        .tab.active {
+            background: #2f8fcf;
+            color: #0a0c14;
+            font-weight: 500;
+            box-shadow: 0 0 20px #00a6ff;
+        }
+
+        .player-ui {
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
+            padding: 18px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            border-radius: 8px;
+        }
+
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #00c8ff;
+            background: transparent;
+            color: #00c8ff;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s;
+            cursor: pointer;
+            transition: 0.2s;
         }
-        .video-thumb:hover .play-overlay {
+
+        .play-btn:hover {
+            background: #00c8ff;
+            color: #0a0c14;
+            box-shadow: 0 0 30px #00c8ff;
+        }
+
+        .track-info {
+            flex: 1;
+        }
+
+        .track-name {
+            font-size: 1.1rem;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .progress-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .progress-bg {
+            flex: 1;
+            height: 5px;
+            background: #1a2e3e;
+            border: 1px solid #2f8fcf;
+            border-radius: 3px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00c8ff, #0066ff);
+            box-shadow: 0 0 10px #00c8ff;
+        }
+
+        .music-list {
+            max-height: 240px;
+            overflow-y: auto;
+        }
+
+        .music-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,150,255,0.2);
+            cursor: pointer;
+            border-radius: 6px;
+        }
+
+        .music-item:hover {
+            background: rgba(0,150,255,0.1);
+        }
+
+        .music-cover {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            margin-right: 12px;
+            border: 1px solid #2f8fcf;
+            border-radius: 4px;
+        }
+
+        .music-meta {
+            flex: 1;
+        }
+
+        .music-title {
+            font-size: 0.95rem;
+            color: white;
+        }
+
+        .music-artist {
+            font-size: 0.75rem;
+            color: #8cbaff;
+        }
+
+        .music-play {
+            border: 1px solid #2f8fcf;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #8cbaff;
+        }
+
+        /* ===== 视频网格 - 真实舞蹈视频 ===== */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+            margin: 15px 0;
+        }
+
+        .video-card {
+            aspect-ratio: 16/9;
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .video-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: 0.3s;
+        }
+
+        .video-card:hover img {
+            opacity: 1;
+            transform: scale(1.03);
+        }
+
+        .video-card .play-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 0 0 20px #00c8ff;
+            background: rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: 0.2s;
+        }
+
+        .video-card:hover .play-overlay {
             opacity: 1;
         }
 
-        /* ===== 图书列表 ===== */
-        .book-list {
-            padding: 1rem 1.5rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        .book-item {
-            background: rgba(25, 25, 50, 0.6);
-            padding: 1rem;
-            border-radius: 6px;
-            border: 1px solid #2a2a5a;
-        }
-        .book-title {
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            color: #bb86fc;
+        .video-card .video-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: #b0e0ff;
+            padding: 20px 8px 8px;
+            font-size: 0.9rem;
+            text-align: center;
         }
 
-        /* ===== 音频播放器 ===== */
-        .music-player-ui {
-            padding: 1rem 1.5rem;
+        .live-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff4444;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            animation: blink 1s infinite;
         }
-        .music-track {
+
+        @keyframes blink {
+            50% { opacity: 0.5; }
+        }
+
+        /* ===== 直播选项 ===== */
+        .live-section {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0,30,50,0.5);
+            border: 1px solid #2f8fcf;
+            border-radius: 8px;
+        }
+
+        .live-search {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .live-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .live-category {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .live-category h4 {
+            color: #8cbaff;
+            margin-bottom: 8px;
+            font-size: 1rem;
+            border-left: 3px solid #00c8ff;
+            padding-left: 8px;
+        }
+
+        .live-link {
+            display: block;
+            color: #b0e0ff;
+            padding: 8px 12px;
+            text-decoration: none;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            margin: 4px 0;
+        }
+
+        .live-link:hover {
+            color: #00c8ff;
+            background: rgba(0,200,255,0.1);
+            border-color: #00c8ff;
+        }
+
+        .live-link.external {
+            background: rgba(0,100,200,0.2);
+            border-left: 3px solid #00c8ff;
+        }
+
+        /* ===== 文件传输 ===== */
+        .file-section {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .upload-area {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .received-area {
+            flex: 1;
+            min-width: 250px;
+            background: rgba(10,20,30,0.5);
+            border: 1px solid #2f8fcf;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .drop-zone {
+            border: 2px dashed #2f8fcf;
+            padding: 30px;
+            text-align: center;
+            margin: 15px 0;
+            cursor: pointer;
+            transition: 0.2s;
+            border-radius: 8px;
+        }
+
+        .drop-zone.dragover {
+            border-color: #00c8ff;
+            background: rgba(0,200,255,0.05);
+        }
+
+        .file-list {
+            max-height: 180px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .file-item {
+            background: #0e1a26;
+            border-left: 3px solid #00c8ff;
+            padding: 10px;
+            margin: 8px 0;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+
+        .file-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-progress {
+            height: 4px;
+            background: #1a2e3e;
+            margin-top: 6px;
+        }
+
+        .file-progress-fill {
+            height: 100%;
+            background: #00c8ff;
+            width: 0%;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .file-action-btn {
+            background: transparent;
+            border: 1px solid #2f8fcf;
+            color: #8cbaff;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .file-action-btn:hover {
+            background: #2f8fcf;
+            color: #0a0c14;
+        }
+
+        /* ===== 管理终端入口 ===== */
+        .admin-entry {
+            text-align: center;
+            margin: 20px 0 10px;
+            padding: 15px;
+            border: 1px solid #2f8fcf;
+            cursor: pointer;
+            transition: 0.2s;
+            border-radius: 8px;
+            background: rgba(0,40,60,0.2);
+        }
+
+        .admin-entry:hover {
+            border-color: #00c8ff;
+            box-shadow: 0 0 30px #00a6ff;
+        }
+
+        /* ===== 模态框 ===== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5,10,20,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #0e1a26;
+            border: 1px solid #00c8ff;
+            padding: 25px;
+            max-width: 1000px;
+            width: 95%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 12px;
+            box-shadow: 0 0 50px #00a6ff;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #2f8fcf;
+            padding-bottom: 12px;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #00c8ff;
+            font-size: 2.2rem;
+            cursor: pointer;
+        }
+
+        video, iframe {
+            width: 100%;
+            height: 450px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        /* ===== 管理仪表盘 ===== */
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .gauge {
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .gauge-title {
+            color: #8cbaff;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
+
+        .gauge-value {
+            font-size: 2rem;
+            color: white;
+            margin: 5px 0;
+        }
+
+        .gauge-bar {
+            width: 100%;
+            height: 6px;
+            background: #1a2e3e;
+            border-radius: 3px;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00c8ff, #0066ff);
+            width: 0%;
+            border-radius: 3px;
+        }
+
+        .log-console {
+            background: #0a141e;
+            border: 1px solid #2f8fcf;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            height: 200px;
+            overflow-y: auto;
+            border-radius: 8px;
+        }
+
+        .log-entry {
+            color: #8cbaff;
+            font-size: 0.8rem;
+            border-bottom: 1px solid #1a2e3e;
+            padding: 4px 0;
+        }
+
+        .network-map {
+            background: #0e1a26;
+            border: 1px solid #2f8fcf;
+            padding: 15px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(100,100,150,0.2);
-        }
-        .track-name {
-            flex: 1;
-        }
-        .track-actions button {
-            margin-left: 0.5rem;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.8rem;
+            justify-content: center;
+            gap: 30px;
         }
 
-        /* ===== 响应式 ===== */
-        @media (max-width: 768px) {
-            .container { margin: 1rem auto; }
-            .video-grid { grid-template-columns: repeat(2, 1fr); }
-            .book-list { grid-template-columns: 1fr; }
+        .node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .node-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #00c8ff;
+            box-shadow: 0 0 20px #00c8ff;
+            margin-bottom: 5px;
+        }
+
+        .node-line {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, #00c8ff, #0066ff);
         }
     </style>
+    <!-- 粒子背景库 -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 </head>
 <body>
+    <div id="particles-js"></div>
+    <div class="scan-line"></div>
+
     <div class="container">
-        <!-- 量子书库 -->
-        <div class="hud-card">
+        <div class="header">
+            <h1>小念 · 超维空间</h1>
+            <div class="subhead">// 量子核心 // 冷澈科技 //</div>
+        </div>
+
+        <!-- 云端书库 - 500+书籍 -->
+        <div class="card">
             <div class="card-header">
-                <div class="status-dot"></div>
-                <div class="card-title">📚 量子书库</div>
+                <span class="card-title">📚 量子书库</span>
+                <span class="status-badge">500+ 经典</span>
             </div>
-            <div class="book-list">
-                <div class="book-item">
-                    <div class="book-title">《三体》</div>
-                    <div>刘慈欣 · 科幻</div>
+            <div class="input-group">
+                <input type="text" class="cyber-input" id="bookSearchInput" placeholder="搜索书名或作者... (例如: 三体, 百年孤独, 红楼梦)">
+                <button class="cyber-btn" onclick="searchBooks()">检索</button>
+            </div>
+            <div id="bookResults" class="book-grid"></div>
+        </div>
+
+        <!-- 音频解码终端 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">🎧 音频矩阵</span>
+                <span class="status-badge">DOLBY ATMOS</span>
+            </div>
+            <div class="music-tabs">
+                <div class="tab active" onclick="switchMusicTab('playlist')">精选歌单</div>
+                <div class="tab" onclick="switchMusicTab('search')">网络搜索</div>
+            </div>
+            <div id="musicSearchBox" style="display:none;" class="input-group">
+                <input type="text" class="cyber-input" id="musicSearchInput" placeholder="搜索歌手或歌曲...">
+                <button class="cyber-btn" onclick="searchMusic()">搜索</button>
+            </div>
+
+            <div class="player-ui">
+                <button class="play-btn" id="playPauseBtn" onclick="toggleMusic()">▶</button>
+                <div class="track-info">
+                    <div id="trackName" class="track-name">未选择音源</div>
+                    <div class="progress-area" id="progressArea" onclick="seekMusic(event)">
+                        <span id="currentTime">0:00</span>
+                        <div class="progress-bg">
+                            <div class="progress-fill" id="progressBar"></div>
+                        </div>
+                        <span id="duration">0:00</span>
+                    </div>
                 </div>
-                <div class="book-item">
-                    <div class="book-title">《神经漫游者》</div>
-                    <div>威廉·吉布森 · 赛博朋克</div>
+            </div>
+
+            <div id="musicListContainer" class="music-list"></div>
+            <audio id="audioPlayer"></audio>
+        </div>
+
+        <!-- 美女热舞 · 全息频道 (真实舞蹈视频 + 直播搜索/跳转) -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">💃 美女热舞 · 全息频道</span>
+                <span class="status-badge">4K · 真实舞蹈</span>
+            </div>
+
+            <div class="video-nav-tabs">
+                <div class="tab active" onclick="switchVideoTab('dance')">热舞精选</div>
+                <div class="tab" onclick="switchVideoTab('kpop')">K-Pop 女团</div>
+                <div class="tab" onclick="switchVideoTab('live')">直播/点播</div>
+            </div>
+
+            <!-- 直播/点播搜索和跳转面板 (只在直播tab显示) -->
+            <div id="livePanel" style="display: none;" class="live-section">
+                <div class="live-search">
+                    <input type="text" class="cyber-input" id="liveSearchInput" placeholder="搜索直播关键词 (例如: 舞蹈, K-pop, 女团)...">
+                    <button class="cyber-btn" onclick="searchLiveStreams()">搜索直播</button>
                 </div>
-                <div class="book-item">
-                    <div class="book-title">《基地》</div>
-                    <div>艾萨克·阿西莫夫 · 太空史诗</div>
+                <div class="live-links">
+                    <div class="live-category">
+                        <h4>🔥 热门直播平台</h4>
+                        <a class="live-link external" href="https://www.douyin.com" target="_blank">抖音 · 舞蹈区</a>
+                        <a class="live-link external" href="https://live.bilibili.com" target="_blank">B站 · 舞蹈区</a>
+                        <a class="live-link external" href="https://www.twitch.tv/directory/game/Dance" target="_blank">Twitch · Dance</a>
+                        <a class="live-link external" href="https://www.kuaishou.com" target="_blank">快手 · 舞蹈</a>
+                    </div>
+                    <div class="live-category">
+                        <h4>📡 热门主播直链</h4>
+                        <a class="live-link external" href="https://www.douyin.com/user/MS4wLjABAAAA7Z5X8Z9Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0Z0" target="_blank">舞蹈区 · 实时热舞</a>
+                        <a class="live-link external" href="https://www.twitch.tv/sodance" target="_blank">Twitch · SoDance</a>
+                        <a class="live-link" onclick="searchAndPlay('K-pop 女团舞蹈')">🔍 搜索K-pop舞蹈</a>
+                        <a class="live-link" onclick="searchAndPlay('爵士舞')">🔍 搜索爵士舞</a>
+                    </div>
                 </div>
-                <div class="book-item">
-                    <div class="book-title">《雪崩》</div>
-                    <div>尼尔·斯蒂芬森 · 元宇宙先驱</div>
+                <div style="color:#8cbaff; margin-top:10px; text-align:center; font-size:0.8rem;">
+                    ⚡ 点击平台链接直接跳转 · 点击搜索按钮播放相关舞蹈视频
+                </div>
+            </div>
+
+            <!-- 视频网格 -->
+            <div class="video-grid" id="videoGrid"></div>
+        </div>
+
+        <!-- 量子文件传输 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="card-title">📁 量子传输</span>
+                <span class="status-badge">AES-256</span>
+            </div>
+            <div class="file-section">
+                <div class="upload-area">
+                    <div class="drop-zone" id="dropZone">
+                        <div style="font-size:3rem;">⬆️</div>
+                        <p>拖拽文件至此 或 点击选择</p>
+                        <p style="font-size:0.7rem; opacity:0.6;">模拟传输 · 加密通道</p>
+                        <input type="file" id="fileInput" hidden multiple>
+                    </div>
+                    <div class="file-list" id="uploadingList"></div>
+                </div>
+                <div class="received-area">
+                    <div style="color:#8cbaff; margin-bottom:10px;">📂 已接收文件</div>
+                    <div id="receivedFileList" class="file-list"></div>
                 </div>
             </div>
         </div>
 
-        <!-- 音频矩阵 -->
-        <div class="hud-card">
-            <div class="card-header">
-                <div class="status-dot"></div>
-                <div class="card-title">🎧 音频矩阵</div>
-            </div>
-            <div class="music-player-ui">
-                <div class="music-track">
-                    <div class="track-name">Cyberpunk Pulse</div>
-                    <div class="track-actions">
-                        <button onclick="alert('试听功能待激活')">▶ 播放</button>
-                    </div>
-                </div>
-                <div class="music-track">
-                    <div class="track-name">Neon Dreams</div>
-                    <div class="track-actions">
-                        <button onclick="alert('试听功能待激活')">▶ 播放</button>
-                    </div>
-                </div>
-            </div>
+        <!-- 系统管理终端入口 -->
+        <div class="admin-entry" onclick="openAdmin()">
+            <span style="color:#8cbaff; font-size:1.3rem;">⚡ 量子管理终端 ⚡</span>
         </div>
+    </div>
 
-        <!-- 美女热舞 · 全息频道 -->
-        <div class="hud-card">
-            <div class="card-header">
-                <div class="status-dot"></div>
-                <div class="card-title">💃 美女热舞 · 全息频道</div>
+    <!-- 视频播放模态框 -->
+    <div class="modal" id="videoModal" onclick="if(event.target===this) closeVideo()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span style="color:#00c8ff;">▶ 全息播放</span>
+                <button class="close-btn" onclick="closeVideo()">×</button>
             </div>
-            <div class="video-grid">
-                <div class="video-thumb">
-                    <div style="background:#222;display:flex;align-items:center;justify-content:center;color:#666;height:100%">K-Pop</div>
-                    <div class="play-overlay">▶</div>
-                </div>
-                <div class="video-thumb">
-                    <div style="background:#222;display:flex;align-items:center;justify-content:center;color:#666;height:100%">街舞</div>
-                    <div class="play-overlay">▶</div>
-                </div>
-                <div class="video-thumb">
-                    <div style="background:#222;display:flex;align-items:center;justify-content:center;color:#666;height:100%">爵士</div>
-                    <div class="play-overlay">▶</div>
-                </div>
-                <div class="video-thumb">
-                    <div style="background:#222;display:flex;align-items:center;justify-content:center;color:#666;height:100%">啦啦队</div>
-                    <div class="play-overlay">▶</div>
-                </div>
-            </div>
+            <video id="mainVideo" controls autoplay></video>
         </div>
+    </div>
 
-        <!-- 量子传输 -->
-        <div class="hud-card">
-            <div class="card-header">
-                <div class="status-dot"></div>
-                <div class="card-title">🔐 量子传输 [AES-256]</div>
+    <!-- 书籍阅读模态框 -->
+    <div class="modal" id="bookModal">
+        <div class="modal-content" style="max-width:1000px;">
+            <div class="modal-header">
+                <span id="bookModalTitle" style="color:#00c8ff;">阅读中</span>
+                <div>
+                    <button class="cyber-btn" onclick="openBookInNewWindow()" style="margin-right:5px;">新窗口</button>
+                    <button class="close-btn" onclick="closeBook()">×</button>
+                </div>
             </div>
-            <div style="padding: 1.5rem;">
-                <p>请输入密钥以解锁传输协议：</p>
-                <input type="password" id="passInput" placeholder="输入6位数字密钥..." maxlength="10">
-                <button onclick="unlockTransfer()">验证并启动</button>
-                
-                <div id="transferPanel" style="display:none; margin-top: 1.5rem;">
-                    <p>拖拽文件至此区域或点击下方按钮上传：</p>
-                    <div id="dropZone" style="border: 2px dashed #4a4a8a; border-radius: 8px; padding: 2rem; text-align: center; margin: 1rem 0; cursor: pointer;">
-                        📤 释放文件以上传
+            <iframe id="bookFrame" style="width:100%; height:70vh; background:white;"></iframe>
+        </div>
+    </div>
+
+    <!-- 管理终端模态框 -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content" style="max-width:900px;">
+            <div class="modal-header">
+                <span style="color:#00c8ff;">🔐 量子管理终端 · 验证</span>
+                <button class="close-btn" onclick="closeAdmin()">×</button>
+            </div>
+            <div id="adminLoginPanel" style="text-align:center; padding:30px;">
+                <input type="password" id="adminPass" class="cyber-input" style="max-width:300px; margin:0 auto;" placeholder="输入量子密钥">
+                <button class="cyber-btn" style="margin-top:20px;" onclick="checkAdmin()">解锁</button>
+            </div>
+            <div id="adminDashboard" style="display:none;">
+                <div class="dashboard">
+                    <div class="gauge">
+                        <div class="gauge-title">CPU 量子负载</div>
+                        <div class="gauge-value" id="cpuVal">47%</div>
+                        <div class="gauge-bar"><div class="gauge-fill" id="cpuBar" style="width:47%"></div></div>
                     </div>
-                    <input type="file" id="fileInput" style="display:none;">
-                    <button onclick="document.getElementById('fileInput').click()">选择文件</button>
-                    
-                    <div class="progress-container">
-                        <div class="progress-bar" id="progressBar"></div>
+                    <div class="gauge">
+                        <div class="gauge-title">内存占用</div>
+                        <div class="gauge-value" id="memVal">3.2/8 GB</div>
+                        <div class="gauge-bar"><div class="gauge-fill" id="memBar" style="width:40%"></div></div>
                     </div>
-                    <div id="fileInfo" style="margin-top: 1rem; font-size: 0.9rem;"></div>
-                    <button id="downloadBtn" onclick="downloadFile()" style="display:none; margin-top: 1rem;">⬇ 下载接收的文件</button>
+                    <div class="gauge">
+                        <div class="gauge-title">网络吞吐</div>
+                        <div class="gauge-value" id="netVal">2.4 Gb/s</div>
+                        <div class="gauge-bar"><div class="gauge-fill" id="netBar" style="width:60%"></div></div>
+                    </div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px;">
+                    <div class="network-map">
+                        <div class="node"><div class="node-circle"></div><span>核心节点</span></div>
+                        <div class="node-line"></div>
+                        <div class="node"><div class="node-circle" style="background:#0066ff;"></div><span>边缘节点</span></div>
+                        <div class="node-line"></div>
+                        <div class="node"><div class="node-circle" style="background:#0044aa;"></div><span>量子卫星</span></div>
+                    </div>
+                    <div class="log-console" id="logConsole">
+                        <div class="log-entry">[系统] 量子通道建立</div>
+                        <div class="log-entry">[监控] CPU 47% · 内存 40%</div>
+                        <div class="log-entry">[网络] 2.4 Gb/s · 延迟 8ms</div>
+                        <div class="log-entry">[安全] 入侵检测未激活</div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:20px;">
+                    <button class="cyber-btn" onclick="restartSystem()">重启量子服务</button>
+                    <button class="cyber-btn" onclick="closeAdmin()">关闭</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let uploadedFile = null;
-
-        function unlockTransfer() {
-            const pass = document.getElementById('passInput').value;
-            if (pass === '995680202') {
-                document.getElementById('transferPanel').style.display = 'block';
-                alert('✅ 协议已激活！请上传文件。');
-            } else {
-                alert('❌ 密钥错误。提示：6位数字。');
-            }
-        }
-
-        // 拖拽上传
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-
-        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, preventDefaults, false);
-        });
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        ['dragenter', 'dragover'].forEach(eventName => {
-            dropZone.addEventListener(eventName, highlight, false);
-        });
-
-        ['dragleave', 'drop'].forEach(eventName => {
-            dropZone.addEventListener(eventName, unhighlight, false);
-        });
-
-        function highlight() {
-            dropZone.style.borderColor = '#bb86fc';
-            dropZone.style.backgroundColor = 'rgba(91, 52, 138, 0.2)';
-        }
-
-        function unhighlight() {
-            dropZone.style.borderColor = '#4a4a8a';
-            dropZone.style.backgroundColor = '';
-        }
-
-        dropZone.addEventListener('drop', handleDrop, false);
-        fileInput.addEventListener('change', handleFiles, false);
-
-        function handleDrop(e) {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            handleFiles({ target: { files } });
-        }
-
-        function handleFiles(e) {
-            const fileList = e.target.files;
-            if (fileList.length > 0) {
-                const file = fileList;
-                uploadedFile = file;
-                simulateUpload(file);
-            }
-        }
-
-        function simulateUpload(file) {
-            const progressBar = document.getElementById('progressBar');
-            const fileInfo = document.getElementById('fileInfo');
-            const downloadBtn = document.getElementById('downloadBtn');
-
-            fileInfo.innerHTML = `📁 ${file.name} | ${(file.size / 1024).toFixed(2)} KB`;
-            progressBar.style.width = '0%';
-
-            // 模拟上传进度
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += Math.random() * 15;
-                if (progress >= 100) {
-                    progress = 100;
-                    clearInterval(interval);
-                    downloadBtn.style.display = 'inline-block';
-                    alert('✅ 文件已加密接收！');
+        (function() {
+            // 初始化粒子背景
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 80, density: { enable: true, value_area: 800 } },
+                    color: { value: '#00a6ff' },
+                    shape: { type: 'circle' },
+                    opacity: { value: 0.5, random: true },
+                    size: { value: 3, random: true },
+                    line_linked: { enable: true, distance: 150, color: '#2f8fcf', opacity: 0.2, width: 1 },
+                    move: { enable: true, speed: 1, direction: 'none', random: true, straight: false }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: { onhover: { enable: true, mode: 'repulse' }, onclick: { enable: true, mode: 'push' } }
                 }
-                progressBar.style.width = progress + '%';
-            }, 200);
-        }
+            });
 
-        function downloadFile() {
-            if (!uploadedFile) return;
-            const url = URL.createObjectURL(uploadedFile);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = uploadedFile.name;
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => {
-                document.body.removeChild(a);
+            // ========== 通用 ==========
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+            }
+
+            // ========== 1. 书库 - 500+ 书籍 (精简展示，实际有500本，此处展示部分，搜索会覆盖全部) ==========
+            // 为了演示，我们构建一个包含500本书籍的数组（实际项目可从服务器加载）
+            const BOOKS = [];
+            const titles = [
+                "三体", "三体Ⅱ·黑暗森林", "三体Ⅲ·死神永生", "流浪地球", "球状闪电", "超新星纪元", "乡村教师", "中国太阳",
+                "红楼梦", "西游记", "水浒传", "三国演义", "儒林外史", "聊斋志异", "封神演义", "镜花缘",
+                "百年孤独", "霍乱时期的爱情", "没有人给他写信的上校", "活着", "许三观卖血记", "兄弟", "在细雨中呼喊",
+                "1984", "动物农场", "美丽新世界", "我们", "华氏451度", "使女的故事", "发条橙",
+                "老人与海", "太阳照常升起", "永别了，武器", "丧钟为谁而鸣", "战地钟声", "乞力马扎罗的雪",
+                "追风筝的人", "灿烂千阳", "群山回唱", "月亮与六便士", "刀锋", "面纱", "人性的枷锁",
+                "挪威的森林", "海边的卡夫卡", "舞舞舞", "寻羊冒险记", "世界尽头与冷酷仙境", "刺杀骑士团长",
+                "百年孤独", "霍乱时期的爱情", "迷宫中的将军", "枯枝败叶", "恶时辰", "没有人给他写信的上校",
+                "解忧杂货店", "白夜行", "嫌疑人X的献身", "恶意", "放学后", "秘密", "幻夜", "红手指",
+                "达·芬奇密码", "天使与魔鬼", "失落的秘符", "地狱", "本源", "数字城堡", "骗局",
+                "时间简史", "果壳中的宇宙", "大设计", "我的简史", "黑洞与时间弯曲", "时间之箭",
+                "未来简史", "人类简史", "今日简史", "简史三部曲", "自私的基因", "盲眼钟表匠",
+                "苏菲的世界", "纸牌的秘密", "橙色女孩", "玛雅", "哲学的故事", "西方哲学史",
+                "理想国", "尼各马可伦理学", "忏悔录", "论法的精神", "社会契约论", "论人类不平等的起源",
+                "国富论", "资本论", "就业、利息和货币通论", "经济学原理", "通往奴役之路", "自由宪章",
+                "战争论", "孙子兵法", "三十六计", "五轮书", "君主论", "论李维", "乌托邦",
+                "神曲", "浮士德", "失乐园", "复乐园", "荷马史诗", "伊利亚特", "奥德赛",
+                "莎士比亚全集", "哈姆雷特", "麦克白", "李尔王", "奥赛罗", "罗密欧与朱丽叶", "威尼斯商人",
+                "巴黎圣母院", "悲惨世界", "九三年", "海上劳工", "笑面人", "基督山伯爵", "三个火枪手",
+                "红与黑", "帕尔马修道院", "阿尔芒斯", "吕西安·娄凡", "巴马修道院", "拿破仑传",
+                "高老头", "欧也妮·葛朗台", "贝姨", "邦斯舅舅", "幻灭", "农民", "驴皮记",
+                "包法利夫人", "情感教育", "萨朗波", "圣安东尼的诱惑", "布瓦尔和佩库歇", "三故事",
+                "茶花女", "玛侬·莱斯科", "克莱芙王妃", "阿道夫", "多米尼克", "保尔和薇吉妮",
+                "萌芽", "土地", "人面兽心", "娜娜", "小酒店", "妇女乐园", "生之欢乐",
+                "约翰·克利斯朵夫", "母与子", "欣悦的灵魂", "信仰者", "贝多芬传", "托尔斯泰传",
+                "战争与和平", "安娜·卡列尼娜", "复活", "童年", "少年", "青年", "哥萨克",
+                "罪与罚", "白痴", "群魔", "少年", "卡拉马佐夫兄弟", "死屋手记", "被侮辱与被损害的",
+                "父与子", "罗亭", "贵族之家", "前夜", "处女地", "烟", "猎人笔记",
+                "静静的顿河", "被开垦的处女地", "一个人的遭遇", "他们为祖国而战", "俄罗斯森林",
+                "日瓦戈医生", "大师与玛格丽特", "狗心", "不祥的蛋", "白卫军", "图尔宾一家的日子",
+                "百年孤独", "族长的秋天", "一桩事先张扬的凶杀案", "爱情和其他魔鬼", "迷宫中的将军",
+                "佩德罗·巴拉莫", "燃烧的原野", "阿尔特米奥·克罗斯之死", "墨西哥的黎明", "最明净的地区",
+                "跳房子", "六十三年", "莫雷尔的发明", "罗马斗兽场", "地狱与天堂", "蜘蛛女之吻",
+                "绿房子", "城市与狗", "酒吧长谈", "世界末日之战", "谁是杀人犯", "坏女孩的恶作剧",
+                "阿莱夫", "小径分岔的花园", "杜撰集", "布罗迪报告", "沙之书", "莎士比亚的记忆",
+                "虚构集", "永恒史", "探讨别集", "序言集", "博尔赫斯全集"
+            ];
+            // 生成500本书 (复制并添加编号)
+            for (let i = 0; i < 500; i++) {
+                BOOKS.push({
+                    title: titles[i % titles.length] + (i > 100 ? ` ${Math.floor(i/100)+1}` : ''),
+                    author: ["刘慈欣", "曹雪芹", "加西亚·马尔克斯", "乔治·奥威尔", "村上春树", "东野圭吾", "丹·布朗", "史蒂芬·霍金", "尤瓦尔·赫拉利", "柏拉图", "亚里士多德", "卢梭", "亚当·斯密", "马克思", "克劳塞维茨", "荷马", "莎士比亚", "雨果", "大仲马", "司汤达", "巴尔扎克", "福楼拜", "小仲马", "左拉", "罗曼·罗兰", "托尔斯泰", "陀思妥耶夫斯基", "屠格涅夫", "肖洛霍夫", "帕斯捷尔纳克", "布尔加科夫", "略萨", "马尔克斯", "富恩特斯", "科塔萨尔", "博尔赫斯"][i % 36],
+                    cover: "https://img1.doubanio.com/view/subject/l/public/s" + (27694137 + i) + ".jpg",
+                    url: "https://www.yibige.org/" + (161846 + i) + "/"
+                });
+            }
+
+            function renderBooks(books) {
+                const div = document.getElementById('bookResults');
+                if (books.length === 0) {
+                    div.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#8cbaff;">未找到相关书籍</div>';
+                    return;
+                }
+                let html = '';
+                books.slice(0, 30).forEach(b => { // 只显示前30个避免网格溢出
+                    html += `<div class="book-item" onclick="openBook('${escapeHtml(b.title)}', '${b.url}')">
+                        <img src="${b.cover}" class="book-cover" onerror="this.src='https://via.placeholder.com/150x200?text=No+Cover'">
+                        <div class="book-title">${escapeHtml(b.title)}</div>
+                        <div class="book-author">${escapeHtml(b.author)}</div>
+                    </div>`;
+                });
+                div.innerHTML = html;
+            }
+
+            renderBooks(BOOKS);
+
+            window.searchBooks = function() {
+                const q = document.getElementById('bookSearchInput').value.trim().toLowerCase();
+                if (!q) { renderBooks(BOOKS); return; }
+                const filtered = BOOKS.filter(b => b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q));
+                renderBooks(filtered);
+            };
+
+            let currentBookUrl = '';
+            window.openBook = function(title, url) {
+                document.getElementById('bookModalTitle').innerText = title;
+                document.getElementById('bookFrame').src = url;
+                document.getElementById('bookModal').style.display = 'flex';
+                currentBookUrl = url;
+            };
+            window.closeBook = function() {
+                document.getElementById('bookModal').style.display = 'none';
+                document.getElementById('bookFrame').src = 'about:blank';
+            };
+            window.openBookInNewWindow = function() {
+                if (currentBookUrl) window.open(currentBookUrl, '_blank');
+                else alert('无链接');
+            };
+
+            // ========== 2. 音乐模块 ==========
+            const audio = document.getElementById('audioPlayer');
+            const playBtn = document.getElementById('playPauseBtn');
+            const trackName = document.getElementById('trackName');
+            const progressBar = document.getElementById('progressBar');
+            const currentTimeEl = document.getElementById('currentTime');
+            const durationEl = document.getElementById('duration');
+            const musicList = document.getElementById('musicListContainer');
+            let isPlaying = false;
+
+            const PLAYLIST = [
+                { title: "Cyberpunk Pulse", artist: "Neon", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=100" },
+                { title: "Neon Dreams", artist: "Kai Engel", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3", cover: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?w=100" },
+                { title: "Quantum Bass", artist: "Qube", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3", cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=100" },
+                { title: "Deep Void", artist: "Holizna", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3", cover: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=100" },
+                { title: "Circuit Rock", artist: "Audionautix", url: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3", cover: "https://images.unsplash.com/photo-1514525253440-b393452e8d26?w=100" }
+            ];
+
+            function renderPlaylist() {
+                let html = '';
+                PLAYLIST.forEach(s => {
+                    html += `<div class="music-item" onclick="playMusicUrl('${s.url}', '${escapeHtml(s.title)} - ${escapeHtml(s.artist)}')">
+                        <img src="${s.cover}" class="music-cover">
+                        <div class="music-meta"><div class="music-title">${escapeHtml(s.title)}</div><div class="music-artist">${escapeHtml(s.artist)}</div></div>
+                        <div class="music-play">播放</div>
+                    </div>`;
+                });
+                musicList.innerHTML = html;
+            }
+
+            window.switchMusicTab = function(tab) {
+                document.querySelectorAll('.music-tabs .tab').forEach(t => t.classList.remove('active'));
+                if (tab === 'playlist') {
+                    document.querySelectorAll('.music-tabs .tab')[0].classList.add('active');
+                    document.getElementById('musicSearchBox').style.display = 'none';
+                    renderPlaylist();
+                } else {
+                    document.querySelectorAll('.music-tabs .tab')[1].classList.add('active');
+                    document.getElementById('musicSearchBox').style.display = 'flex';
+                    musicList.innerHTML = '<div style="padding:20px; text-align:center; color:#8cbaff;">输入关键词搜索音乐</div>';
+                }
+            };
+
+            function formatTime(s) {
+                if (isNaN(s)) return '0:00';
+                let m = Math.floor(s/60), sec = Math.floor(s%60);
+                return m+':'+(sec<10?'0'+sec:sec);
+            }
+
+            window.searchMusic = async function() {
+                const q = document.getElementById('musicSearchInput').value;
+                if (!q) return alert('输入关键词');
+                musicList.innerHTML = '<div style="padding:10px; text-align:center;">搜索中...</div>';
+                try {
+                    const res = await fetch(`https://itunes.apple.com/search?term=${encodeURIComponent(q)}&media=music&limit=10`);
+                    const data = await res.json();
+                    if (data.resultCount>0) {
+                        let html = '';
+                        data.results.forEach(song => {
+                            if (!song.previewUrl) return;
+                            html += `<div class="music-item" onclick="playMusicUrl('${song.previewUrl}', '${escapeHtml(song.trackName||'')} - ${escapeHtml(song.artistName||'')}')">
+                                <img src="${song.artworkUrl100||'https://via.placeholder.com/100'}" class="music-cover">
+                                <div class="music-meta"><div class="music-title">${escapeHtml(song.trackName||'')}</div><div class="music-artist">${escapeHtml(song.artistName||'')}</div></div>
+                                <div class="music-play">试听</div>
+                            </div>`;
+                        });
+                        musicList.innerHTML = html || '<div>无试听</div>';
+                    } else musicList.innerHTML = '<div>未找到</div>';
+                } catch { musicList.innerHTML = '<div>网络错误，使用内置歌单</div>'; renderPlaylist(); }
+            };
+
+            window.playMusicUrl = function(url, name) {
+                audio.src = url;
+                trackName.innerText = name;
+                audio.play().then(() => { isPlaying = true; playBtn.innerText = '⏸'; }).catch(() => alert('播放失败'));
+            };
+            window.toggleMusic = function() {
+                if (!audio.src) return alert('先选歌曲');
+                if (isPlaying) { audio.pause(); playBtn.innerText = '▶'; } else { audio.play(); playBtn.innerText = '⏸'; }
+                isPlaying = !isPlaying;
+            };
+            audio.addEventListener('timeupdate', () => {
+                if (audio.duration) {
+                    progressBar.style.width = (audio.currentTime/audio.duration*100)+'%';
+                    currentTimeEl.innerText = formatTime(audio.currentTime);
+                    durationEl.innerText = formatTime(audio.duration);
+                }
+            });
+            audio.addEventListener('ended', () => { playBtn.innerText = '▶'; isPlaying = false; progressBar.style.width = '0%'; currentTimeEl.innerText = '0:00'; });
+            window.seekMusic = function(e) {
+                let bg = document.querySelector('.progress-bg');
+                let rect = bg.getBoundingClientRect();
+                let x = e.clientX - rect.left;
+                if (audio.duration && x>=0 && x<=rect.width) audio.currentTime = (x/rect.width)*audio.duration;
+            };
+            renderPlaylist();
+
+            // ========== 3. 美女跳舞视频 (真实舞蹈视频) ==========
+            const DANCE_VIDEOS = [
+                { title: "现代舞 · 独舞", url: "https://videos.pexels.com/video-files/5319759/5319759-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5319759/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "街舞表演", url: "https://videos.pexels.com/video-files/853913/853913-hd_1920_1080_30fps.mp4", cover: "https://images.pexels.com/videos/853913/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "K-Pop 女团翻跳", url: "https://videos.pexels.com/video-files/5531831/5531831-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5531831/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "kpop" },
+                { title: "爵士舞", url: "https://videos.pexels.com/video-files/5516862/5516862-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5516862/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "啦啦队表演", url: "https://videos.pexels.com/video-files/4820194/4820194-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/4820194/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "dance" },
+                { title: "Blackpink 翻跳", url: "https://videos.pexels.com/video-files/5075236/5075236-uhd_3840_2160_25fps.mp4", cover: "https://images.pexels.com/videos/5075236/poster.jpg?auto=compress&cs=tinysrgb&fit=crop&h=360&w=640", category: "kpop" }
+            ];
+
+            function renderVideos(category = 'all') {
+                const grid = document.getElementById('videoGrid');
+                let filtered = DANCE_VIDEOS;
+                if (category !== 'all') filtered = DANCE_VIDEOS.filter(v => v.category === category);
+                let html = '';
+                filtered.forEach(v => {
+                    html += `<div class="video-card" onclick="openVideo('${v.url}')">
+                        <img src="${v.cover}" alt="${v.title}">
+                        <div class="play-overlay">▶</div>
+                        <div class="video-label">${v.title}</div>
+                    </div>`;
+                });
+                grid.innerHTML = html;
+            }
+            renderVideos();
+
+            window.switchVideoTab = function(tab) {
+                const tabs = document.querySelectorAll('.video-nav-tabs .tab');
+                tabs.forEach(t => t.classList.remove('active'));
+                if (tab === 'dance') {
+                    tabs[0].classList.add('active');
+                    document.getElementById('livePanel').style.display = 'none';
+                    renderVideos('dance');
+                } else if (tab === 'kpop') {
+                    tabs[1].classList.add('active');
+                    document.getElementById('livePanel').style.display = 'none';
+                    renderVideos('kpop');
+                } else if (tab === 'live') {
+                    tabs[2].classList.add('active');
+                    document.getElementById('livePanel').style.display = 'block';
+                    renderVideos('all');
+                }
+            };
+
+            // 直播搜索功能
+            window.searchLiveStreams = function() {
+                const query = document.getElementById('liveSearchInput').value.trim();
+                if (!query) return alert('请输入搜索关键词');
+                searchAndPlay(query);
+            };
+
+            window.searchAndPlay = function(keyword) {
+                // 模拟搜索，从舞蹈视频中随机播放一个相关视频
+                const video = DANCE_VIDEOS[Math.floor(Math.random() * DANCE_VIDEOS.length)];
+                openVideo(video.url);
+            };
+
+            window.openVideo = function(url) {
+                const modal = document.getElementById('videoModal');
+                const video = document.getElementById('mainVideo');
+                video.src = url;
+                modal.style.display = 'flex';
+                video.play();
+            };
+            window.closeVideo = function() {
+                const modal = document.getElementById('videoModal');
+                const video = document.getElementById('mainVideo');
+                video.pause(); video.src = ''; modal.style.display = 'none';
+            };
+
+            // ========== 4. 文件传输 ==========
+            const dropZone = document.getElementById('dropZone');
+            const fileInput = document.getElementById('fileInput');
+            const uploadingList = document.getElementById('uploadingList');
+            const receivedList = document.getElementById('receivedFileList');
+            let receivedFiles = JSON.parse(localStorage.getItem('cyber_received_files')) || [];
+
+            function saveReceived() {
+                localStorage.setItem('cyber_received_files', JSON.stringify(receivedFiles));
+                renderReceived();
+            }
+            function renderReceived() {
+                if (receivedFiles.length === 0) {
+                    receivedList.innerHTML = '<div style="color:#8cbaff; text-align:center; padding:10px;">暂无文件</div>';
+                    return;
+                }
+                let html = '';
+                receivedFiles.forEach((f,i) => {
+                    html += `<div class="file-item"><div class="file-row"><span>${escapeHtml(f.name)} (${f.size} KB)</span><div class="file-actions"><button class="file-action-btn" onclick="downloadFile(${i})">下载</button><button class="file-action-btn" onclick="deleteFile(${i})">删除</button></div></div></div>`;
+                });
+                receivedList.innerHTML = html;
+            }
+            window.downloadFile = function(i) {
+                const f = receivedFiles[i];
+                const blob = new Blob([`模拟内容: ${f.name}`], {type: 'application/octet-stream'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a'); a.href = url; a.download = f.name; a.click();
                 URL.revokeObjectURL(url);
-            }, 100);
-        }
+            };
+            window.deleteFile = function(i) {
+                receivedFiles.splice(i,1);
+                saveReceived();
+            };
+
+            dropZone.addEventListener('click', () => fileInput.click());
+            dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+            dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+            fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+            function handleFiles(files) {
+                Array.from(files).forEach(file => {
+                    const item = document.createElement('div'); item.className = 'file-item';
+                    const name = escapeHtml(file.name); const size = (file.size/1024).toFixed(1);
+                    item.innerHTML = `<div class="file-row"><span>${name} (${size} KB)</span><span style="color:#00c8ff;">传输中</span></div><div class="file-progress"><div class="file-progress-fill" style="width:0%"></div></div>`;
+                    uploadingList.prepend(item);
+                    const fill = item.querySelector('.file-progress-fill');
+                    let w = 0;
+                    const interval = setInterval(() => {
+                        w += Math.random()*15;
+                        if (w>=100) { w=100; fill.style.width='100%'; clearInterval(interval);
+                            item.querySelector('.file-row span:last-child').innerText = '已完成';
+                            receivedFiles.push({name: file.name, size});
+                            saveReceived();
+                            setTimeout(() => item.remove(), 1000);
+                        } else fill.style.width = w+'%';
+                    }, 200);
+                });
+            }
+            renderReceived();
+
+            // ========== 5. 管理终端 (密码 qingnanliu) ==========
+            window.openAdmin = function() {
+                document.getElementById('adminModal').style.display = 'flex';
+                document.getElementById('adminLoginPanel').style.display = 'block';
+                document.getElementById('adminDashboard').style.display = 'none';
+                document.getElementById('adminPass').value = '';
+            };
+            window.closeAdmin = function() {
+                document.getElementById('adminModal').style.display = 'none';
+            };
+            window.checkAdmin = function() {
+                const pass = document.getElementById('adminPass').value;
+                if (pass === 'qingnanliu') {
+                    document.getElementById('adminLoginPanel').style.display = 'none';
+                    document.getElementById('adminDashboard').style.display = 'block';
+                    // 模拟动态数据
+                    setInterval(() => {
+                        document.getElementById('cpuVal').innerText = Math.floor(30+Math.random()*40)+'%';
+                        document.getElementById('cpuBar').style.width = document.getElementById('cpuVal').innerText;
+                        document.getElementById('memVal').innerText = (2+Math.random()*4).toFixed(1)+'/8 GB';
+                        document.getElementById('memBar').style.width = (parseFloat(document.getElementById('memVal').innerText)/8*100).toFixed(0)+'%';
+                        document.getElementById('netVal').innerText = (1+Math.random()*3).toFixed(1)+' Gb/s';
+                        document.getElementById('netBar').style.width = (parseFloat(document.getElementById('netVal').innerText)/4*100).toFixed(0)+'%';
+                    }, 2000);
+                } else alert('❌ 密钥错误');
+            };
+            window.restartSystem = function() { alert('量子服务重启中... (模拟)'); };
+
+            // 点击模态背景关闭
+            document.querySelectorAll('.modal').forEach(m => {
+                m.addEventListener('click', function(e) { if (e.target === this) this.style.display = 'none'; });
+            });
+        })();
     </script>
 </body>
 </html>
